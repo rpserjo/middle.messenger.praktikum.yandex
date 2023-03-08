@@ -1,8 +1,8 @@
 import layout from './layout';
+import './index.css';
 import signin from './pages/signin';
 import signup from './pages/signup';
 import chat from './pages/chat';
-import './index.css';
 import error from './pages/error';
 
 let currentPage;

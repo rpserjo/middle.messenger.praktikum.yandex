@@ -7,7 +7,7 @@ import noChat from './pages/no-chat';
 import activeChat from './pages/active-chat';
 import profile from './pages/profile';
 import cutString from './utils/cutString';
-import icon from "../../components/icon";
+import icon from '../../components/icon';
 
 const sampleData = [
     {

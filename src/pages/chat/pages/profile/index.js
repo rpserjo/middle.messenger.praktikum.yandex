@@ -4,7 +4,7 @@ import input from '../../../../components/input';
 import link from '../../../../components/link';
 import form from '../../../../components/form';
 import avatarUploader from './components/avatar-uploader';
-import icon from "../../../../components/icon";
+import icon from '../../../../components/icon';
 
 const profile = (params = {}) => {
     const iconLogout = icon({icon: 'signout'});

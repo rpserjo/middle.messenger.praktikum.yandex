@@ -1,6 +1,5 @@
 import template from './signup.hbs';
 import '../signup/signup.css';
-
 import form from '../../components/form';
 import input from '../../components/input';
 import button from '../../components/button';
