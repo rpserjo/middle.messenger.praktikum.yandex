@@ -1,0 +1,30 @@
+.menu-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px 10px;
+    cursor: pointer;
+
+    &:not(:last-of-type){
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    &__icon{
+        height: 36px;
+        width: 36px;
+    }
+
+    &__label{
+        font-size: 24px;
+        margin-left: 15px;
+        white-space: nowrap;
+    }
+
+     &:hover{
+        background-color: var(--bg-light-gray);
+
+        & .menu-item__icon > .icon > svg > path{
+            fill: var(--color-primary);
+        }
+    }
+}

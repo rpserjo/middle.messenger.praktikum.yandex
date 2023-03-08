@@ -1,0 +1,18 @@
+.button{
+    display: flex;
+    width: 100%;
+    background-color: var(--color-primary);
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 6px 12px;
+    margin: 5px 0px;
+    color: #ffffff;
+    justify-content: center;
+    font-size: 24px;
+    text-decoration: none;
+
+    &:hover{
+         cursor: pointer;
+         box-shadow: 0 0 14px var(--color-primary-shadow);
+    }
+}

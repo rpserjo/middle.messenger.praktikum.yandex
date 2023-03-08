@@ -1,0 +1,61 @@
+.input-wrapper{
+    position: relative;
+    width: 100%;
+    display: flex;
+    margin: 5px 0px;
+    border: 1px solid var(--border-color);
+    align-items: center;
+
+    label{
+        position: absolute;
+        z-index: 1;
+        left: 10px;
+        background-color: var(--main-bg-color);
+        padding: 0px 5px;
+        font-size: 16px;
+        line-height: 12px;
+        color: var(--border-color);
+        top: -7px;
+    }
+
+    img{
+        width: 36px;
+        height: 36px;
+        position: absolute;
+    }
+
+    input{
+        border-width: 0px;
+        border-radius: 0px;
+        line-height: 14px;
+        position: relative;
+        padding: 7px;
+        flex-grow: 1;
+        font-size: 24px;
+        width: 100%;
+
+        &:focus{
+            outline: none;
+            border-color: var(--border-color);
+            box-shadow: 0 0 4px var(--border-color);
+        }
+    }
+
+    &.with-icon{
+        input {
+            padding-left: 36px;
+        }
+
+        > .icon{
+            width: 36px;
+            height: 36px;
+            position: absolute;
+            left: 0;
+            z-index: 1;
+
+            & > svg > path{
+                fill: var(--color-gray2);
+            }
+        }
+}
+}

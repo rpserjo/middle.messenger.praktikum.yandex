@@ -1,0 +1,21 @@
+<div class="chat-wrapper">
+    <div class="chats-side">
+        <div class="chat-header">
+            {{{userAvatar}}}
+            <div class="profile-name">{{{profileName}}}</div>
+            <a href="/chat/profile"><div class="profile-icon" title="Profile">{{{profileIcon}}}</div></a>
+        </div>
+        <div class="chat-header">
+            {{{searchIcon}}}
+            {{{searchInput}}}
+        </div>
+        <div class="chats-list">
+            {{#each chatsList}}
+                {{{this}}}
+            {{/each}}
+        </div>
+    </div>
+    <div class="chats-main">
+        {{{mainWindow}}}
+    </div>
+</div>
