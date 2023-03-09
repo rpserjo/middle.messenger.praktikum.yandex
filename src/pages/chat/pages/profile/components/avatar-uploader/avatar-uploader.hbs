@@ -1,0 +1,19 @@
+<div class="avatar-uploader">
+    {{#if uploadForm}}
+        <div class="avatar-uploader__form">
+            <label class="input-file">
+                <input type="file" name="file">
+                <span>Select file</span>
+            </label>
+            {{{uploadButton}}} {{{cancelButton}}}
+        </div>
+    {{else}}
+        <a href="/chat/profile/avatar">
+        <div class="avatar-uploader__button"{{#if currentAvatar}}style="background-image: url('{{{currentAvatar}}}');"{{/if}} title="Upload avatar">
+            <div class="avatar-uploader__icon">
+                {{{uploadIcon}}}
+            </div>
+        </div>
+    </a>
+    {{/if}}
+</div>
