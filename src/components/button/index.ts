@@ -1,7 +1,7 @@
 import template from './button.hbs';
 import './button.css';
 
-const button = (params = {}) => {
+const button: Function = (params = {}) => {
     return template({...params});
 }
 
