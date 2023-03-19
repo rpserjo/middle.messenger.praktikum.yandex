@@ -96,7 +96,7 @@ switch (currentPathname) {
         currentPage = '404'//error({ code: 404, message: 'Not found' });
 }
 
-console.log('current', currentPage)
+//console.log('current', currentPage)
 const layout = new Layout({
     layout: currentPage,
 })

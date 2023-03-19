@@ -65,19 +65,33 @@ class SignIn extends Block {
                 click: () => document.location.pathname = '/chat'
             }
         });
-
+        */
         const link: Block = new Link({
             to: '/signup',
             label: 'Create profile'
-        });*/
+        });
 
-        //props = { ...props, loginInput, passwordInput, submitButton, link};
+        props = { ...props, link};
 
         super('div', props, 'SignIn');
     }
 
     created() {
-
+        const submitButton: Block = new Button({
+            buttonLabel: 'Sign In',
+            events: {
+                click: () => document.location.pathname = '/chat'
+            }
+        });
+        console.log(this.name, 'Created', this.children)
+        //this.children = {...this.children, submitButton}
+        this.setProps({
+            submitButton,
+            children: {
+                submitButton
+            }
+        })
+        console.log(this.name, 'Created', this.children)
     }
 
     render() {

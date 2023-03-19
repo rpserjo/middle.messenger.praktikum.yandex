@@ -26,8 +26,8 @@ abstract class Block {
 
     constructor(tagName: string = 'div', propsAndChildren: Record<string, any> = {}, name: string = 'not set') {
         const {children, props} = this.getPropsAndChildren(propsAndChildren);
-        console.log(name, 'props', props);
-        console.log(name, 'children', children);
+        console.log(name, 'Props', props);
+        console.log(name, 'Children', children);
         this.children = children;
         this.name = name;
         this.meta = {
@@ -140,15 +140,18 @@ abstract class Block {
     }
 
     setProps(props: Record<string, any>): void {
+        console.log(this.name, 'Set props', props);
         if (!props) {
+            console.log(this.name, 'Set props', 'No props');
             return;
         }
         Object.assign(this.props, props);
+        console.log(this.name, 'Set props2', this.props);
     }
 
     compile(template, props){
-        const propsAndStubs = { ...props };
-        console.log(this.name, '...props', {...props})
+        const propsAndStubs = { ...props }; //???
+        //console.log(this.name, '...props', {...props})
 
         Object.entries(this.children).forEach(([key, child]) => {
             propsAndStubs[key] = `<div data-id="${child.uuid}"></div>`;
