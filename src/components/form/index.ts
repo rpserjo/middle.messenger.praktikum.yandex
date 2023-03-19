@@ -1,8 +1,19 @@
 import template from './form.hbs';
 import './form.css';
+import Block from '../../utils/Block';
 
-const form = (params = {}) => {
-    return template({...params});
+/*const form = (params = {}) => template({ ...params });
+
+export default form;*/
+
+class Form extends Block {
+    constructor(props) {
+        super('div', props, 'Form');
+    }
+
+    render(){
+        return this.compile(template, this.props);
+    }
 }
-const test = false;
-export default form;
+
+export default Form;

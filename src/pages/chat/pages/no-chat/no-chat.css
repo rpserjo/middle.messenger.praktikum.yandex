@@ -12,6 +12,7 @@
 		color: var(--color-gray2);
 		text-align: center;
 	}
+
 	.new-chat-button{
 		position: absolute;
 		bottom: 45px;
@@ -21,9 +22,7 @@
 		cursor: pointer;
 
 		.icon{
-
 			svg{
-
 				path{
 					fill: var(--color-primary);
 				}

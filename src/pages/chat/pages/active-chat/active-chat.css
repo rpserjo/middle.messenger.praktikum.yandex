@@ -4,6 +4,7 @@
     font-weight: 500;
     flex-grow: 1;
 }
+
 .chat-header__options{
     width: 24px;
     height: 24px;
@@ -31,12 +32,14 @@
         flex-direction: column;
     }
 }
+
 .chat{
     background-color: var(--color-white);
     overflow-y: scroll;
     flex-grow: 1;
-    padding: 15 15px;
+    padding: 15px; /* was 15 15px */
 }
+
 .chat-footer{
     height: 75px;
     border-top: 1px solid var(--border-color);

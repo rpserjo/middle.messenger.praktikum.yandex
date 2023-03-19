@@ -2,6 +2,7 @@ a.chatlist{
     text-decoration: none;
     color: inherit;
 }
+
 .chat-element{
     height: 75px;
     border-bottom: 1px solid var(--border-color);
@@ -54,10 +55,10 @@ a.chatlist{
                     justify-content: center;
                     display: flex;
                     align-items: center;
-                    justify-content: center;
                     color: var(--color-white);
                     line-height: 24px;
                 }
+
                 .last-message-time{
                     font-size: 14px;
                     align-content: end;

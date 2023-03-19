@@ -1,24 +1,26 @@
 :root{
-    --color-white: #ffffff;
+    --color-white: #fff;
     --color-light-gray: #f0f0f0;
-    --color-gray: #cccccc;
+    --color-gray: #ccc;
     --color-gray2: #9f9f9f;
-    --color-gray3: #666666;
-    --color-primary: #3390EC;
+    --color-gray3: #666;
+    --color-primary: #3390ec;
     --color-primary-shadow: #4eb2f5;
     --second-bg-color: #f5f5f5;
-
+    --link-color: #1d74f5;
     --color-white-shadow: var(--color-gray);
     --main-bg-color: var(--color-white);
     --border-color: var(--color-gray);
     --bg-light-gray: var(--color-light-gray);
 }
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Roboto","Arial",sans-serif;
+    font-family: Roboto,Arial,sans-serif;
 }
+
 body{
     display: flex;
     background-color: var(--second-bg-color);
@@ -53,6 +55,19 @@ h3{
     font-size: 36px;
 }
 
+.form{
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    display: flex;
+    margin: 15px;
+    width: 450px;
+    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-white);
+    height: max-content;
+}
+
 .m{
     &y-{
         &10{
@@ -64,13 +79,16 @@ h3{
 ::-webkit-scrollbar{
     width: 5px;
 }
+
 ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
+
 ::-webkit-scrollbar-thumb {
     background: #444;
     transition: .3s ease all;
 }
+
 ::-webkit-scrollbar-thumb:hover {
     background: #111;
 }

@@ -1,21 +1,88 @@
-import template from './signin.hbs';
+/*import template from './signin.hbs';
 import './singin.css';
 import form from '../../components/form';
 import input from '../../components/input';
-import button from '../../components/button';
+// import button from '../../components/button';
 import link from '../../components/link';
 
 const signin = () => {
     const formLabel = 'Sign In';
     const formData = [
-        input({id: 'login', label: 'Login', name: 'login', placeholder: 'Login', type: 'text', value: '', classList: 'my-10'}),
-        input({id: 'password', label: 'Password', name: 'password', placeholder: 'Password', type: 'password', value: ''}),
-        link({to: '/chat', label: 'Sign in', className: 'button'}),
-        link({to: '/signup', label: 'Create profile'})
+        input({
+            id: 'login', label: 'Login', name: 'login', placeholder: 'Login', type: 'text', value: '', classList: 'my-10',
+        }),
+        input({
+            id: 'password', label: 'Password', name: 'password', placeholder: 'Password', type: 'password', value: '',
+        }),
+        link({ to: '/chat', label: 'Sign in', className: 'button' }),
+        link({ to: '/signup', label: 'Create profile' }),
     ];
-    const formTemplate = form({formLabel, formData});
+    const formTemplate = form({ formLabel, formData });
 
-    return template({form: formTemplate});
+    return template({ form: formTemplate });
+};
+
+export default signin;*/
+
+import template from './signin.hbs';
+import Block from '../../utils/Block';
+import './singin.css';
+import Form from "../../components/form";
+import Input from "../../components/input";
+import Button from "../../components/button";
+import Link from "../../components/link";
+import validate from "../../utils/validate";
+
+class SignIn extends Block {
+    constructor(props: Record<string, any> = {}) {
+        /*const loginInput: Block = new Input({
+            id: 'login',
+            label: 'Login',
+            name: 'login',
+            placeholder: 'Login',
+            type: 'text',
+            value: '',
+            classList: 'my-10',
+        });
+        const passwordInput: Block = new Input({
+            id: 'password',
+            label: 'Password',
+            name: 'password',
+            placeholder: 'Password',
+            type: 'password',
+            value: '',
+            childEvents: [
+                {
+                    selector: 'input',
+                    event: 'focus',
+                    callback: () => validate(this)
+                }
+            ]
+        });
+        const submitButton: Block = new Button({
+            buttonLabel: 'Sign In',
+            events: {
+                click: () => document.location.pathname = '/chat'
+            }
+        });
+
+        const link: Block = new Link({
+            to: '/signup',
+            label: 'Create profile'
+        });*/
+
+        //props = { ...props, loginInput, passwordInput, submitButton, link};
+
+        super('div', props, 'SignIn');
+    }
+
+    created() {
+
+    }
+
+    render() {
+        return this.compile(template, this.props);
+    }
 }
 
-export default signin;
+export default SignIn;

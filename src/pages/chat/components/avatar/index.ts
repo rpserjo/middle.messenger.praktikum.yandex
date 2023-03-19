@@ -1,8 +1,6 @@
 import template from './avatar.hbs';
 import './avatar.css';
 
-const avatar = (params = {}) => {
-    return template({...params});
-}
+const avatar = (params = {}) => template({ ...params });
 
 export default avatar;

@@ -31,6 +31,7 @@
         flex-direction: column;
     }
 }
+
 .chat-header{
     height: 75px;
     padding: 10px 15px;
@@ -59,11 +60,11 @@
     }
 }
 
-/*@media screen and (max-width: 700px){
+/* @media screen and (max-width: 700px){
     .chats-side{
         margin-left: -320px;
         position: absolute;
         background-color: var(--main-bg-color);
         z-index: 1;
     }
-}*/
+} */
