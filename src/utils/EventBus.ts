@@ -22,8 +22,6 @@ class EventBus {
     }
 
     emit(event: string, ...args: any) {
-        // console.log('Emit', event);
-
         if (!this.listeners[event]) {
             throw new Error(`No event: ${event}`);
         }

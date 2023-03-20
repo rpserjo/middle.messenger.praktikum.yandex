@@ -1,14 +1,6 @@
 import template from './input.hbs';
 import './input.css';
-import Block from "../../utils/Block";
-
-//const input = (params = {}) => template({ ...params });
-
-const validate = (target, rules) => {
-	console.log('VALIDATION!', target, rules);
-	
-	target.props.validationError = '333';
-}
+import Block from '../../utils/Block';
 
 class Input extends Block {
     constructor(props: Record<string, any> = {}) {
@@ -16,35 +8,39 @@ class Input extends Block {
     }
     
     get value(){
-		return this.element.querySelector('input').value;    
+		return this.element.querySelector('input').value;
+    }
+
+    set value(value: string){
+        this.element.querySelector('input').value = value;
     }
     
     created() {
-    	this.props.validationError = '111';
-    	//this.setProps({validationError: 'error'})
-    	if(this.props.validation){
-    		this.props.childEvents = [
-    			{
-					selector: 'input',
-					event: 'focus',
-					callback: () => validate(this, this.props.validation)//this.setProps({validationError: 'focus'})//;validation(e, this.props.validation) || () => validation(e.target.value, this.props.validation)
-    			},
-    			/*{
-					selector: 'input',
-					event: 'blur',
-					callback: () => this.props.validationError = 'blur'//this.setProps({validationError: 'blur'})//{console.log('this', this); this.setProps({validationError: validation(e, this.props.validation)})}	
-    			}*/
-    		]
-    	}
+
     }
     
     mounted(){
-    	/*if(this.props.validation){
-			console.log(this.name, 'Has validation rules', this.props.validation);
-			console.log(this.element)
-			//this.element.querySelector('input').addEventListener('focus', (e) => validate(e.target.value, this.props.validation));
-			//validate(this.element.querySelector('input')?.value, this.props.validation);  	
-    	}*/
+		/*this.props.childEvents = [
+            {
+                selector: 'input',
+                event: 'focus',
+                callback: () => this.validate()
+            },
+        ]*/
+        this.props.childEvents = [
+            {
+                selector: 'input',
+                event: 'focus',
+                callback: () => this.setProps({validationError: 'error'})
+            },
+        ]
+        this.props.validationError = '123'
+	}
+
+    validate(){
+        console.log('VALIDATION!', this.value, this.props.validation, this);
+        //this.setProps({label: 'another label'});
+        this.setProps({validationError: this.value})
     }
     
     render() {

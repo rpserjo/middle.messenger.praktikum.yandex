@@ -1,17 +1,15 @@
 import template from './link.hbs';
 import './link.css';
-import Block from "../../utils/Block";
-
-const link = (params: Record<string, string> = {}) => {
-    const className = params?.className || 'link';
-
-    return template({ ...params, className });
-};
+import Block from '../../utils/Block';
 
 class Link extends Block {
     constructor(props: Record<string, any> = {}) {
-        const className = props.className || 'link';
-        super('div', {...props, className}, 'Link');
+        super('div', props, 'Link');
+    }
+
+    created(){
+        const className = this.props.className || 'link';
+        this.setProps({className})
     }
 
     render() {
