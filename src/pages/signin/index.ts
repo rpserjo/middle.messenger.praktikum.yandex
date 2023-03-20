@@ -30,6 +30,10 @@ class SignIn extends Block {
             type: 'text',
             value: '',
             classList: 'my-10',
+            validation: {
+                required: true,
+                rule: 'password'
+            }
         });
 
         const passwordInput: Block = new Input({
@@ -45,13 +49,17 @@ class SignIn extends Block {
             }
         });
 
-        const submitButton: Block = new Button({
+        /*const submitButton: Block = new Button({
             buttonLabel: 'Sign In',
             events: {
                 click: submitHandler
             }
-        });
+        });*/
 
+/*        setTimeout(() => {
+            passwordInput.setProps({errorMessage: 'another', label: 'label'})
+        }, 3000)*/
+        /*
         const registerLink = new Link({
             to: '/signup',
             label: 'Create account'
@@ -60,12 +68,16 @@ class SignIn extends Block {
         const form = new Form({
             formLabel: 'Sign in',
             formData:[loginInput, passwordInput, submitButton, registerLink]
-        });
+        });*/
 			
-        this.children.signInForm = form;
+        this.children.loginInput = loginInput;
+        this.children.passwordInput = passwordInput;
     }
 
     render() {
+        /*setTimeout(() => {
+            this.children.passwordInput.setProps({validationError: 'another', label: 'label'})
+        }, 2000)*/
         return this.compile(template, this.props);
     }
 }

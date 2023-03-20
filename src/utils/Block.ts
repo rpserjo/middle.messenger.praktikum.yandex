@@ -100,13 +100,10 @@ abstract class Block {
     }
 
     private componentDidUpdate(oldProps, newProps): void {
-        console.log(this.name, 'CDU')
-        return true;
         if (oldProps !== newProps) {
-            //this._render();
-            console.log(this.name, 'CDU')
+            this.updated();
             this.eventBus.emit(Events.FLOW_RENDER);
-            /*Object.keys(this.children).forEach((child: Block | Block[]) => {
+            /* Object.keys(this.children).forEach((child: Block | Block[]) => {
                 if(Array.isArray(this.children[child])){
                     this.children[child].forEach(grandChild => grandChild.componentDidUpdate(oldProps, newProps))
                 }else{
@@ -197,7 +194,7 @@ abstract class Block {
     updated() {}
 
     dispatchComponentDidMount(): void {
-        //this.eventBus.emit(Events.FLOW_CDM);
+        this.eventBus.emit(Events.FLOW_CDM);
         Object.keys(this.children).forEach((child: Block | Block[]) => {
             if(Array.isArray(this.children[child])){
                 this.children[child].forEach(grandChild => grandChild.dispatchComponentDidMount())
