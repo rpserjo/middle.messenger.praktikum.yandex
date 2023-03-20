@@ -49,6 +49,8 @@ abstract class Block {
         Object.entries(propsAndChildren).forEach(([key, value]) => {
             if (value instanceof Block) {
                 children[key] = value;
+            }else if(Array.isArray(value) && value.every(val => val instanceof Block)){
+            	children[key] = value;
             }else{
                 props[key] = value;
             }
@@ -67,6 +69,7 @@ abstract class Block {
             set(target: Record<string, any>, prop: string, value: unknown) {
                 const oldValue = target[prop];
                 target[prop] = value;
+                console.log(this.name, 'New val', prop, value)
                 self.eventBus.emit(Events.FLOW_CDU, oldValue, target[prop]);
                 return true;
             },
@@ -101,6 +104,7 @@ abstract class Block {
 
     private componentDidUpdate(oldProps, newProps): void {
         if (oldProps !== newProps) {
+        		console.log('CDU')
             this._render();
         }
     }
@@ -127,6 +131,7 @@ abstract class Block {
             //console.log(this.name, document.getEventListeners(this.element));
         });
         childEvents.forEach((childEvent) => {
+        		console.log(this.name, 'Add child event', this.element.querySelector(childEvent.selector), childEvent.event)
            this.element.querySelector(childEvent.selector).addEventListener(childEvent.event, childEvent.callback);
         });
     }
@@ -154,17 +159,36 @@ abstract class Block {
         //console.log(this.name, '...props', {...props})
 
         Object.entries(this.children).forEach(([key, child]) => {
-            propsAndStubs[key] = `<div data-id="${child.uuid}"></div>`;
+        		if(Array.isArray(child)){
+					propsAndStubs[key] = child.map(grandChild => {
+						return `<div data-t="grandChild" data-id="${grandChild.uuid}"></div>`;
+					});        		
+        		}else{
+        			propsAndStubs[key] = `<div data-t="child" data-id="${child.uuid}"></div>`;
+        		}
+            //propsAndStubs[key] = `<div data-id="${child.uuid}"></div>`;
         });
         console.log(this.name, 'props stubs', propsAndStubs)
 
         const fragment: DocumentFragment = this.createDocumentElement('template');
-        console.log(this.name, 'fragment', fragment);
+        
 
         fragment.innerHTML = template(propsAndStubs);//handlebars.compile(template)(propsAndStubs);
+        console.log(this.name, 'fragment', fragment.innerHTML);
         Object.values(this.children).forEach((child) => {
-           const stub = fragment.content.querySelector(`[data-id="${child.uuid}"]`);
+        console.log(child)
+        	if(Array.isArray(child)){
+				child.forEach(grandChild => {
+					const stub = fragment.content.querySelector(`[data-id="${grandChild.uuid}"]`);
+           		stub.replaceWith(grandChild.getContent());
+				})        	
+        	}else{
+        	 	const stub = fragment.content.querySelector(`[data-id="${child.uuid}"]`);
+        	 	console.log(this.name, 'STUB', stub)
+        	 	console.log(this.name, 'STUB replace', child, child.getContent())
            stub.replaceWith(child.getContent());
+        	}
+          
         });
         return fragment.content;// handlebars.compile(template)(propsAndStubs);
     }

@@ -1,7 +1,7 @@
 .input-wrapper{
     position: relative;
     width: 100%;
-    display: flex;
+    /*display: flex;*/
     margin: 5px 0;
     border: 1px solid var(--border-color);
     align-items: center;
