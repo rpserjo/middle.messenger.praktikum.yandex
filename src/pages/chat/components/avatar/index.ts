@@ -1,6 +1,20 @@
 import template from './avatar.hbs';
 import './avatar.css';
+import Block from '../../../../utils/Block';
 
-const avatar = (params = {}) => template({ ...params });
+interface AvatarProps {
+    profileName: string,
+    avatarSrc: string
+}
 
-export default avatar;
+class Avatar extends Block {
+    constructor(props: AvatarProps = {}) {
+        super('div', props, 'Avatar');
+    }
+
+    render() {
+        return this.compile(template, this.props);
+    }
+}
+
+export default Avatar;

@@ -8,17 +8,23 @@ import activeChat from './pages/active-chat';
 import profile from './pages/profile';
 import cutString from '../../utils/cutString';
 import icon from '../../components/icon';
+import Block from '../../utils/Block';
+import Input from '../../components/input';
+import Avatar from './components/avatar';
+import Icon from '../../components/icon';
+import ChatElement from './components/chat-element';
+import NoChat from './pages/no-chat';
 
 interface ChatListElement {
     id: number,
     avatarSrc: string,
     chatUserName: string,
     chatNewMessagesCount: number,
-    chatNewMessages?: string,
     chatLastMessage: string,
     chatLastMessageTime: string,
     chatUserAvatar?: string
 }
+
 const sampleData: ChatListElement[] = [
     {
         id: 1,
@@ -46,6 +52,65 @@ const sampleData: ChatListElement[] = [
     },
 ];
 
+class Chat extends Block {
+    constructor(props: any = {}) {
+        super('div', props, 'Chat');
+    }
+
+    created() {
+        this.setProps({
+            profileName: 'Charles Xavier',
+        });
+
+        const searchInput = new Input({
+            id: 'search',
+            name: 'search',
+            placeholder: 'Search'
+        });
+
+        const userAvatar = new Avatar({
+            avatarSrc: '/static/avatars/professorx.png',
+            profileName: this.props.profileName
+        });
+
+        const profileIcon = new Icon({
+           icon: 'profile2'
+        });
+
+        const chatsList = [...sampleData, ...sampleData, ...sampleData, ...sampleData, ...sampleData].map((el: ChatListElement) => {
+            return new ChatElement({
+                id: el.id,
+                chatUserAvatar: new Avatar({avatarSrc: el.avatarSrc, profileName: el.chatUserName}),
+                chatUserName: el.chatUserName,
+                chatNewMessages: ((el.chatNewMessagesCount) > 10) ? '9+' : el.chatNewMessages as string,
+                chatLastMessage: cutString(el.chatLastMessage, 26),
+                chatMessageLastTime: el.chatLastMessageTime,
+                events: {
+                    click: () => document.location.pathname = `/chat/view/${el.id}`
+                }
+            });
+        });
+
+        const subRoute = (document.location.pathname).replace('/chat', '');
+
+        let mainWindow: Block = new NoChat();
+
+        this.children = {
+            searchInput,
+            userAvatar,
+            profileIcon,
+            chatsList,
+            mainWindow
+        }
+    }
+
+    render() {
+        return this.compile(template, this.props);
+    }
+}
+
+export default Chat;
+/*
 const chat = () => {
     const profileName = 'Charles Xavier';
     const userAvatar = avatar({ avatarSrc: '/static/avatars/professorx.png', profileName });
@@ -84,3 +149,4 @@ const chat = () => {
 };
 
 export default chat;
+*/

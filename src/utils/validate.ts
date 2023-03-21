@@ -3,7 +3,7 @@ import Block from './Block';
 
 const validate = (input: Input) => {
     const value: string = input.value;
-    const validation: Record<string, string | boolean> = input.validation;
+    const validation: Record<string, any> = input.validation;
     const rules = {
         login: {
             pattern: '^[a-zA-Z0-9]{3,20}$',

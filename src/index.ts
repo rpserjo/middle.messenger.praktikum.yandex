@@ -4,6 +4,7 @@ import Block from './utils/Block';
 import SignIn from './pages/signin';
 import SignUp from './pages/signup';
 import ErrorPage from './pages/error';
+import Chat from './pages/chat';
 
 let currentPage: Block;
 const currentPathname: string = window.location.pathname;
@@ -16,11 +17,14 @@ switch (currentPathname) {
     case '/signup':
         currentPage = new SignUp();
         break;
+    case '/chat':
+        currentPage = new Chat();
+        break;
     case '/error_500':
         currentPage = new ErrorPage({
             errorCode: 500,
             errorMessage: 'The page isn`t working',
-            backUrl: '/chats'
+            backUrl: '/chat'
         });
         break;
     default:

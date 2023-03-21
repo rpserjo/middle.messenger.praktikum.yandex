@@ -153,7 +153,7 @@ abstract class Block {
             }
         });
 
-        const fragment: HTMLElement = this.createDocumentElement('template');
+        const fragment: DocumentFragment = this.createDocumentElement('template');
         fragment!.innerHTML = template(propsAndStubs);
         Object.values(this.children).forEach((child) => {
             if(Array.isArray(child)){
@@ -184,7 +184,7 @@ abstract class Block {
 
     dispatchComponentDidMount(): void {
         this.eventBus.emit(Events.FLOW_CDM);
-        Object.keys(this.children).forEach((child: Block | Block[]) => {
+        Object.keys(this.children).forEach((child: string) => {
             if(Array.isArray(this.children[child])){
                 this.children[child].forEach(grandChild => grandChild.dispatchComponentDidMount())
             }else{

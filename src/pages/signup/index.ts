@@ -135,7 +135,7 @@ class SignUp extends Block {
             passwordInput
         }
 
-        const repeatPasswordInput: Block = new Input({
+        const repeatPasswordInput: Input = new Input({
             id: 'password2',
             label: 'Repeat password',
             name: 'password2',
@@ -152,7 +152,7 @@ class SignUp extends Block {
             }
         });
 
-        const submitButton: Block = new Button({
+        const submitButton: Button = new Button({
             buttonLabel: 'Create profile',
             events: {
                 click: (e) => {
@@ -163,7 +163,7 @@ class SignUp extends Block {
             }
         });
 
-        const signInLink: Block = new Link({
+        const signInLink: Link = new Link({
             to: '/signin',
             label: 'Sign in',
             classList: ['my-10']

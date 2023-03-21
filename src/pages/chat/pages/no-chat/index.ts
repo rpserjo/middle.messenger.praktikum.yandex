@@ -1,7 +1,23 @@
 import template from './no-chat.hbs';
 import './no-chat.css';
-import icon from '../../../../components/icon';
+import Block from '../../../../utils/Block';
+import Icon from '../../../../components/icon';
 
-const noChat = (params = {}) => template({ ...params, newChatIcon: icon({ icon: 'newChat' }) });
+class NoChat extends Block {
+    constructor(props: Record<string, any> = {}) {
+        super('div', props, 'NoChat');
+    }
 
-export default noChat;
+    created() {
+        const newChatIcon = new Icon({icon: 'newChat'});
+        this.children = {
+            newChatIcon
+        }
+    }
+
+    render() {
+        return this.compile(template, this.props);
+    }
+}
+
+export default NoChat;
