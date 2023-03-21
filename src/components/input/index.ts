@@ -2,30 +2,43 @@ import template from './input.hbs';
 import './input.css';
 import Block from '../../utils/Block';
 
+interface InputProps {
+    type: string,
+    id?: string,
+    name?: string,
+    value?: string,
+    label?: string,
+    placeholder?: string
+}
+
 class Input extends Block {
-    constructor(props: Record<string, any> = {}) {
+    constructor(props: InputProps = {type: 'text'}) {
         super('div', props, 'Input');
     }
-    
-    get value(){
-		return this.element.querySelector('input').value;
+
+    get validation(): Record<string, string | boolean | Input> {
+        return this.props.validation;
+    }
+
+    get value(): string{
+		return this.element.querySelector('input')!.value;
     }
 
     set value(value: string){
-        this.element.querySelector('input').value = value;
+        this.element.querySelector('input')!.value = value;
     }
     
-    get name(){
-    	return this.element.querySelector('input').name;
+    get name(): string{
+    	return this.element.querySelector('input')!.name;
     }
     
-    toggleError(errorMessage: string = ''){
+    toggleError(errorMessage: string = ''): void{
     	this.errorMessage = errorMessage;
-		this.element.querySelector('.input-wrapper')?.classList.toggle('has-error', errorMessage.length > 0);    
+		this.element.querySelector('.input-wrapper')!.classList.toggle('has-error', errorMessage.length > 0);
     }
     
-	 set errorMessage(value: string = ''){
-		const errorM = this.element.querySelector('p.error-message').innerText = value;
+	 set errorMessage(value: string){
+		this.element.querySelector('p.error-message')!.textContent = value;
     } 
        
     render() {

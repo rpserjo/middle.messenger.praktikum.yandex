@@ -1,17 +1,31 @@
 import template from './error.hbs';
 import './error.css';
-import link from '../../components/link';
+import Block from '../../utils/Block';
+import Link from '../../components/link';
 
-interface ErrorPageParams{
-    code?: number,
-    message?: string
+interface ErrorPageProps{
+    errorCode?: number,
+    errorMessage?: string
+    backUrl?: string
 }
-const error = (params: ErrorPageParams = {}) => {
-    params.code = params?.code || 404;
-    params.message = params?.message || 'Not found';
-    const backLink = link({ to: '/chat', label: 'Back to chats' });
 
-    return template({ ...params, backLink });
-};
+class ErrorPage extends Block {
+    constructor(props: ErrorPageProps = { errorCode: 404, errorMessage: 'Not found'}) {
+        super('div', props, 'ErrorPage');
+    }
 
-export default error;
+    created() {
+        const backLink = new Link({
+            to: (this.props.backUrl) ? this.props.backUrl : '/',
+            label: 'Back'
+        });
+
+        this.children = { backLink };
+    }
+
+    render() {
+        return this.compile(template, this.props);
+    }
+}
+
+export default ErrorPage;

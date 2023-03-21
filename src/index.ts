@@ -1,21 +1,30 @@
-import Layout from './layout';
 import renderDom from './utils/renderDom';
 import './index.css';
-import SignIn from './pages/signin';
 import Block from './utils/Block';
-import Input from "./components/input";
+import SignIn from './pages/signin';
+import SignUp from './pages/signup';
+import ErrorPage from './pages/error';
 
-let currentPage: Block | string;
+let currentPage: Block;
 const currentPathname: string = window.location.pathname;
 
 switch (currentPathname) {
     case '/':
     case '/signin':
-        const signInPage: Block = new SignIn();
-        currentPage = signInPage;
+        currentPage = new SignIn();
+        break;
+    case '/signup':
+        currentPage = new SignUp();
+        break;
+    case '/error_500':
+        currentPage = new ErrorPage({
+            errorCode: 500,
+            errorMessage: 'The page isn`t working',
+            backUrl: '/chats'
+        });
         break;
     default:
-        currentPage = '404'
+        currentPage = new ErrorPage();
 }
 
-renderDom('#root', currentPage);
+renderDom('#wrapper', currentPage);

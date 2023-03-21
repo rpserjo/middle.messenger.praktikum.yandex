@@ -42,7 +42,7 @@
     }
     
     &.has-error{
-		border-color: crimson;  
+		border-color: var(--color-danger);
     }
 
     &.with-icon{
@@ -62,4 +62,9 @@
             }
         }
     }
+}
+p.error-message{
+    color: var(--color-danger);
+    line-height: 20px;
+    height: 20px;
 }

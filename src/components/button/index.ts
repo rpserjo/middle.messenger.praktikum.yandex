@@ -1,10 +1,13 @@
 import template from './button.hbs';
 import './button.css';
-import Block from "../../utils/Block";
+import Block from '../../utils/Block';
 
-//const button: Function = (params = {}) => template({ ...params });
+interface ButtonProps {
+    id?: string,
+    buttonLabel?: string
+}
 class Button extends Block {
-    constructor(props: Record<string, any> = {}) {
+    constructor(props: ButtonProps = {}) {
         super('div', props, 'Button');
     }
 
