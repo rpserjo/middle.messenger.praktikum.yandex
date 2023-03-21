@@ -40,6 +40,10 @@
             box-shadow: 0 0 4px var(--border-color);
         }
     }
+    
+    &.has-error{
+		border-color: crimson;  
+    }
 
     &.with-icon{
         input {

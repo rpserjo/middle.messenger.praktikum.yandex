@@ -15,60 +15,19 @@ class Input extends Block {
         this.element.querySelector('input').value = value;
     }
     
-    created() {
-
+    get name(){
+    	return this.element.querySelector('input').name;
     }
-
-    /*updated(){
-        const sss = () => {
-            setTimeout(() => {
-                this.setProps({validationError: 'just other'});
-            }, 1500)
-        }
-        console.log('input updated')
-        //sss()
-    }*/
     
-    mounted(){
-		/*this.props.childEvents = [
-            {
-                selector: 'input',
-                event: 'focus',
-                callback: () => this.validate()
-            },
-        ]*/
-        const validate = (target) => {
-            console.log('validate', target)
-            //target.setProps({validationError: target.element.querySelector('input').value})
-            return 'from validate: ' + target.element.querySelector('input').value
-        }
-  /**/      this.props.childEvents = [
-            {
-                selector: 'input',
-                event: 'blur',
-                callback: () => {
-                    this.setProps({validationError: validate(this)})
-                    //validate(this);
-                }
-            },
-            /*{
-                selector: 'input',
-                event: 'focus',
-                callback: () => {
-                    this.setProps({validationError: ''})
-                    //validate(this);
-                }
-            }*/
-        ]
-        //this.props.validationError = '123'/**/
-	}
-
-/*    validate(){
-        console.log('VALIDATION!', this.value, this.props.validation, this);
-        //this.setProps({label: 'another label'});
-        this.setProps({validationError: this.value})
-    }*/
+    toggleError(errorMessage: string = ''){
+    	this.errorMessage = errorMessage;
+		this.element.querySelector('.input-wrapper')?.classList.toggle('has-error', errorMessage.length > 0);    
+    }
     
+	 set errorMessage(value: string = ''){
+		const errorM = this.element.querySelector('p.error-message').innerText = value;
+    } 
+       
     render() {
         return this.compile(template, this.props);
     }

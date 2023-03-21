@@ -18,21 +18,4 @@ switch (currentPathname) {
         currentPage = '404'
 }
 
-/*const layout = new Layout({
-    layout: currentPage,
-})*/
-
-//const signIn = new SignIn()
-
-/*const input = new Input({
-    label: 'Label',
-    placeholder: 'Placeholder'
-})*/
-
-/*setTimeout(() => {
-    input.setProps({label: 'new error'})
-}, 1500)*/
-
 renderDom('#root', currentPage);
-
-

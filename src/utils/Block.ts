@@ -21,12 +21,12 @@ abstract class Block {
 
     private eventBus: EventBus;
 
-    private name: string;
+    private _name: string;
 
     constructor(tagName: string = 'div', propsAndChildren: Record<string, any> = {}, name: string = 'not set') {
         const {children, props} = this.getPropsAndChildren(propsAndChildren);
         this.children = children;
-        this.name = name;
+        this._name = name;
         this.meta = {
             tagName,
             props,
@@ -64,7 +64,7 @@ abstract class Block {
                 return typeof value === 'function' ? value.bind(target) : value;
             },
             set(target: Record<string, any>, prop: string, value: unknown) {
-                console.log(self.name, 'SET', self, prop, value)
+                //console.log(self.name, 'SET', self, prop, value)
                 const oldValue = target[prop];
                 target[prop] = value;
                 self.eventBus.emit(Events.FLOW_CDU, oldValue, target[prop]);
@@ -114,7 +114,7 @@ abstract class Block {
     }
 
     private _render(): void {
-        console.log(this.name, 'RENDER')
+        //console.log(this.name, 'RENDER')
         const block = this.render();    // documentFragment
         // this.removeEvents();
         this.element.innerHTML = '';
