@@ -4,7 +4,7 @@ import './chat.css';
 import avatar from './components/avatar';
 import chatElement from './components/chat-element';
 import noChat from './pages/no-chat';
-import activeChat from './pages/active-chat';
+import ActiveChat from './pages/active-chat';
 import profile from './pages/profile';
 import cutString from '../../utils/cutString';
 import icon from '../../components/icon';
@@ -84,16 +84,29 @@ class Chat extends Block {
                 chatUserName: el.chatUserName,
                 chatNewMessages: ((el.chatNewMessagesCount) > 10) ? '9+' : el.chatNewMessages as string,
                 chatLastMessage: cutString(el.chatLastMessage, 26),
-                chatMessageLastTime: el.chatLastMessageTime,
+                chatLastMessageTime: el.chatLastMessageTime,
                 events: {
-                    click: () => document.location.pathname = `/chat/view/${el.id}`
+                    click: () => document.location.pathname = `/chat/view`
                 }
             });
         });
 
         const subRoute = (document.location.pathname).replace('/chat', '');
-
-        let mainWindow: Block = new NoChat();
+        console.log(subRoute)
+			
+			let mainWindow: Block;
+			switch (subRoute) {
+    			case '/profile':
+    			case '/profile/password':
+    			case '/profile/avatar':
+        			//mainWindow = profile();
+        			break;
+    			case '/view':
+        			mainWindow = new ActiveChat();
+        			break;
+    			default:
+        			mainWindow = new NoChat();
+    		}
 
         this.children = {
             searchInput,

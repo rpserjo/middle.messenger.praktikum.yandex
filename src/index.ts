@@ -18,6 +18,10 @@ switch (currentPathname) {
         currentPage = new SignUp();
         break;
     case '/chat':
+    case '/chat/view':
+    case '/chat/profile':
+    case '/chat/profile/avatar':
+    case '/chat/profile/password':
         currentPage = new Chat();
         break;
     case '/error_500':

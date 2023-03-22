@@ -24,7 +24,11 @@ const validate = (input: Input) => {
         phone: {
             pattern: '^[0-9+][0-9]{10,15}$',
             errorMessage: 'From 10 to 15 digits. Starts with +'
-        }
+        },
+        message: {
+				pattern: '(.*)$',
+				errorMessage: 'msg'
+			}        	
     }
 
     const validationStatus = { isValid: false, validationError: '' };
@@ -60,6 +64,8 @@ const validate = (input: Input) => {
             validationStatus.isValid = false;
             validationStatus.validationError = 'Validation rule is missing';
         }
+    }else{
+    
     }
 
     return validationStatus;

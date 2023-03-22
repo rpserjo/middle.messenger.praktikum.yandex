@@ -8,11 +8,12 @@ interface InputProps {
     name?: string,
     value?: string,
     label?: string,
-    placeholder?: string
+    placeholder?: string,
+    withoutErrorMessage?: boolean
 }
 
 class Input extends Block {
-    constructor(props: InputProps = {type: 'text'}) {
+    constructor(props: InputProps = {type: 'text', withoutErrorMessage: false}) {
         super('div', props, 'Input');
     }
 
@@ -34,11 +35,13 @@ class Input extends Block {
     
     toggleError(errorMessage: string = ''): void{
     	this.errorMessage = errorMessage;
-		this.element.querySelector('.input-wrapper')!.classList.toggle('has-error', errorMessage.length > 0);
+ 		this.element.querySelector('.input-wrapper').classList.toggle('has-error', errorMessage.length > 0);
     }
     
 	 set errorMessage(value: string){
-		this.element.querySelector('p.error-message')!.textContent = value;
+	 	if(this.element.querySelector('p.error-message')){
+	 		this.element.querySelector('p.error-message').textContent = value;
+	 	} 		
     } 
        
     render() {

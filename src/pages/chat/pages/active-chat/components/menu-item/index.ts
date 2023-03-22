@@ -1,6 +1,15 @@
 import template from './menu-item.hbs';
 import './menu-item.css';
+import Block from '../../../../../../utils/Block.ts';
 
-const menuItem = (params = {}) => template({ ...params });
+class MenuItem extends Block {
+	constructor(props){
+		super('div', props, 'MenuItem');	
+	}
+	
+	render() {
+		return this.compile(template, this.props);
+	}
+}
 
-export default menuItem;
+export default MenuItem;

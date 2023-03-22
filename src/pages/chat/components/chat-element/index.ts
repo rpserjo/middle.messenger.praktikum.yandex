@@ -9,7 +9,7 @@ interface ChatElementProps {
     chatUserName: string,
     chatNewMessages?: string,
     chatLastMessage: string,
-    chatMessageLastTime: string
+    chatLastMessageTime: string
 }
 
 class ChatElement extends Block {
