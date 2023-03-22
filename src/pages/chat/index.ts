@@ -87,7 +87,6 @@ class Chat extends Block {
         }));
 
         const subRoute = (document.location.pathname).replace('/chat', '');
-        console.log(subRoute);
 
         let mainWindow: Block;
         switch (subRoute) {

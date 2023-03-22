@@ -98,7 +98,6 @@ class ActiveChat extends Block {
             withoutErrorMessage: true,
             events: {
                 focusin: () => this.children.chatSendMessage.toggleError(),
-                // focusout: () => this.children.chatSendMessage.toggleError(validate(this.children.chatSendMessage).validationError)
             },
         });
 
@@ -143,17 +142,6 @@ class ActiveChat extends Block {
                 console.log(formData);
             }
         };
-
-        const sendIcon1 = new Icon({
-            icon: 'message',
-            events: {
-                click: (e) => {
-                    e.preventDefault();
-                    const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
-                    submitHandler(e, inputs);
-                },
-            },
-        });
 
         const sendIcon = new Button({
             buttonLabel: 'Send',

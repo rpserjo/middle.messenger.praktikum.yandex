@@ -19,20 +19,15 @@ class ChatElement extends Block {
 
     mounted() {
         const element = this.element.querySelector('.chat-element');
-        console.log(element);
         if (element) {
-            console.log('element');
             element.addEventListener('click', (e) => {
-                console.log('click');
                 const els = document.querySelectorAll('.chat-element__element.current');
-                console.log(els);
                 for (let i = 0; i < els.length; i + 1) {
                     els[i].classList.toggle('.current', false);
                 }
                 e.target.classList.toggle('.current', true);
             });
         }
-        console.log('CE', this.element.querySelector('.chat-element__element'));
     }
 
     render() {
