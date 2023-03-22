@@ -6,19 +6,18 @@ import Button from '../../components/button';
 import Link from '../../components/link';
 import { validate, validateForm } from '../../utils/validate';
 
-
 class SignIn extends Block {
     constructor(props: Record<string, any> = {}) {
         super('div', props, 'SignIn');
     }
 
     created() {
-		const submitHandler = (e: Event, inputs: Input[]) => {
+        const submitHandler = (e: Event, inputs: Input[]) => {
             const formData = validateForm(inputs);
-            if(formData) {
+            if (formData) {
                 console.log(formData);
             }
-        }
+        };
 
         const loginInput: Block = new Input({
             id: 'login',
@@ -29,12 +28,12 @@ class SignIn extends Block {
             classList: 'my-10',
             validation: {
                 required: true,
-                rule: 'login'
+                rule: 'login',
             },
             events: {
-				focusin: () => this.children.loginInput.toggleError(),
-				focusout: () => this.children.loginInput.toggleError(validate(this.children.loginInput).validationError)
-            }
+                focusin: () => this.children.loginInput.toggleError(),
+                focusout: () => this.children.loginInput.toggleError(validate(this.children.loginInput).validationError),
+            },
         });
 
         const passwordInput: Block = new Input({
@@ -46,41 +45,42 @@ class SignIn extends Block {
             classList: 'my-10',
             validation: {
                 required: true,
-                rule: 'password'
+                rule: 'password',
             },
             events: {
-				focusin: () => this.children.passwordInput.toggleError(),
-				focusout: () => this.children.passwordInput.toggleError(validate(this.children.passwordInput).validationError)
-            }
+                focusin: () => this.children.passwordInput.toggleError(),
+                focusout: () => this.children.passwordInput.toggleError(validate(this.children.passwordInput).validationError),
+            },
         });
- 
+
         const submitButton: Block = new Button({
             buttonLabel: 'Sign In',
+            type: 'submit',
             events: {
                 click: (e) => {
-                	e.preventDefault();
-                	const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
-                	submitHandler(e, inputs)
-                }
-            }
+                    e.preventDefault();
+                    const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
+                    submitHandler(e, inputs);
+                },
+            },
         });
 
         const signUpLink: Block = new Link({
             to: '/signup',
             label: 'Create profile',
-            classList: ['my-10']
+            classList: ['my-10'],
         });
 
         this.children = {
-			loginInput,
-			passwordInput,
-			submitButton,
-            signUpLink
-		}
+            loginInput,
+            passwordInput,
+            submitButton,
+            signUpLink,
+        };
     }
 
     render() {
-		return this.compile(template, this.props);
+        return this.compile(template, this.props);
     }
 }
 

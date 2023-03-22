@@ -3,17 +3,17 @@ import './date-line.css';
 import Block from '../../../../../../utils/Block.ts';
 
 interface DateLineProps {
-	date: string
+    date: string
 }
 
-class DateLine extends Block{
-	constructor(props: DateLineProps = {}){
-		super('div', props, 'DateLine');	
-	}
-	
-	render() {
-		return this.compile(template, this.props);
-	}
+class DateLine extends Block {
+    constructor(props: DateLineProps = {}) {
+        super('div', props, 'DateLine');
+    }
+
+    render() {
+        return this.compile(template, this.props);
+    }
 }
 
 export default DateLine;

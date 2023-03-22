@@ -9,10 +9,10 @@ class NoChat extends Block {
     }
 
     created() {
-        const newChatIcon = new Icon({icon: 'newChat'});
+        const newChatIcon = new Icon({ icon: 'newChat' });
         this.children = {
-            newChatIcon
-        }
+            newChatIcon,
+        };
     }
 
     render() {

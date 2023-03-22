@@ -1,19 +1,14 @@
 import template from './chat.hbs';
-import input from '../../components/input';
 import './chat.css';
-import avatar from './components/avatar';
-import chatElement from './components/chat-element';
-import noChat from './pages/no-chat';
 import ActiveChat from './pages/active-chat';
-import profile from './pages/profile';
 import cutString from '../../utils/cutString';
-import icon from '../../components/icon';
 import Block from '../../utils/Block';
 import Input from '../../components/input';
 import Avatar from './components/avatar';
 import Icon from '../../components/icon';
 import ChatElement from './components/chat-element';
 import NoChat from './pages/no-chat';
+import Profile from './pages/profile';
 
 interface ChatListElement {
     id: number,
@@ -65,56 +60,56 @@ class Chat extends Block {
         const searchInput = new Input({
             id: 'search',
             name: 'search',
-            placeholder: 'Search'
+            placeholder: 'Search',
         });
 
         const userAvatar = new Avatar({
             avatarSrc: '/static/avatars/professorx.png',
-            profileName: this.props.profileName
+            profileName: this.props.profileName,
         });
 
         const profileIcon = new Icon({
-           icon: 'profile2'
+            icon: 'profile2',
         });
 
-        const chatsList = [...sampleData, ...sampleData, ...sampleData, ...sampleData, ...sampleData].map((el: ChatListElement) => {
-            return new ChatElement({
-                id: el.id,
-                chatUserAvatar: new Avatar({avatarSrc: el.avatarSrc, profileName: el.chatUserName}),
-                chatUserName: el.chatUserName,
-                chatNewMessages: ((el.chatNewMessagesCount) > 10) ? '9+' : el.chatNewMessages as string,
-                chatLastMessage: cutString(el.chatLastMessage, 26),
-                chatLastMessageTime: el.chatLastMessageTime,
-                events: {
-                    click: () => document.location.pathname = `/chat/view`
-                }
-            });
-        });
+        const chatsList = [...sampleData, ...sampleData, ...sampleData, ...sampleData, ...sampleData].map((el: ChatListElement) => new ChatElement({
+            id: el.id,
+            chatUserAvatar: new Avatar({ avatarSrc: el.avatarSrc, profileName: el.chatUserName }),
+            chatUserName: el.chatUserName,
+            chatNewMessages: ((el.chatNewMessagesCount) > 10) ? '9+' : el.chatNewMessages as string,
+            chatLastMessage: cutString(el.chatLastMessage, 26),
+            chatLastMessageTime: el.chatLastMessageTime,
+            events: {
+                click: () => {
+                    document.location.pathname = '/chat/view';
+                },
+            },
+        }));
 
         const subRoute = (document.location.pathname).replace('/chat', '');
-        console.log(subRoute)
-			
-			let mainWindow: Block;
-			switch (subRoute) {
-    			case '/profile':
-    			case '/profile/password':
-    			case '/profile/avatar':
-        			//mainWindow = profile();
-        			break;
-    			case '/view':
-        			mainWindow = new ActiveChat();
-        			break;
-    			default:
-        			mainWindow = new NoChat();
-    		}
+        console.log(subRoute);
+
+        let mainWindow: Block;
+        switch (subRoute) {
+        case '/profile':
+        case '/profile/password':
+        case '/profile/avatar':
+            mainWindow = new Profile();
+            break;
+        case '/view':
+            mainWindow = new ActiveChat();
+            break;
+        default:
+            mainWindow = new NoChat();
+        }
 
         this.children = {
             searchInput,
             userAvatar,
             profileIcon,
             chatsList,
-            mainWindow
-        }
+            mainWindow,
+        };
     }
 
     render() {
@@ -123,43 +118,3 @@ class Chat extends Block {
 }
 
 export default Chat;
-/*
-const chat = () => {
-    const profileName = 'Charles Xavier';
-    const userAvatar = avatar({ avatarSrc: '/static/avatars/professorx.png', profileName });
-    const profileIcon = icon({ icon: 'profile2' });
-    const searchIcon = icon({ icon: 'search' });
-    const searchInput = input({ placeholder: 'Search', name: 'searchQuery', icon: searchIcon });
-    const subRoute = (document.location.pathname).replace('/chat', '');
-    const chatsList = [...sampleData, ...sampleData, ...sampleData].map((el: ChatListElement) => {
-        el.chatUserAvatar = avatar({ avatarSrc: el.avatarSrc, profileName: el.chatUserName });
-        el.chatNewMessages = ((el.chatNewMessagesCount) > 10) ? '9+' : `${el.chatNewMessagesCount}`;
-        if (el.chatNewMessagesCount === 0) {
-            delete el.chatNewMessages;
-        }
-        el.chatLastMessage = cutString(el.chatLastMessage, 26);
-        return chatElement({ ...el });
-    });
-
-    let mainWindow;
-
-    switch (subRoute) {
-    case '/profile':
-    case '/profile/password':
-    case '/profile/avatar':
-        mainWindow = profile();
-        break;
-    case '/view':
-        mainWindow = activeChat();
-        break;
-    default:
-        mainWindow = noChat();
-    }
-
-    return template({
-        profileName, searchInput, chatsList, mainWindow, userAvatar, profileIcon,
-    });
-};
-
-export default chat;
-*/

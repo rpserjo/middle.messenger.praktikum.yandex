@@ -13,10 +13,10 @@ class Link extends Block {
         super('div', props, 'Link');
     }
 
-    created(){
+    created() {
         const type = this.props.type || 'link';
         const classList = (this.props.classList && Array.isArray(this.props.classList)) ? [...this.props.classList, type].join(' ') : type;
-        this.setProps({ classList })
+        this.setProps({ classList });
     }
 
     render() {

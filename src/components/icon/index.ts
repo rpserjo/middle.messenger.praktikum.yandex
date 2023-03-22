@@ -22,7 +22,8 @@ const icons = {
 };
 interface IconProps {
     icon?: string,
-    fill?: string
+    fill?: string,
+    events?: Record<string, Function>
 }
 
 class Icon extends Block {

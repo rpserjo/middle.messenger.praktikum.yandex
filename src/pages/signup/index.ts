@@ -18,10 +18,10 @@ class SignUp extends Block {
     created() {
         const submitHandler = (e: Event, inputs: Input[]): void => {
             const formData = validateForm(inputs);
-            if(formData) {
+            if (formData) {
                 console.log(formData);
             }
-        }
+        };
 
         const emailInput = new Input({
             id: 'email',
@@ -32,12 +32,12 @@ class SignUp extends Block {
             classList: 'my-10',
             validation: {
                 required: true,
-                rule: 'email'
+                rule: 'email',
             },
             events: {
                 focusin: () => this.children.emailInput.toggleError(),
-                focusout: () => this.children.emailInput.toggleError(validate(this.children.emailInput).validationError)
-            }
+                focusout: () => this.children.emailInput.toggleError(validate(this.children.emailInput).validationError),
+            },
         });
 
         const loginInput = new Input({
@@ -49,12 +49,12 @@ class SignUp extends Block {
             classList: 'my-10',
             validation: {
                 required: true,
-                rule: 'login'
+                rule: 'login',
             },
             events: {
-                focusin: () => this.children.loginInput.toggleError(),
-                focusout: () => this.children.loginInput.toggleError(validate(this.children.loginInput).validationError)
-            }
+                focusin: () => this.children?.loginInput.toggleError(),
+                focusout: () => this.children?.loginInput.toggleError(validate(this.children?.loginInput).validationError),
+            },
         });
 
         const firstNameInput = new Input({
@@ -66,12 +66,12 @@ class SignUp extends Block {
             classList: 'my-10',
             validation: {
                 required: true,
-                rule: 'name'
+                rule: 'name',
             },
             events: {
                 focusin: () => this.children.firstNameInput.toggleError(),
-                focusout: () => this.children.firstNameInput.toggleError(validate(this.children.firstNameInput).validationError)
-            }
+                focusout: () => this.children.firstNameInput.toggleError(validate(this.children.firstNameInput).validationError),
+            },
         });
 
         const secondNameInput = new Input({
@@ -83,12 +83,12 @@ class SignUp extends Block {
             classList: 'my-10',
             validation: {
                 required: true,
-                rule: 'name'
+                rule: 'name',
             },
             events: {
                 focusin: () => this.children.secondNameInput.toggleError(),
-                focusout: () => this.children.secondNameInput.toggleError(validate(this.children.secondNameInput).validationError)
-            }
+                focusout: () => this.children.secondNameInput.toggleError(validate(this.children.secondNameInput).validationError),
+            },
         });
 
         const phoneInput = new Input({
@@ -101,12 +101,12 @@ class SignUp extends Block {
             classList: 'my-10',
             validation: {
                 required: true,
-                rule: 'phone'
+                rule: 'phone',
             },
             events: {
                 focusin: () => this.children.phoneInput.toggleError(),
-                focusout: () => this.children.phoneInput.toggleError(validate(this.children.phoneInput).validationError)
-            }
+                focusout: () => this.children.phoneInput.toggleError(validate(this.children.phoneInput).validationError),
+            },
         });
 
         const passwordInput: Block = new Input({
@@ -118,12 +118,12 @@ class SignUp extends Block {
             classList: 'my-10',
             validation: {
                 required: true,
-                rule: 'password'
+                rule: 'password',
             },
             events: {
                 focusin: () => this.children.passwordInput.toggleError(),
-                focusout: () => this.children.passwordInput.toggleError(validate(this.children.passwordInput).validationError)
-            }
+                focusout: () => this.children.passwordInput.toggleError(validate(this.children.passwordInput).validationError),
+            },
         });
 
         this.children = {
@@ -132,8 +132,8 @@ class SignUp extends Block {
             firstNameInput,
             secondNameInput,
             phoneInput,
-            passwordInput
-        }
+            passwordInput,
+        };
 
         const repeatPasswordInput: Input = new Input({
             id: 'password2',
@@ -141,35 +141,40 @@ class SignUp extends Block {
             name: 'password2',
             placeholder: 'Repeat password',
             type: 'password',
-            classList: 'my-10',
             validation: {
                 required: true,
-                equals: { target: this.children.passwordInput, errorMessage: 'Passwords not match' }
+                equals: { target: this.children.passwordInput, errorMessage: 'Passwords not match' },
             },
             events: {
-                focusin: () => this.children.repeatPasswordInput.toggleError(),
-                focusout: () => this.children.repeatPasswordInput.toggleError(validate(this.children.repeatPasswordInput).validationError)
-            }
+                focusin: () => (this.children.repeatPasswordInput).toggleError(),
+                focusout: () => this.children.repeatPasswordInput.toggleError(validate(this.children.repeatPasswordInput).validationError),
+            },
         });
 
         const submitButton: Button = new Button({
             buttonLabel: 'Create profile',
+            type: 'submit',
             events: {
                 click: (e) => {
                     e.preventDefault();
                     const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
-                    submitHandler(e, inputs)
-                }
-            }
+                    submitHandler(e, inputs);
+                },
+            },
         });
 
         const signInLink: Link = new Link({
             to: '/signin',
             label: 'Sign in',
-            classList: ['my-10']
+            classList: ['my-10'],
         });
 
-        this.children = { ...this.children, repeatPasswordInput, submitButton, signInLink };
+        this.children = {
+            ...this.children,
+            repeatPasswordInput,
+            submitButton,
+            signInLink,
+        };
     }
 
     render() {
@@ -179,15 +184,7 @@ class SignUp extends Block {
 
 export default SignUp;
 
-
-
-
-
-
-
-
-
-/*import form from '../../components/form';
+/* import form from '../../components/form';
 import input from '../../components/input';
 // import button from '../../components/button';
 import link from '../../components/link';
@@ -225,4 +222,4 @@ const signup = () => {
     return template({ form: formTemplate });
 };
 
-export default signup;*/
+export default signup; */

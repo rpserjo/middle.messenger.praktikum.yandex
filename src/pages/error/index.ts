@@ -10,14 +10,14 @@ interface ErrorPageProps{
 }
 
 class ErrorPage extends Block {
-    constructor(props: ErrorPageProps = { errorCode: 404, errorMessage: 'Not found'}) {
+    constructor(props: ErrorPageProps = { errorCode: 404, errorMessage: 'Not found' }) {
         super('div', props, 'ErrorPage');
     }
 
     created() {
         const backLink = new Link({
             to: (this.props.backUrl) ? this.props.backUrl : '/',
-            label: 'Back'
+            label: 'Back',
         });
 
         this.children = { backLink };

@@ -1,5 +1,7 @@
+import { v4 as makeUUID } from 'uuid';
 import EventBus from './EventBus';
-import {v4 as makeUUID} from 'uuid';
+
+type Props = Record<string, any>;
 
 enum Events {
     INIT = 'flow:init',
@@ -15,16 +17,16 @@ abstract class Block {
 
     protected uuid: string;
 
-    protected children: Block | Block[];
+    protected children: Record<string, Block | Block[]>;
 
-    protected props: Record<string, any>;
+    protected props: Props;
 
     private eventBus: EventBus;
 
     private _name: string;
 
-    protected constructor(tagName: string = 'div', propsAndChildren: Record<string, any> = {}, name: string = 'not set') {
-        const {children, props} = this.getPropsAndChildren(propsAndChildren);
+    protected constructor(tagName: string = 'div', propsAndChildren: Props = {}, name: string = 'not set') {
+        const { children, props } = this.getPropsAndChildren(propsAndChildren);
         this.children = children;
         this._name = name;
         this.meta = {
@@ -32,7 +34,7 @@ abstract class Block {
             props,
         };
         this.uuid = makeUUID();
-        this.props = this.makeProxyProps({...props, __id: this.uuid});
+        this.props = this.makeProxyProps({ ...props, __id: this.uuid });
         this.eventBus = new EventBus();
         this.registerLifecycleEvents();
         this.eventBus.emit(Events.INIT);
@@ -45,14 +47,14 @@ abstract class Block {
         Object.entries(propsAndChildren).forEach(([key, value]) => {
             if (value instanceof Block) {
                 children[key] = value;
-            }else if(Array.isArray(value) && value.every(val => val instanceof Block)){
-            	children[key] = value;
-            }else{
+            } else if (Array.isArray(value) && value.every((val) => val instanceof Block)) {
+                children[key] = value;
+            } else {
                 props[key] = value;
             }
         });
 
-        return {children, props};
+        return { children, props };
     }
 
     private makeProxyProps(props: Record<string, any>) {
@@ -95,6 +97,7 @@ abstract class Block {
 
     private componentDidMount(): void {
         this.mounted();
+        this.eventBus.emit(Events.FLOW_RENDER);
     }
 
     private componentDidUpdate(oldProps, newProps): void {
@@ -140,28 +143,26 @@ abstract class Block {
         Object.assign(this.props, props);
     }
 
-    compile(template, props){
-        const propsAndStubs = { ...props }; //???
+    compile(template, props) {
+        const propsAndStubs = { ...props }; // ???
 
         Object.entries(this.children).forEach(([key, child]) => {
-            if(Array.isArray(child)){
-                propsAndStubs[key] = child.map(grandChild => {
-                    return `<div data-id="${grandChild.uuid}"></div>`;
-                });
-            }else{
+            if (Array.isArray(child)) {
+                propsAndStubs[key] = child.map((grandChild) => `<div data-id="${grandChild.uuid}"></div>`);
+            } else {
                 propsAndStubs[key] = `<div data-id="${child.uuid}"></div>`;
             }
         });
 
         const fragment: DocumentFragment = this.createDocumentElement('template');
-        fragment!.innerHTML = template(propsAndStubs);
+        fragment.innerHTML = template(propsAndStubs);
         Object.values(this.children).forEach((child) => {
-            if(Array.isArray(child)){
-                child.forEach(grandChild => {
+            if (Array.isArray(child)) {
+                child.forEach((grandChild) => {
                     const stub = fragment.content.querySelector(`[data-id="${grandChild.uuid}"]`);
                     stub.replaceWith(grandChild.getContent());
                 });
-            }else{
+            } else {
                 const stub = fragment.content.querySelector(`[data-id="${child.uuid}"]`);
                 stub.replaceWith(child.getContent());
             }
@@ -174,20 +175,24 @@ abstract class Block {
         this.createResources();
         this.created();
         this.eventBus.emit(Events.FLOW_CDM);
-        this.eventBus.emit(Events.FLOW_RENDER);
     }
 
     protected created() {}
+
     protected mounted() {}
-    protected render() {}
+
+    protected render() {
+        return new DocumentFragment();
+    }
+
     protected updated() {}
 
     dispatchComponentDidMount(): void {
         this.eventBus.emit(Events.FLOW_CDM);
         Object.keys(this.children).forEach((child: string) => {
-            if(Array.isArray(this.children[child])){
-                this.children[child].forEach(grandChild => grandChild.dispatchComponentDidMount())
-            }else{
+            if (Array.isArray(this.children[child])) {
+                this.children[child].forEach((grandChild) => grandChild.dispatchComponentDidMount());
+            } else {
                 this.children[child].dispatchComponentDidMount();
             }
         });

@@ -1,10 +1,15 @@
 import template from './avatar-uploader.hbs';
 import './avatar-uploader.css';
-import icon from '../../../../../../components/icon';
+import Block from '../../../../../../utils/Block';
 
-const avatarUploader = (params = {}) => {
-    const uploadIcon = icon({ icon: 'upload' });
-    return template({ ...params, uploadIcon });
-};
+class AvatarUploader extends Block {
+    constructor(props = {}) {
+        super('div', props, 'AvatarUploader');
+    }
 
-export default avatarUploader;
+    render() {
+        return this.compile(template, this.props);
+    }
+}
+
+export default AvatarUploader;

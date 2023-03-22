@@ -9,11 +9,13 @@ interface InputProps {
     value?: string,
     label?: string,
     placeholder?: string,
-    withoutErrorMessage?: boolean
+    withoutErrorMessage?: boolean,
+    validation?: Record<string, any>,
+    events?: Record<string, any>
 }
 
 class Input extends Block {
-    constructor(props: InputProps = {type: 'text', withoutErrorMessage: false}) {
+    constructor(props: InputProps = { type: 'text', withoutErrorMessage: false }) {
         super('div', props, 'Input');
     }
 
@@ -21,29 +23,29 @@ class Input extends Block {
         return this.props.validation;
     }
 
-    get value(): string{
-		return this.element.querySelector('input')!.value;
+    get value(): string {
+        return this.element.querySelector('input')!.value;
     }
 
-    set value(value: string){
+    set value(value: string) {
         this.element.querySelector('input')!.value = value;
     }
-    
-    get name(): string{
-    	return this.element.querySelector('input')!.name;
+
+    get name(): string {
+        return this.element.querySelector('input')!.name;
     }
-    
-    toggleError(errorMessage: string = ''): void{
-    	this.errorMessage = errorMessage;
- 		this.element.querySelector('.input-wrapper').classList.toggle('has-error', errorMessage.length > 0);
+
+    toggleError(errorMessage: string = ''): void {
+        this.errorMessage = errorMessage;
+        this.element.querySelector('.input-wrapper').classList.toggle('has-error', errorMessage.length > 0);
     }
-    
-	 set errorMessage(value: string){
-	 	if(this.element.querySelector('p.error-message')){
-	 		this.element.querySelector('p.error-message').textContent = value;
-	 	} 		
-    } 
-       
+
+    set errorMessage(value: string) {
+        if (this.element.querySelector('p.error-message')) {
+            this.element.querySelector('p.error-message').textContent = value;
+        }
+    }
+
     render() {
         return this.compile(template, this.props);
     }

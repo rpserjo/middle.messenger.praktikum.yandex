@@ -3,4 +3,7 @@
     justify-content: center;
     flex: auto;
     position: relative;
+    overflow-y: scroll;
+
+    /* align-items: center; */
 }

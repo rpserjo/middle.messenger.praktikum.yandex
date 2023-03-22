@@ -1,8 +1,15 @@
 <button
-    class="button"
+    class="{{#if icon}}button-icon{{else}}button{{/if}}"
     {{#if id}}
-        id="{{{id}}}"
+        id="{{{ id }}}"
+    {{/if}}
+    {{#if type}}
+        type="{{{ type }}}"
     {{/if}}
 >
-    {{{buttonLabel}}}
+    {{#if icon}}
+        {{{ buttonIcon }}}
+    {{else}}
+        {{{ buttonLabel }}}
+    {{/if}}
 </button>

@@ -1,0 +1,29 @@
+.drop-down-menu__button{
+    cursor: pointer;
+
+    svg > path{
+        fill: var(--color-gray3);
+    }
+
+    &:hover{
+        svg > path{
+            fill: var(--color-primary);
+        }
+    }
+}
+
+.drop-down-menu__list{
+    border-radius: 5px;
+    border-color: 1px solid var(--border-color);
+    background-color: var(--color-white);
+    position: absolute;
+    top: 55px;
+    right: 0;
+    box-shadow: 0 0 14px var(--color-white-shadow);
+    display: flex;
+    flex-direction: column;
+
+    &.hidden{
+        visibility: hidden;
+    }
+}
