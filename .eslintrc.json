@@ -23,6 +23,7 @@
     "no-unused-vars": "off",
     "no-shadow": "off",
     "no-use-before-define": "off",
-    "no-global-assign": "off"
+    "no-global-assign": "off",
+    "arrow-body-style": "off"
   }
 }
