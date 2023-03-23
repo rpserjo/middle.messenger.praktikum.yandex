@@ -2,18 +2,17 @@ import template from './active-chat.hbs';
 import './active-chat.css';
 import Avatar from '../../components/avatar';
 import Block from '../../../../utils/Block';
-import Icon from '../../../../components/icon';
 import Input from '../../../../components/input';
-import { validate, validateForm } from '../../../../utils/validate';
+import { validateForm } from '../../../../utils/validate';
 import Message from './components/message';
 import DateLine from './components/date-line';
 import DropDownMenu from '../../../../components/drop-down-menu';
 import Button from '../../../../components/button';
 
-interface ActiveChatProps {
+/* interface ActiveChatProps {
     chatAvatar: Avatar,
     chatTitle: string,
-}
+} */
 
 class ActiveChat extends Block {
     constructor() {
@@ -146,7 +145,7 @@ class ActiveChat extends Block {
             buttonLabel: 'Send',
             icon: 'message',
             events: {
-                click: (e) => {
+                click: (e: Event) => {
                     e.preventDefault();
                     const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
                     submitHandler(e, inputs as Input[]);

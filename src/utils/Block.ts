@@ -1,5 +1,6 @@
 import { v4 as makeUUID } from 'uuid';
 import EventBus from './EventBus';
+import { Nullable } from './types';
 
 type Props = Record<string, any>;
 
@@ -11,7 +12,7 @@ enum Events {
 }
 
 abstract class Block {
-    protected element: HTMLElement | null;
+    protected element: Nullable<HTMLElement> = null;
 
     private meta: {tagName: string, props: Record<string, any>};
 
@@ -34,15 +35,15 @@ abstract class Block {
             props,
         };
         this.uuid = makeUUID();
-        this.props = this.makeProxyProps({ ...props, __id: this.uuid });
+        this.props = this.makeProxyProps({ ...props, __id: this.uuid, __name: this._name });
         this.eventBus = new EventBus();
         this.registerLifecycleEvents();
         this.eventBus.emit(Events.INIT);
     }
 
     private getPropsAndChildren(propsAndChildren: Record<string, any> = {}) {
-        const children = {};
-        const props = {};
+        const children: Record<string, Block | Block[]> = {};
+        const props: Record<string, any> = {};
 
         Object.entries(propsAndChildren).forEach(([key, value]) => {
             if (value instanceof Block) {
@@ -100,7 +101,7 @@ abstract class Block {
         this.eventBus.emit(Events.FLOW_RENDER);
     }
 
-    private componentDidUpdate(oldProps, newProps): void {
+    private componentDidUpdate(oldProps: Record<string, any>, newProps: Record<string, any>): void {
         if (oldProps !== newProps) {
             this.updated();
             this.eventBus.emit(Events.FLOW_RENDER);
@@ -110,30 +111,30 @@ abstract class Block {
     private _render(): void {
         this.removeEvents();
         const block: DocumentFragment = this.render();
-        this.element.replaceChildren(block);
+        this.element?.replaceChildren(block);
         this.addEvents();
     }
 
     private addEvents(): void {
         const { events = {} } = this.props;
         Object.keys(events).forEach((event: string) => {
-            this.element.addEventListener(event, events[event]);
+            this.element?.addEventListener(event, events[event]);
         });
     }
 
     private removeEvents(): void {
         const { events = {} } = this.props;
         Object.keys(events).forEach((event: string) => {
-            this.element.removeEventListener(event, events[event]);
+            this.element?.removeEventListener(event, events[event]);
         });
     }
 
     get getElement(): HTMLElement {
-        return this.element;
+        return this.element as HTMLElement;
     }
 
     getContent(): HTMLElement {
-        return this.element;
+        return this.element as HTMLElement;
     }
 
     setProps(props: Record<string, any>): void {
@@ -143,7 +144,7 @@ abstract class Block {
         Object.assign(this.props, props);
     }
 
-    compile(template, props) {
+    compile(template: Function, props: Record<string, any>) {
         const propsAndStubs = { ...props }; // ???
 
         Object.entries(this.children).forEach(([key, child]) => {
@@ -160,11 +161,11 @@ abstract class Block {
             if (Array.isArray(child)) {
                 child.forEach((grandChild) => {
                     const stub = fragment.content.querySelector(`[data-id="${grandChild.uuid}"]`);
-                    stub.replaceWith(grandChild.getContent());
+                    stub?.replaceWith(grandChild.getContent());
                 });
             } else {
                 const stub = fragment.content.querySelector(`[data-id="${child.uuid}"]`);
-                stub.replaceWith(child.getContent());
+                stub?.replaceWith(child.getContent());
             }
         });
 

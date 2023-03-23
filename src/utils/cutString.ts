@@ -1,4 +1,4 @@
-const cutString = (string, cutSize) => {
+const cutString = (string: string, cutSize: number): string => {
     if (string.length > cutSize) {
         return `${string.substring(0, (cutSize - 3))}...`;
     }

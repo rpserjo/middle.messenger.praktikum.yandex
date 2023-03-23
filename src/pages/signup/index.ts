@@ -156,7 +156,7 @@ class SignUp extends Block {
             buttonLabel: 'Create profile',
             type: 'submit',
             events: {
-                click: (e) => {
+                click: (e: Event) => {
                     const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
                     submitHandler(e, inputs as Input[]);
                 },

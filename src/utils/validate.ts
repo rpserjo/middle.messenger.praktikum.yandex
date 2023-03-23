@@ -4,9 +4,9 @@ import Block from './Block';
 const validate = (input: Input) => {
     const { value } = input;
     const { validation } = input;
-    const rules = {
+    const rules: Record<string, any> = {
         login: {
-            pattern: '^[a-zA-Z0-9]{3,20}$',
+            pattern: '^(?=.*[A-Za-z])[A-Za-z0-9_\\\\-]{3,20}$',
             errorMessage: 'Only letters and numbers, from 3 to 20 characters',
         },
         password: {
@@ -73,7 +73,7 @@ const validate = (input: Input) => {
 
 const validateForm = (inputs: Block[] = []) => {
     const formValidation: Set<boolean> = new Set<boolean>();
-    const formData = {};
+    const formData: Record<string, any> = {};
     inputs.forEach((input: Input) => {
         const status = validate(input);
         if (status.isValid) {

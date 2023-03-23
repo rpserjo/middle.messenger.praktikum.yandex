@@ -20,11 +20,11 @@ class DropDownMenu extends Block {
         const dropDownMenuButton = new Icon({
             icon: this.props.dropDownMenuIcon,
             events: {
-                click: () => this.element.querySelector('.drop-down-menu__list').classList.toggle('hidden'),
+                click: () => this.element?.querySelector('.drop-down-menu__list')?.classList.toggle('hidden'),
             },
         });
-        const dropDownMenuList = this.props.dropDownMenuItems.map((item) => new DropDownItem({
-            itemLabel: item.label,
+        const dropDownMenuList = this.props.dropDownMenuItems.map((item: Record<string, any>) => new DropDownItem({
+            itemLabel: item?.label,
             itemIcon: new Icon({ icon: item.icon }),
             events: item.events,
         }));

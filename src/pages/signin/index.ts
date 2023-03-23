@@ -56,7 +56,7 @@ class SignIn extends Block {
             buttonLabel: 'Sign In',
             type: 'submit',
             events: {
-                click: (e) => {
+                click: (e: Event) => {
                     const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
                     submitHandler(e, inputs as Input[]);
                 },

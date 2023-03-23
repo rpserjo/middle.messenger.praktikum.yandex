@@ -41,7 +41,7 @@ class HTTPTransport {
     };
 
     private request = (url: string, options: Options, timeout = 5000): Promise<XMLHttpRequest> => {
-        const { method, data, headers = {} } = options;
+        const { method = Methods.GET, data, headers = {} } = options;
 
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();

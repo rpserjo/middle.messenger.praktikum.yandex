@@ -77,7 +77,7 @@ class Chat extends Block {
             id: el.id,
             chatUserAvatar: new Avatar({ avatarSrc: el.avatarSrc, profileName: el.chatUserName }),
             chatUserName: el.chatUserName,
-            chatNewMessages: ((el.chatNewMessagesCount) > 10) ? '9+' : el.chatNewMessages as string,
+            chatNewMessages: ((el?.chatNewMessagesCount || 0) > 10) ? '9+' : el?.chatNewMessages as string,
             chatLastMessage: cutString(el.chatLastMessage, 26),
             chatLastMessageTime: el.chatLastMessageTime,
             events: {
