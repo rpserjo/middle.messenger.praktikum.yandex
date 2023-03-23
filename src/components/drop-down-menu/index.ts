@@ -8,8 +8,8 @@ interface DropDownMenuProps {
     dropDownMenuIcon: string,
     dropDownMenuItems: Record<string, any>,
     dropDownMenuTitle?: string,
-    position: Record<string, number>,
-    hidden: boolean
+    position?: Record<string, number>,
+    hidden?: boolean
 }
 class DropDownMenu extends Block {
     constructor(props: DropDownMenuProps) {

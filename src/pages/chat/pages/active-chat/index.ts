@@ -16,8 +16,8 @@ interface ActiveChatProps {
 }
 
 class ActiveChat extends Block {
-    constructor(props: ActiveChatProps = {}) {
-        super('div', props, 'ActiveChat');
+    constructor() {
+        super('div', {}, 'ActiveChat');
     }
 
     created() {
@@ -90,14 +90,13 @@ class ActiveChat extends Block {
             id: 'message',
             value: '',
             placeholder: 'Message',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'message',
             },
             withoutErrorMessage: true,
             events: {
-                focusin: () => this.children.chatSendMessage.toggleError(),
+                focusin: () => (this.children.chatSendMessage as Input).toggleError(),
             },
         });
 
@@ -150,7 +149,7 @@ class ActiveChat extends Block {
                 click: (e) => {
                     e.preventDefault();
                     const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
-                    submitHandler(e, inputs);
+                    submitHandler(e, inputs as Input[]);
                 },
             },
         });

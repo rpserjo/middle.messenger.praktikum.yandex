@@ -9,39 +9,36 @@ import Link from '../../../../components/link';
 import AvatarUploader from './components/avatar-uploader';
 
 class Profile extends Block {
-    constructor(props: {}) {
-        super('div', props, 'Profile');
+    constructor() {
+        super('div', {}, 'Profile');
     }
 
     created() {
         const iconLogout = new Icon({
             icon: 'signout',
             events: {
-                click: () => document.location.pathname('/signin'),
+                click: () => document.location.pathname = '/signin',
             },
         });
 
         const submitHandler = (e: Event, inputs: Input[]): void => {
+            e.preventDefault();            
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
             }
         };
         const subroute = (document.location.pathname).replace('/chat/profile', '');
-        let avatarUploaderProps = {
+        const avatarUploader = (subroute === '/avatar')
+        ? new AvatarUploader({
+            uploadForm: true,
+            uploadButton: new Link({ to: '/chat/profile', label: 'Upload', classList: ['button'] }),
+            cancelButton: new Link({ to: '/chat/profile', label: 'Cancel' }),        
+        })
+        : new AvatarUploader({
+            uploadForm: false,
             currentAvatar: '/static/avatars/professorx.png',
-            uploadIcon: new Icon({ icon: 'upload', events: { click: () => document.location.pathname('/chat/profile/avatar') } }),
-        };
-
-        if (subroute === '/avatar') {
-            avatarUploaderProps = {
-                uploadForm: true,
-                uploadButton: new Link({ to: '/chat/profile', label: 'Upload', classList: ['button'] }),
-                cancelButton: new Link({ to: '/chat/profile', label: 'Cancel' }),
-            };
-        }
-        const avatarUploader = new AvatarUploader({
-            ...avatarUploaderProps,
+            uploadIcon: new Icon({ icon: 'upload', events: { click: () => document.location.pathname ='/chat/profile/avatar' } }),        
         });
 
         const emailInput = new Input({
@@ -51,14 +48,13 @@ class Profile extends Block {
             placeholder: 'E-mail',
             type: 'text',
             value: 'charlesxavier@x-men.com',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'email',
             },
             events: {
-                focusin: () => this.children.emailInput.toggleError(),
-                focusout: () => this.children.emailInput.toggleError(validate(this.children.emailInput).validationError),
+                focusin: () => (this.children.emailInput as Input).toggleError(),
+                focusout: () => (this.children.emailInput as Input).toggleError(validate(this.children.emailInput as Input).validationError),
             },
         });
 
@@ -69,14 +65,13 @@ class Profile extends Block {
             placeholder: 'Login',
             type: 'text',
             value: 'professorx',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'login',
             },
             events: {
-                focusin: () => this.children.loginInput.toggleError(),
-                focusout: () => this.children.loginInput.toggleError(validate(this.children.loginInput).validationError),
+                focusin: () => (this.children.loginInput as Input).toggleError(),
+                focusout: () => (this.children.loginInput as Input).toggleError(validate(this.children.loginInput as Input).validationError),
             },
         });
 
@@ -87,14 +82,13 @@ class Profile extends Block {
             placeholder: 'First name',
             type: 'text',
             value: 'Charles',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'name',
             },
             events: {
-                focusin: () => this.children.firstNameInput.toggleError(),
-                focusout: () => this.children.firstNameInput.toggleError(validate(this.children.firstNameInput).validationError),
+                focusin: () => (this.children.firstNameInput as Input).toggleError(),
+                focusout: () => (this.children.firstNameInput as Input).toggleError(validate(this.children.firstNameInput as Input).validationError),
             },
         });
 
@@ -105,14 +99,13 @@ class Profile extends Block {
             placeholder: 'Second name',
             type: 'text',
             value: 'Xavier',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'name',
             },
             events: {
-                focusin: () => this.children.secondNameInput.toggleError(),
-                focusout: () => this.children.secondNameInput.toggleError(validate(this.children.secondNameInput).validationError),
+                focusin: () => (this.children.secondNameInput as Input).toggleError(),
+                focusout: () => (this.children.secondNameInput as Input).toggleError(validate(this.children.secondNameInput as Input).validationError),
             },
         });
 
@@ -123,14 +116,13 @@ class Profile extends Block {
             placeholder: 'Phone',
             type: 'text',
             value: '+9999999999',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'phone',
             },
             events: {
-                focusin: () => this.children.phoneInput.toggleError(),
-                focusout: () => this.children.phoneInput.toggleError(validate(this.children.phoneInput).validationError),
+                focusin: () => (this.children.phoneInput as Input).toggleError(),
+                focusout: () => (this.children.phoneInput as Input).toggleError(validate(this.children.phoneInput as Input).validationError),
             },
         });
 
@@ -141,14 +133,13 @@ class Profile extends Block {
             placeholder: 'Leave it blank to keep current password',
             type: 'password',
             value: '',
-            classList: 'my-10',
             validation: {
                 // required: true,
                 rule: 'password',
             },
             events: {
-                focusin: () => this.children.passwordInput.toggleError(),
-                focusout: () => this.children.passwordInput.toggleError(validate(this.children.passwordInput).validationError),
+                focusin: () => (this.children.passwordInput as Input).toggleError(),
+                focusout: () => (this.children.passwordInput as Input).toggleError(validate(this.children.passwordInput as Input).validationError),
             },
         });
 
@@ -169,25 +160,23 @@ class Profile extends Block {
             name: 'password2',
             placeholder: 'Repeat password',
             type: 'password',
-            classList: 'my-10',
             validation: {
                 // required: true,
                 equals: { target: this.children.passwordInput, errorMessage: 'Passwords not match' },
             },
             events: {
-                focusin: () => this.children.repeatPasswordInput.toggleError(),
-                focusout: () => this.children.repeatPasswordInput.toggleError(validate(this.children.repeatPasswordInput).validationError),
+                focusin: () => (this.children.repeatPasswordInput as Input).toggleError(),
+                focusout: () => (this.children.repeatPasswordInput as Input).toggleError(validate(this.children.repeatPasswordInput as Input).validationError),
             },
         });
 
         const submitButton: Button = new Button({
-            buttonLabel: 'Create profile',
+            buttonLabel: 'Update profile',
             type: 'submit',
             events: {
                 click: (e) => {
-                    e.preventDefault();
                     const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
-                    submitHandler(e, inputs);
+                    submitHandler(e, inputs as Input[]);
                 },
             },
         });

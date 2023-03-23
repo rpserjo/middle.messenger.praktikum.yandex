@@ -17,6 +17,7 @@ class SignUp extends Block {
 
     created() {
         const submitHandler = (e: Event, inputs: Input[]): void => {
+            e.preventDefault();
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
@@ -29,14 +30,13 @@ class SignUp extends Block {
             name: 'email',
             placeholder: 'E-mail',
             type: 'text',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'email',
             },
             events: {
-                focusin: () => this.children.emailInput.toggleError(),
-                focusout: () => this.children.emailInput.toggleError(validate(this.children.emailInput).validationError),
+                focusin: () => (this.children.emailInput as Input).toggleError(),
+                focusout: () => (this.children.emailInput as Input).toggleError(validate(this.children.emailInput as Input).validationError),
             },
         });
 
@@ -46,14 +46,13 @@ class SignUp extends Block {
             name: 'login',
             placeholder: 'Login',
             type: 'text',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'login',
             },
             events: {
-                focusin: () => this.children?.loginInput.toggleError(),
-                focusout: () => this.children?.loginInput.toggleError(validate(this.children?.loginInput).validationError),
+                focusin: () => (this.children.loginInput as Input).toggleError(),
+                focusout: () => (this.children.loginInput as Input).toggleError(validate(this.children.loginInput as Input).validationError),
             },
         });
 
@@ -63,14 +62,13 @@ class SignUp extends Block {
             name: 'first_name',
             placeholder: 'First name',
             type: 'text',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'name',
             },
             events: {
-                focusin: () => this.children.firstNameInput.toggleError(),
-                focusout: () => this.children.firstNameInput.toggleError(validate(this.children.firstNameInput).validationError),
+                focusin: () => (this.children.firstNameInput as Input).toggleError(),
+                focusout: () => (this.children.firstNameInput as Input).toggleError(validate(this.children.firstNameInput as Input).validationError),
             },
         });
 
@@ -80,14 +78,13 @@ class SignUp extends Block {
             name: 'second_name',
             placeholder: 'Second name',
             type: 'text',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'name',
             },
             events: {
-                focusin: () => this.children.secondNameInput.toggleError(),
-                focusout: () => this.children.secondNameInput.toggleError(validate(this.children.secondNameInput).validationError),
+                focusin: () => (this.children.secondNameInput as Input).toggleError(),
+                focusout: () => (this.children.secondNameInput as Input).toggleError(validate(this.children.secondNameInput as Input).validationError),
             },
         });
 
@@ -98,14 +95,13 @@ class SignUp extends Block {
             placeholder: 'Phone',
             type: 'text',
             value: '+',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'phone',
             },
             events: {
-                focusin: () => this.children.phoneInput.toggleError(),
-                focusout: () => this.children.phoneInput.toggleError(validate(this.children.phoneInput).validationError),
+                focusin: () => (this.children.phoneInput as Input).toggleError(),
+                focusout: () => (this.children.phoneInput as Input).toggleError(validate(this.children.phoneInput as Input).validationError),
             },
         });
 
@@ -115,14 +111,13 @@ class SignUp extends Block {
             name: 'password',
             placeholder: 'Password',
             type: 'password',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'password',
             },
             events: {
-                focusin: () => this.children.passwordInput.toggleError(),
-                focusout: () => this.children.passwordInput.toggleError(validate(this.children.passwordInput).validationError),
+                focusin: () => (this.children.passwordInput as Input).toggleError(),
+                focusout: () => (this.children.passwordInput as Input).toggleError(validate(this.children.passwordInput as Input).validationError),
             },
         });
 
@@ -146,8 +141,8 @@ class SignUp extends Block {
                 equals: { target: this.children.passwordInput, errorMessage: 'Passwords not match' },
             },
             events: {
-                focusin: () => (this.children.repeatPasswordInput).toggleError(),
-                focusout: () => this.children.repeatPasswordInput.toggleError(validate(this.children.repeatPasswordInput).validationError),
+                focusin: () => (this.children.repeatPasswordInput as Input).toggleError(),
+                focusout: () => (this.children.repeatPasswordInput as Input).toggleError(validate(this.children.repeatPasswordInput as Input).validationError),
             },
         });
 
@@ -156,9 +151,8 @@ class SignUp extends Block {
             type: 'submit',
             events: {
                 click: (e) => {
-                    e.preventDefault();
                     const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
-                    submitHandler(e, inputs);
+                    submitHandler(e, inputs as Input[]);
                 },
             },
         });

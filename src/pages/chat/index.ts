@@ -14,7 +14,8 @@ interface ChatListElement {
     id: number,
     avatarSrc: string,
     chatUserName: string,
-    chatNewMessagesCount: number,
+    chatNewMessagesCount?: number,
+    chatNewMessages?: string,
     chatLastMessage: string,
     chatLastMessageTime: string,
     chatUserAvatar?: string

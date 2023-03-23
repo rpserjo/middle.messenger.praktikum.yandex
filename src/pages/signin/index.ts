@@ -13,6 +13,7 @@ class SignIn extends Block {
 
     created() {
         const submitHandler = (e: Event, inputs: Input[]) => {
+            e.preventDefault();
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
@@ -25,14 +26,13 @@ class SignIn extends Block {
             name: 'login',
             placeholder: 'Login',
             type: 'text',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'login',
             },
             events: {
-                focusin: () => this.children.loginInput.toggleError(),
-                focusout: () => this.children.loginInput.toggleError(validate(this.children.loginInput).validationError),
+                focusin: () => (this.children.loginInput as Input).toggleError(),
+                focusout: () => (this.children.loginInput as Input).toggleError(validate(this.children.loginInput as Input).validationError),
             },
         });
 
@@ -42,14 +42,13 @@ class SignIn extends Block {
             name: 'password',
             placeholder: 'Password',
             type: 'password',
-            classList: 'my-10',
             validation: {
                 required: true,
                 rule: 'password',
             },
             events: {
-                focusin: () => this.children.passwordInput.toggleError(),
-                focusout: () => this.children.passwordInput.toggleError(validate(this.children.passwordInput).validationError),
+                focusin: () => (this.children.passwordInput as Input).toggleError(),
+                focusout: () => (this.children.passwordInput as Input).toggleError(validate(this.children.passwordInput as Input).validationError),
             },
         });
 
@@ -58,9 +57,8 @@ class SignIn extends Block {
             type: 'submit',
             events: {
                 click: (e) => {
-                    e.preventDefault();
                     const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
-                    submitHandler(e, inputs);
+                    submitHandler(e, inputs as Input[]);
                 },
             },
         });

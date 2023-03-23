@@ -58,7 +58,7 @@ abstract class Block {
     }
 
     private makeProxyProps(props: Record<string, any>) {
-        self = this;
+        const self = this;
         return new Proxy(props, {
             get(target: Record<string, any>, prop: string) {
                 const value = target[prop];
@@ -154,7 +154,7 @@ abstract class Block {
             }
         });
 
-        const fragment: DocumentFragment = this.createDocumentElement('template');
+        const fragment = this.createDocumentElement('template') as HTMLTemplateElement;
         fragment.innerHTML = template(propsAndStubs);
         Object.values(this.children).forEach((child) => {
             if (Array.isArray(child)) {
@@ -191,9 +191,9 @@ abstract class Block {
         this.eventBus.emit(Events.FLOW_CDM);
         Object.keys(this.children).forEach((child: string) => {
             if (Array.isArray(this.children[child])) {
-                this.children[child].forEach((grandChild) => grandChild.dispatchComponentDidMount());
+                (this.children[child] as Block[]).forEach((grandChild) => grandChild.dispatchComponentDidMount());
             } else {
-                this.children[child].dispatchComponentDidMount();
+                (this.children[child] as Block).dispatchComponentDidMount();
             }
         });
     }

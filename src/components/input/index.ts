@@ -3,7 +3,7 @@ import './input.css';
 import Block from '../../utils/Block';
 
 interface InputProps {
-    type: string,
+    type?: string,
     id?: string,
     name?: string,
     value?: string,

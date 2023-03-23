@@ -1,6 +1,6 @@
 import template from './message.hbs';
 import './message.css';
-import Block from '../../../../../../utils/Block.ts';
+import Block from '../../../../../../utils/Block';
 
 interface MessageProps {
     messageType: string,
@@ -9,7 +9,7 @@ interface MessageProps {
 }
 
 class Message extends Block {
-    constructor(props: MessageProps = {}) {
+    constructor(props: MessageProps) {
         super('div', props, 'Message');
     }
 

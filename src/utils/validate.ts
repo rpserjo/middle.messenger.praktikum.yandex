@@ -40,6 +40,7 @@ const validate = (input: Input) => {
     }
 
     if (validation.equals) {
+        // @ts-ignore
         const { target, errorMessage } = validation.equals;
         if (value !== target.value) {
             validationStatus.isValid = false;
@@ -52,11 +53,11 @@ const validate = (input: Input) => {
     }
 
     if (validation.rule && value.length > 0) {
-        if (rules[validation.rule]) {
-            const regexp = new RegExp(rules[validation.rule].pattern, 'g');
+        if (rules[validation.rule as string]) {
+            const regexp = new RegExp(rules[validation.rule as string].pattern, 'g');
             if (!regexp.test(value)) {
                 validationStatus.isValid = false;
-                validationStatus.validationError = rules[validation.rule].errorMessage;
+                validationStatus.validationError = rules[validation.rule as string].errorMessage;
             } else {
                 validationStatus.isValid = true;
                 validationStatus.validationError = '';

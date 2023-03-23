@@ -1,13 +1,13 @@
 import template from './date-line.hbs';
 import './date-line.css';
-import Block from '../../../../../../utils/Block.ts';
+import Block from '../../../../../../utils/Block';
 
 interface DateLineProps {
     date: string
 }
 
 class DateLine extends Block {
-    constructor(props: DateLineProps = {}) {
+    constructor(props: DateLineProps) {
         super('div', props, 'DateLine');
     }
 

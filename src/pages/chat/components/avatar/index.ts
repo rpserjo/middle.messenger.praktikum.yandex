@@ -8,7 +8,7 @@ interface AvatarProps {
 }
 
 class Avatar extends Block {
-    constructor(props: AvatarProps = {}) {
+    constructor(props: AvatarProps) {
         super('div', props, 'Avatar');
     }
 
