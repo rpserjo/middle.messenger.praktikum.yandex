@@ -147,7 +147,7 @@ class SignUp extends Block {
             events: {
                 focusin: () => (this.children.repeatPasswordInput as Input).toggleError(),
                 focusout: () => {
-                    (this.children.repeatPasswordInput as Input).toggleError(validate(this.children.repeatPasswordInput as Input).validationError)
+                    (this.children.repeatPasswordInput as Input).toggleError(validate(this.children.repeatPasswordInput as Input).validationError);
                 },
             },
         });
