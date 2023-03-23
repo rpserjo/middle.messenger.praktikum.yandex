@@ -47,10 +47,10 @@ class HTTPTransport {
             const xhr = new XMLHttpRequest();
             xhr.open(method, url);
 
-            if(headers) {
-                for(const header in headers) {
-                    xhr.setRequestHeader(header, header[header]);
-                }
+            if (headers) {
+                Object.keys(headers).forEach((key) => {
+                    xhr.setRequestHeader(key, headers[key]);
+                });
             }
 
             xhr.onabort = reject;
@@ -58,9 +58,9 @@ class HTTPTransport {
             xhr.timeout = timeout;
             xhr.onload = () => {
                 resolve(xhr);
-            }
+            };
 
-            if(method === Methods.GET) {
+            if (method === Methods.GET) {
                 xhr.send();
             } else {
                 xhr.send(data);
