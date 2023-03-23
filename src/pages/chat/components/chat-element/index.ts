@@ -18,19 +18,6 @@ class ChatElement extends Block {
         super('div', props, 'ChatElement');
     }
 
-    mounted() {
-        /* const element = this.element.querySelector('.chat-element');
-        if (element) {
-            element.addEventListener('click', (e: Event) => {
-                const els = document.querySelectorAll('.chat-element__element.current');
-                for (let i = 0; i < els.length; i + 1) {
-                    els[i].classList.toggle('.current', false);
-                }
-                e.target.classList.toggle('.current', true);
-            });
-        } */
-    }
-
     render() {
         return this.compile(template, this.props);
     }

@@ -13,6 +13,15 @@
 https://lucky-bonbon-e47a84.netlify.app/
 ## Макет приложения в Figma
 https://www.figma.com/file/3PnFucflVcDh8aoMMUDBsL/Chat?node-id=0-1
+- Разработан дизайн приложения в Figma
+- Сверстаны страницы
+- Внедрен шаблонизатор Handlebars
+
+- Реализован компонентный подход
+- Добавлены базовый класс - Block, классы EventBus и HTTPTransport
+- Проект переведен на TypeScript
+- Реализован и внедрен механизм валидации форм
+- Добавлены линтеры ESLint и StyleLint
 ## Установка и запуск
 Для сборки приложения необходимо выполнить команду
 - `npm run build`
@@ -20,3 +29,6 @@ https://www.figma.com/file/3PnFucflVcDh8aoMMUDBsL/Chat?node-id=0-1
 - `npm run start`
 Для запуска в режиме разработки
 - `npm run dev`
+Для запуска линтеров
+- `npm run lint`
+
