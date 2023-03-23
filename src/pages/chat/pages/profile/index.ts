@@ -33,12 +33,12 @@ class Profile extends Block {
             ? new AvatarUploader({
                 uploadForm: true,
                 uploadButton: new Link({ to: '/chat/profile', label: 'Upload', classList: ['button'] }),
-                cancelButton: new Link({ to: '/chat/profile', label: 'Cancel' }),        
+                cancelButton: new Link({ to: '/chat/profile', label: 'Cancel' }),
             })
             : new AvatarUploader({
                 uploadForm: false,
                 currentAvatar: '/static/avatars/professorx.png',
-                uploadIcon: new Icon({ icon: 'upload', events: { click: () => { document.location.pathname ='/chat/profile/avatar'; } } }),        
+                uploadIcon: new Icon({ icon: 'upload', events: { click: () => { document.location.pathname = '/chat/profile/avatar'; } } }),
             });
 
         const emailInput = new Input({
@@ -105,7 +105,9 @@ class Profile extends Block {
             },
             events: {
                 focusin: () => (this.children.secondNameInput as Input).toggleError(),
-                focusout: () => (this.children.secondNameInput as Input).toggleError(validate(this.children.secondNameInput as Input).validationError),
+                focusout: () => {
+                    (this.children.secondNameInput as Input).toggleError(validate(this.children.secondNameInput as Input).validationError);
+                },
             },
         });
 
@@ -166,7 +168,9 @@ class Profile extends Block {
             },
             events: {
                 focusin: () => (this.children.repeatPasswordInput as Input).toggleError(),
-                focusout: () => (this.children.repeatPasswordInput as Input).toggleError(validate(this.children.repeatPasswordInput as Input).validationError),
+                focusout: () => {
+                    (this.children.repeatPasswordInput as Input).toggleError(validate(this.children.repeatPasswordInput as Input).validationError);
+                },
             },
         });
 
