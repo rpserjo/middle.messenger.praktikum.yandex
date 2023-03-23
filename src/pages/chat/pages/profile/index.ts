@@ -17,12 +17,12 @@ class Profile extends Block {
         const iconLogout = new Icon({
             icon: 'signout',
             events: {
-                click: () => { document.location.pathname = '/signin' },
+                click: () => { document.location.pathname = '/signin'; },
             },
         });
 
         const submitHandler = (e: Event, inputs: Input[]): void => {
-            e.preventDefault();            
+            e.preventDefault();
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
@@ -30,16 +30,16 @@ class Profile extends Block {
         };
         const subroute = (document.location.pathname).replace('/chat/profile', '');
         const avatarUploader = (subroute === '/avatar')
-        ? new AvatarUploader({
-            uploadForm: true,
-            uploadButton: new Link({ to: '/chat/profile', label: 'Upload', classList: ['button'] }),
-            cancelButton: new Link({ to: '/chat/profile', label: 'Cancel' }),        
-        })
-        : new AvatarUploader({
-            uploadForm: false,
-            currentAvatar: '/static/avatars/professorx.png',
-            uploadIcon: new Icon({ icon: 'upload', events: { click: () => { document.location.pathname ='/chat/profile/avatar' } } }),        
-        });
+            ? new AvatarUploader({
+                uploadForm: true,
+                uploadButton: new Link({ to: '/chat/profile', label: 'Upload', classList: ['button'] }),
+                cancelButton: new Link({ to: '/chat/profile', label: 'Cancel' }),        
+            })
+            : new AvatarUploader({
+                uploadForm: false,
+                currentAvatar: '/static/avatars/professorx.png',
+                uploadIcon: new Icon({ icon: 'upload', events: { click: () => { document.location.pathname ='/chat/profile/avatar'; } } }),        
+            });
 
         const emailInput = new Input({
             id: 'email',
