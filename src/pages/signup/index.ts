@@ -84,7 +84,9 @@ class SignUp extends Block {
             },
             events: {
                 focusin: () => (this.children.secondNameInput as Input).toggleError(),
-                focusout: () => (this.children.secondNameInput as Input).toggleError(validate(this.children.secondNameInput as Input).validationError),
+                focusout: () => {
+                	(this.children.secondNameInput as Input).toggleError(validate(this.children.secondNameInput as Input).validationError)
+                },
             },
         });
 
@@ -142,7 +144,9 @@ class SignUp extends Block {
             },
             events: {
                 focusin: () => (this.children.repeatPasswordInput as Input).toggleError(),
-                focusout: () => (this.children.repeatPasswordInput as Input).toggleError(validate(this.children.repeatPasswordInput as Input).validationError),
+                focusout: () => {
+                	(this.children.repeatPasswordInput as Input).toggleError(validate(this.children.repeatPasswordInput as Input).validationError)
+                },
             },
         });
 
