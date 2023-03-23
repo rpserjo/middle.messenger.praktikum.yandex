@@ -17,7 +17,7 @@ class Profile extends Block {
         const iconLogout = new Icon({
             icon: 'signout',
             events: {
-                click: () => document.location.pathname = '/signin',
+                click: () => { document.location.pathname = '/signin' },
             },
         });
 
@@ -38,7 +38,7 @@ class Profile extends Block {
         : new AvatarUploader({
             uploadForm: false,
             currentAvatar: '/static/avatars/professorx.png',
-            uploadIcon: new Icon({ icon: 'upload', events: { click: () => document.location.pathname ='/chat/profile/avatar' } }),        
+            uploadIcon: new Icon({ icon: 'upload', events: { click: () => { document.location.pathname ='/chat/profile/avatar' } } }),        
         });
 
         const emailInput = new Input({
