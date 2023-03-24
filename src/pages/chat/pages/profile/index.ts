@@ -111,6 +111,25 @@ class Profile extends Block {
             },
         });
 
+        const displayNameInput = new Input({
+            id: 'display_name',
+            label: 'Display name',
+            name: 'display_name',
+            placeholder: 'Display name',
+            type: 'text',
+            value: 'Charles',
+            validation: {
+                //required: true,
+                rule: 'name',
+            },
+            events: {
+                focusin: () => (this.children.displayNameInput as Input).toggleError(),
+                focusout: () => {
+                    (this.children.displayNameInput as Input).toggleError(validate(this.children.displayNameInput as Input).validationError);
+                },
+            },
+        });
+
         const phoneInput = new Input({
             id: 'phone',
             label: 'Phone',
@@ -152,6 +171,7 @@ class Profile extends Block {
             loginInput,
             firstNameInput,
             secondNameInput,
+            displayNameInput,
             phoneInput,
             passwordInput,
         };
