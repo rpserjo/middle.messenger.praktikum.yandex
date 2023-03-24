@@ -13,30 +13,32 @@ interface Options {
     timeout?: number
 }
 
+type HTTPMethod = (url: string, options?: Options) => Promise<unknown>;
+
 class HTTPTransport {
     private queryString = (data: Record<string, string>) => {
         return `?${Object.entries(data).map((param) => `${param[0]}=${param[1]}`).join('&')}`;
     };
 
-    protected get = (url: string, options: Options = {}): Promise<XMLHttpRequest> => {
+    protected get: HTTPMethod = (url, options = {}) => {
         const { data } = options;
         url = `${url}${this.queryString(data)}`;
         return this.request(url, { ...options, method: Methods.GET }, options.timeout);
     };
 
-    protected post = (url: string, options: Options = {}): Promise<XMLHttpRequest> => {
+    protected post: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: Methods.POST }, options.timeout);
     };
 
-    protected put = (url: string, options: Options = {}): Promise<XMLHttpRequest> => {
+    protected put: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: Methods.PUT }, options.timeout);
     };
 
-    protected patch = (url: string, options: Options = {}): Promise<XMLHttpRequest> => {
+    protected patch: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: Methods.PATCH }, options.timeout);
     };
 
-    protected delete = (url: string, options: Options = {}): Promise<XMLHttpRequest> => {
+    protected delete: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: Methods.DELETE }, options.timeout);
     };
 
