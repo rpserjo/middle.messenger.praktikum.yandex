@@ -119,7 +119,7 @@ class Profile extends Block {
             type: 'text',
             value: 'Charles',
             validation: {
-                //required: true,
+                // required: true,
                 rule: 'name',
             },
             events: {
