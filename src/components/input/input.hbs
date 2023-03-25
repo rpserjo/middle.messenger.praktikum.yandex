@@ -31,3 +31,6 @@
         {{/if}}
     />
 </div>
+{{#unless withoutErrorMessage}}
+	<p class="error-message">{{{validationError}}}</p>
+{{/unless}}

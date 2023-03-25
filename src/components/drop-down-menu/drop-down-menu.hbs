@@ -1,0 +1,11 @@
+<div class="drop-down-menu__wrapper">
+    <div class="drop-down-menu__button" title="{{{ dropDownMenuTitle }}}">
+        {{{ dropDownMenuButton }}}
+        {{{ right }}}
+    </div>
+    <div class="drop-down-menu__list{{#if hidden}} hidden{{/if}}"{{#if position}} style="top: {{{ position.top }}}px; right: {{{ position.right }}}px;"{{/if}}>
+        {{#each dropDownMenuList}}
+            {{{ this }}}
+        {{/each}}
+    </div>
+</div>

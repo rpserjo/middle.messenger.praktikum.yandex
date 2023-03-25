@@ -1,0 +1,29 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  //"files": ["src/**/*.ts"],
+  "extends": "airbnb-base",
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    //"max-params": [1, 1],
+    "linebreak-style": "off",
+    "no-console": "off",
+    "indent": ["error", 4],
+    "import/no-extraneous-dependencies": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "max-len": ["warn", 150],
+    "no-param-reassign": "off",
+    "class-methods-use-this": "off",
+    "no-underscore-dangle": "off",
+    "no-restricted-globals": "off",
+    "no-unused-vars": "off",
+    "no-shadow": "off",
+    "no-use-before-define": "off",
+    "no-global-assign": "off",
+    "arrow-body-style": "off"
+  }
+}

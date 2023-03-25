@@ -4,20 +4,11 @@
     font-weight: 500;
     flex-grow: 1;
 }
+
 .chat-header__options{
     width: 24px;
     height: 24px;
     position: relative;
-
-    .icon > svg > path{
-        fill: var(--color-gray3);
-    }
-
-    & > .icon:hover{
-        svg > path{
-            fill: var(--color-primary);
-        }
-    }
 
     .chat-options__menu{
         border-radius: 5px;
@@ -31,12 +22,14 @@
         flex-direction: column;
     }
 }
+
 .chat{
     background-color: var(--color-white);
     overflow-y: scroll;
     flex-grow: 1;
-    padding: 15 15px;
+    padding: 15px; /* was 15 15px */
 }
+
 .chat-footer{
     height: 75px;
     border-top: 1px solid var(--border-color);
@@ -49,16 +42,6 @@
         height: 44px;
         margin: 16px;
         cursor: pointer;
-
-        .icon > svg > path{
-            fill: var(--color-gray3);
-        }
-
-        & > .icon:hover{
-            & > svg > path{
-                fill: var(--color-primary);
-            }
-        }
     }
 
     .chat-attach{
@@ -78,5 +61,11 @@
 
     .chat-message{
         flex-grow: 1;
+    }
+
+    form{
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
     }
 }

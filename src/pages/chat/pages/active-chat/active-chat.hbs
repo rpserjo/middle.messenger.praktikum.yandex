@@ -1,37 +1,29 @@
 <div class="chat-header">
     <div class="chat-header__avatar">
-        {{{chatAvatar}}}
+        {{{ chatAvatar }}}
     </div>
     <div class="chat-header__title">
-        {{{chatTitle}}}
+        {{{ chatTitle }}}
     </div>
-    <div class="chat-header__options" title="Options">
-        <div class="chat-options__menu">
-            {{#each optionsOptions}}
-                {{{this}}}
-            {{/each}}
-        </div>
-        {{{optionsIcon}}}
+    <div class="chat-header__options">
+        {{{ optionsDropDown }}}
     </div>
 </div>
-<div class="chat">
-    {{#each chat}}
-        {{{this}}}
+<div class="chat" id="messages-list">
+    {{#each chatMessagesList}}
+        {{{ this }}}
     {{/each}}
 </div>
 <div class="chat-footer">
-    <div class="chat-attach">
-        <div class="chat-attach__menu">
-            {{#each attachOptions}}
-                {{{this}}}
-            {{/each}}
+    <form>
+        <div class="chat-attach">
+            {{{ attachDropDown }}}
         </div>
-        {{{attachIcon}}}
-    </div>
-    <div class="chat-message">
-        {{{chatMessage}}}
-    </div>
-    <div class="chat-send">
-        {{{sendIcon}}}
-    </div>
+        <div class="chat-message">
+            {{{ chatSendMessage }}}
+        </div>
+        <div class="chat-send">
+            {{{ sendIcon }}}
+        </div>
+    </form>
 </div>

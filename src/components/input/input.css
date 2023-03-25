@@ -1,8 +1,9 @@
 .input-wrapper{
     position: relative;
     width: 100%;
-    display: flex;
-    margin: 5px 0px;
+
+    /* display: flex; */
+    margin: 5px 0;
     border: 1px solid var(--border-color);
     align-items: center;
 
@@ -11,7 +12,7 @@
         z-index: 1;
         left: 10px;
         background-color: var(--main-bg-color);
-        padding: 0px 5px;
+        padding: 0 5px;
         font-size: 16px;
         line-height: 12px;
         color: var(--border-color);
@@ -25,13 +26,13 @@
     }
 
     input{
-        border-width: 0px;
-        border-radius: 0px;
+        border-width: 0;
+        border-radius: 0;
         line-height: 14px;
         position: relative;
         padding: 7px;
         flex-grow: 1;
-        font-size: 24px;
+        font-size: 22px;
         width: 100%;
 
         &:focus{
@@ -39,6 +40,10 @@
             border-color: var(--border-color);
             box-shadow: 0 0 4px var(--border-color);
         }
+    }
+    
+    &.has-error{
+		border-color: var(--color-danger);
     }
 
     &.with-icon{
@@ -58,4 +63,10 @@
             }
         }
     }
+}
+
+p.error-message{
+    color: var(--color-danger);
+    line-height: 20px;
+    height: 20px;
 }
