@@ -1,7 +1,7 @@
 import template from './chat-element.hbs';
 import './chat-element.css';
 import Avatar from '../avatar';
-import Block from '../../../../utils/Block';
+import Block from '../../../../application/Block';
 
 interface ChatElementProps {
     id: number | string,

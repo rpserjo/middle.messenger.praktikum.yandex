@@ -1,9 +1,9 @@
 import template from './active-chat.hbs';
 import './active-chat.css';
 import Avatar from '../../components/avatar';
-import Block from '../../../../utils/Block';
+import Block from '../../../../application/Block';
 import Input from '../../../../components/input';
-import { validateForm } from '../../../../utils/validate';
+import { validateForm } from '../../../../application/utils/validate';
 import Message from './components/message';
 import DateLine from './components/date-line';
 import DropDownMenu from '../../../../components/drop-down-menu';

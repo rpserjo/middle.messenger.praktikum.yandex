@@ -1,6 +1,6 @@
 import template from './drop-down-menu.hbs';
 import './drop-down-menu.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 import DropDownItem from './drop-down-item';
 import Icon from '../icon';
 

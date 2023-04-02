@@ -1,6 +1,6 @@
 import template from './icon.hbs';
 import './icon.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 
 /* eslint max-len: "off" */
 const icons: Record<string, string> = {

@@ -1,8 +1,8 @@
 import template from './signup.hbs';
 import './signup.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 import Input from '../../components/input';
-import { validate, validateForm } from '../../utils/validate';
+import { validate, validateForm } from '../../application/utils/validate';
 import Button from '../../components/button';
 import Link from '../../components/link';
 

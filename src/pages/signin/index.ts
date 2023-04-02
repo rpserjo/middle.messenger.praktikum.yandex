@@ -1,10 +1,10 @@
 import template from './signin.hbs';
 import './singin.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 import Input from '../../components/input';
 import Button from '../../components/button';
 import Link from '../../components/link';
-import { validate, validateForm } from '../../utils/validate';
+import { validate, validateForm } from '../../application/utils/validate';
 
 class SignIn extends Block {
     constructor(props: Record<string, any> = {}) {

@@ -1,8 +1,5 @@
 import { v4 as makeUUID } from 'uuid';
 import EventBus from './EventBus';
-import { Nullable } from './types';
-
-type Props = Record<string, any>;
 
 enum Events {
     INIT = 'flow:init',
@@ -11,22 +8,22 @@ enum Events {
     FLOW_RENDER = 'flow:component-did-render'
 }
 
-abstract class Block {
+abstract class Block<TProps extends Record<string, any> = any> {
     protected element: Nullable<HTMLElement> = null;
 
-    private meta: {tagName: string, props: Record<string, any>};
+    private meta: {tagName: string, props: TProps};
 
     protected uuid: string;
 
     protected children: Record<string, Block | Block[]>;
 
-    protected props: Props;
+    protected props: TProps;
 
     private eventBus: EventBus;
 
     private _name: string;
 
-    protected constructor(tagName: string = 'div', propsAndChildren: Props = {}, name: string = 'not set') {
+    protected constructor(tagName: string = 'div', propsAndChildren: TProps = {} as TProps, name: string = 'not set') {
         const { children, props } = this.getPropsAndChildren(propsAndChildren);
         this.children = children;
         this._name = name;
@@ -35,13 +32,13 @@ abstract class Block {
             props,
         };
         this.uuid = makeUUID();
-        this.props = this.makeProxyProps({ ...props, __id: this.uuid, __name: this._name });
+        this.props = this.makeProxyProps({ ...props, __id: this.uuid, __name: this._name }) as TProps;
         this.eventBus = new EventBus();
         this.registerLifecycleEvents();
         this.eventBus.emit(Events.INIT);
     }
 
-    private getPropsAndChildren(propsAndChildren: Record<string, any> = {}) {
+    private getPropsAndChildren(propsAndChildren: TProps = {} as TProps) {
         const children: Record<string, Block | Block[]> = {};
         const props: Record<string, any> = {};
 
@@ -55,10 +52,10 @@ abstract class Block {
             }
         });
 
-        return { children, props };
+        return { children, props: props as TProps};
     }
 
-    private makeProxyProps(props: Record<string, any>) {
+    private makeProxyProps(props: TProps) {
         const self = this;
         return new Proxy(props, {
             get(target: Record<string, any>, prop: string) {
@@ -101,7 +98,7 @@ abstract class Block {
         this.eventBus.emit(Events.FLOW_RENDER);
     }
 
-    private componentDidUpdate(oldProps: Record<string, any>, newProps: Record<string, any>): void {
+    private componentDidUpdate(oldProps: TProps, newProps: TProps): void {
         if (oldProps !== newProps) {
             this.updated();
             this.eventBus.emit(Events.FLOW_RENDER);
@@ -137,14 +134,14 @@ abstract class Block {
         return this.element as HTMLElement;
     }
 
-    setProps(props: Record<string, any>): void {
+    setProps(props: TProps): void {
         if (!props) {
             return;
         }
         Object.assign(this.props, props);
     }
 
-    compile(template: Function, props: Record<string, any>) {
+    compile(template: Function, props: Record<string, unknown>) {
         const propsAndStubs = { ...props }; // ???
 
         Object.entries(this.children).forEach(([key, child]) => {
@@ -175,7 +172,7 @@ abstract class Block {
     private init(): void {
         this.createResources();
         this.created();
-        this.eventBus.emit(Events.FLOW_CDM);
+        //this.eventBus.emit(Events.FLOW_CDM);
     }
 
     protected created() {}
@@ -192,7 +189,7 @@ abstract class Block {
         this.eventBus.emit(Events.FLOW_CDM);
         Object.keys(this.children).forEach((child: string) => {
             if (Array.isArray(this.children[child])) {
-                (this.children[child] as Block[]).forEach((grandChild) => grandChild.dispatchComponentDidMount());
+                (this.children[child] as Block[]).forEach((grandChild: Block) => grandChild.dispatchComponentDidMount());
             } else {
                 (this.children[child] as Block).dispatchComponentDidMount();
             }

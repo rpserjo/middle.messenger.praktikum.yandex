@@ -1,9 +1,9 @@
 import template from './profile.hbs';
 import './profile.css';
-import Block from '../../../../utils/Block';
+import Block from '../../../../application/Block';
 import Icon from '../../../../components/icon';
 import Input from '../../../../components/input';
-import { validate, validateForm } from '../../../../utils/validate';
+import { validate, validateForm } from '../../../../application/utils/validate';
 import Button from '../../../../components/button';
 import Link from '../../../../components/link';
 import AvatarUploader from './components/avatar-uploader';

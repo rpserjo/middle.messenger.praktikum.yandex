@@ -1,8 +1,8 @@
 import template from './chat.hbs';
 import './chat.css';
 import ActiveChat from './pages/active-chat';
-import cutString from '../../utils/cutString';
-import Block from '../../utils/Block';
+import cutString from '../../application/utils/cutString';
+import Block from '../../application/Block';
 import Input from '../../components/input';
 import Avatar from './components/avatar';
 import Icon from '../../components/icon';

@@ -1,5 +1,5 @@
-import Input from '../components/input';
-import Block from './Block';
+import Input from '../../components/input';
+import Block from '../Block';
 
 const validate = (input: Input) => {
     const { value } = input;
@@ -71,7 +71,7 @@ const validate = (input: Input) => {
     return validationStatus;
 };
 
-const validateForm = (inputs: Block[] = []) => {
+const validateForm = (inputs: Block<TProps>[] = []) => {
     const formValidation: Set<boolean> = new Set<boolean>();
     const formData: Record<string, any> = {};
     inputs.forEach((input: Input) => {

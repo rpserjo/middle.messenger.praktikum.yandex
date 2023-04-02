@@ -1,7 +1,8 @@
 import template from './error.hbs';
 import './error.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 import Link from '../../components/link';
+import router from '../../router/router';
 
 interface ErrorPageProps{
     errorCode?: number,
@@ -25,6 +26,12 @@ class ErrorPage extends Block {
 
     render() {
         return this.compile(template, this.props);
+    }
+
+    mounted() {
+        console.log('Mounted')
+        console.log(router)
+        console.log(router.getParams())
     }
 }
 

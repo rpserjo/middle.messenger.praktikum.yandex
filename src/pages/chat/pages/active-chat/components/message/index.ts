@@ -1,6 +1,6 @@
 import template from './message.hbs';
 import './message.css';
-import Block from '../../../../../../utils/Block';
+import Block from '../../../../../../application/Block';
 
 interface MessageProps {
     messageType: string,

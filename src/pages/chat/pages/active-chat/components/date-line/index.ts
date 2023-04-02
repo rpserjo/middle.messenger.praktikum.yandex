@@ -1,6 +1,6 @@
 import template from './date-line.hbs';
 import './date-line.css';
-import Block from '../../../../../../utils/Block';
+import Block from '../../../../../../application/Block';
 
 interface DateLineProps {
     date: string

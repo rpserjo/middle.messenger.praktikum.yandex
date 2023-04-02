@@ -1,6 +1,6 @@
 import template from './button.hbs';
 import './button.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 import Icon from '../icon';
 
 interface ButtonProps {

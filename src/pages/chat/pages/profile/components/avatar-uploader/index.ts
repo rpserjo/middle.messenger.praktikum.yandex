@@ -1,6 +1,6 @@
 import template from './avatar-uploader.hbs';
 import './avatar-uploader.css';
-import Block from '../../../../../../utils/Block';
+import Block from '../../../../../../application/Block';
 import Button from '../../../../../../components/button';
 import Icon from '../../../../../../components/icon';
 import Link from '../../../../../../components/link';

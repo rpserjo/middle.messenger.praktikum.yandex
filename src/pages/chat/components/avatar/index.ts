@@ -1,6 +1,6 @@
 import template from './avatar.hbs';
 import './avatar.css';
-import Block from '../../../../utils/Block';
+import Block from '../../../../application/Block';
 
 interface AvatarProps {
     profileName: string,

@@ -1,12 +1,26 @@
-import renderDom from './utils/renderDom';
 import './index.css';
-import Block from './utils/Block';
-import SignIn from './pages/signin';
+
+import router from './router/router';
+
+router.start();
+/*import SignIn from './pages/signin';
 import SignUp from './pages/signup';
 import ErrorPage from './pages/error';
-import Chat from './pages/chat';
+//import Chat from './pages/chat';
+import Router from './application/Router';*/
 
-let currentPage: Block;
+/*const router = new Router('#wrapper');
+
+router.
+    use('/signin', SignIn).
+    use('/signup', SignUp).
+    use('/error_404', ErrorPage, { errorCode: 404, errorMessage: 'Not found' }).
+    use('/error_500', ErrorPage, { errorCode: 500, errorMessage: 'The page isn`t working', backUrl: '/chat' }).
+    use('*', ErrorPage, { errorCode: 404, errorMessage: 'Not found' }).
+    start();*/
+
+
+/*let currentPage: Block;
 const currentPathname: string = window.location.pathname;
 
 switch (currentPathname) {
@@ -35,4 +49,4 @@ default:
     currentPage = new ErrorPage();
 }
 
-renderDom('#wrapper', currentPage);
+renderDom('#wrapper', currentPage);*/

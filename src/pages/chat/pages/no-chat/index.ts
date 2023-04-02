@@ -1,6 +1,6 @@
 import template from './no-chat.hbs';
 import './no-chat.css';
-import Block from '../../../../utils/Block';
+import Block from '../../../../application/Block';
 import Icon from '../../../../components/icon';
 
 class NoChat extends Block {

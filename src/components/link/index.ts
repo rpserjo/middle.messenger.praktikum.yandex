@@ -1,6 +1,6 @@
 import template from './link.hbs';
 import './link.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 
 interface LinkProps{
     type?: string,
