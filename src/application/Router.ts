@@ -1,13 +1,27 @@
 import Route, {CBlock} from './Route';
 
+interface RProps {
+    pathname: string,
+    block: CBlock,
+    props?: TProps,
+    onRoute?: () => void | undefined,
+    onBeforeRoute?: () => any | undefined
+}
+
+interface RouteRecord {
+    route: Route,
+    pattern: RegExp,
+    onRoute?: () => void | undefined,
+    onBeforeRoute?: () => any | undefined
+}
+
 class Router {
     private static __instance: Router;
 
-    private routes: Route[];
+    private routes: RouteRecord[];
     private history: History;
     private currentRoute: Nullable<Route>;
     private rootQuery: string;
-    private pathnames: string[];
 
     constructor(rootQuery: string) {
         if (Router.__instance) {
@@ -18,42 +32,75 @@ class Router {
         this.history = window.history;
         this.currentRoute = null;
         this.rootQuery = rootQuery;
-        this.pathnames = [];
 
         Router.__instance = this;
     }
 
-    public use(pathname: string, block: CBlock, props?: TProps): Router {
-        const route: Route = new Route(pathname, block, {...props, rootQuery: this.rootQuery});
-        this.routes.push(route);
-        this.pathnames.push(pathname);
+    public use(routeProps: RProps) {
+        const route: Route = new Route(routeProps.pathname, routeProps.block, {...routeProps.props, rootQuery: this.rootQuery});
+        const routePath: string = routeProps.pathname.replace('*', '');
+        this.routes.push({
+            route,
+            pattern: new RegExp('^' + routePath.replace(/:\w+/g, '(\\w+)') + '$', 'g'),
+            onRoute: (routeProps.onRoute) ? routeProps.onRoute : undefined,
+            onBeforeRoute: (routeProps.onBeforeRoute) ? routeProps.onBeforeRoute : undefined
+        });
+
         return this;
     }
 
     public start(): void {
-        window.onpopstate = (e: PopStateEvent) => {
-            const pathname = this.hasRoute((e.currentTarget as Window).location.pathname)
-            this.onRoute(pathname);
+        document.addEventListener('click', (event: Event) => {
+            const target = (event.target as HTMLElement).closest('a');
+            if(target?.classList.contains('router-link')){
+                event.preventDefault();
+                const pathname = target.getAttribute('href');
+                console.log(pathname)
+                this.go(pathname as string);
+            }
+        });
+        window.onpopstate = (event: PopStateEvent) => {
+            this.onRoute((event.currentTarget as Window).location.pathname);
         }
-        const pathname = this.hasRoute(window.location.pathname)
-        this.onRoute(pathname);
-    }
-
-    private hasRoute(pathname: string){
-        return (this.pathnames.includes(pathname)) ? pathname : '*';
+        this.onRoute(window.location.pathname);
     }
 
     private onRoute(pathname: string): void {
-        const route = this.getRoute(pathname);
-
         if (this.currentRoute) {
             this.currentRoute.leave();
         }
 
-        this.currentRoute = route;
-        if(route){
-            route.render();
+        let i = this.routes.length;
+        let route = this.routes.find(route => route.route.routepathname === '*') || null;
+        while(i--){
+            const args = pathname.match(this.routes[i].pattern);
+            if(args){
+                route = this.routes[i];
+            }
         }
+
+        if(route){
+            if(route.onBeforeRoute){
+                route.onBeforeRoute().then((result: boolean) => {
+                    console.log(result)
+                    if(result){
+                        this.executeRoute(route!);
+                    }else{
+                        this.go('/')
+                    }
+                })
+            }else{
+                this.executeRoute(route);
+            }
+        }
+    }
+
+    private executeRoute(route: RouteRecord): void {
+        if(route.onRoute){
+            route.onRoute();
+        }
+        this.currentRoute = route.route;
+        this.currentRoute!.render();
     }
 
     public go(pathname: string): void {
@@ -69,13 +116,28 @@ class Router {
         this.history.forward();
     }
 
-    private getRoute(pathname: string): Nullable<Route> {
-        return this.routes.find(route => route.match(pathname)) || null;
-    }
-
-    public getParams() {
-        console.log(this.currentRoute!.routepathname)
-        return {params: {test: 123}};
+    public getParams(): Record<string, string> {
+        const path: string = this.currentRoute!.routepathname;
+        const pathParts: string[] = path.split('/');
+        pathParts.shift();
+        const paramsKeys: (string | null)[] = [];
+        pathParts.forEach((part: string) => {
+            if(/:[A-Za-z0-9]/.test(part)){
+                paramsKeys.push(part.replace(':', ''));
+            }else{
+                paramsKeys.push(null);
+            }
+        });
+        const url: string = window.location.pathname;
+        const urlParts: string[] = url.split('/')
+        urlParts.shift();
+        const params: Record<string, string> = {};
+        urlParts.forEach((part, i) => {
+            if(paramsKeys[i] && paramsKeys[i] !== null){
+                params[paramsKeys[i] as string] = part;
+            }
+        });
+        return params;
     }
 }
 

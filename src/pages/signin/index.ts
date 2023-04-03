@@ -5,6 +5,7 @@ import Input from '../../components/input';
 import Button from '../../components/button';
 import Link from '../../components/link';
 import { validate, validateForm } from '../../application/utils/validate';
+import router from '../../router/router';
 
 class SignIn extends Block {
     constructor(props: Record<string, any> = {}) {
@@ -12,6 +13,8 @@ class SignIn extends Block {
     }
 
     created() {
+        const {id} = router.getParams();
+        console.log(id)
         const submitHandler = (e: Event, inputs: Input[]) => {
             e.preventDefault();
             const formData = validateForm(inputs);

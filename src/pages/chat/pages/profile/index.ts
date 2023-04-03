@@ -16,9 +16,9 @@ class Profile extends Block {
     created() {
         const iconLogout = new Icon({
             icon: 'signout',
-            events: {
+            /*events: {
                 click: () => { document.location.pathname = '/signin'; },
-            },
+            },*/
         });
 
         const submitHandler = (e: Event, inputs: Input[]): void => {

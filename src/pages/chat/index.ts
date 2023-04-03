@@ -1,6 +1,6 @@
 import template from './chat.hbs';
 import './chat.css';
-import ActiveChat from './pages/active-chat';
+//import ActiveChat from './pages/active-chat';
 import cutString from '../../application/utils/cutString';
 import Block from '../../application/Block';
 import Input from '../../components/input';
@@ -9,6 +9,8 @@ import Icon from '../../components/icon';
 import ChatElement from './components/chat-element';
 import NoChat from './pages/no-chat';
 import Profile from './pages/profile';
+import router from '../../router/router';
+import {CBlock} from '../../application/Route';
 
 interface ChatListElement {
     id: number,
@@ -51,6 +53,7 @@ const sampleData: ChatListElement[] = [
 class Chat extends Block {
     constructor(props: any = {}) {
         super('div', props, 'Chat');
+        console.log(props)
     }
 
     created() {
@@ -82,14 +85,19 @@ class Chat extends Block {
             chatLastMessageTime: el.chatLastMessageTime,
             events: {
                 click: () => {
-                    document.location.pathname = '/chat/view';
+                    router.go('/messenger/123')
                 },
             },
         }));
 
-        const subRoute = (document.location.pathname).replace('/chat', '');
+        //const subRoute = (document.location.pathname).replace('/chat', '');
 
-        let mainWindow: Block;
+        let mainWindow: CBlock = NoChat;
+        const { window } = this.props;
+        if(window && window === 'settings'){
+            mainWindow = Profile;
+        }
+        /*
         switch (subRoute) {
         case '/profile':
         case '/profile/password':
@@ -101,14 +109,14 @@ class Chat extends Block {
             break;
         default:
             mainWindow = new NoChat();
-        }
+        }*/
 
         this.children = {
             searchInput,
             userAvatar,
             profileIcon,
             chatsList,
-            mainWindow,
+            mainWindow: new mainWindow(),
         };
     }
 
