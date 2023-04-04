@@ -14,12 +14,12 @@ interface InputProps {
     events?: Record<string, any>
 }
 
-class Input extends Block {
+class Input extends Block<InputProps> {
     constructor(props: InputProps = { type: 'text', withoutErrorMessage: false }) {
-        super('div', props, 'Input');
+        super(props, 'Input');
     }
 
-    get validation(): Record<string, string | boolean | Input> {
+    get validation(): Record<string, string | boolean | Input> | undefined{
         return this.props.validation;
     }
 

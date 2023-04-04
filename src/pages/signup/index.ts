@@ -12,7 +12,7 @@ interface SignUpProps {
 
 class SignUp extends Block {
     constructor(props: SignUpProps = {}) {
-        super('div', props, 'SignUp');
+        super(props, 'SignUp');
     }
 
     created() {

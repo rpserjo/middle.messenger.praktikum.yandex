@@ -10,9 +10,9 @@ interface ErrorPageProps{
     backUrl?: string
 }
 
-class ErrorPage extends Block {
+class ErrorPage extends Block<ErrorPageProps> {
     constructor(props: ErrorPageProps = { errorCode: 404, errorMessage: 'Not found' }) {
-        super('div', props, 'ErrorPage');
+        super(props, 'ErrorPage');
     }
 
     created() {

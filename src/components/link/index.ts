@@ -6,17 +6,18 @@ interface LinkProps{
     type?: string,
     to?: string,
     label: string,
-    classList?: string[]
+    classList?: string[] | string
 }
-class Link extends Block {
+class Link extends Block<LinkProps> {
     constructor(props: LinkProps) {
-        super('div', props, 'Link');
+        super(props, 'Link');
     }
 
     created() {
         const type = this.props.type || 'link';
         const classList = (this.props.classList && Array.isArray(this.props.classList)) ? [...this.props.classList, type].join(' ') : type;
         this.setProps({ classList });
+        console.log(this)
     }
 
     render() {

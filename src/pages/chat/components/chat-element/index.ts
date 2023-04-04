@@ -13,9 +13,9 @@ interface ChatElementProps {
     events?: Record<string, Function>
 }
 
-class ChatElement extends Block {
+class ChatElement extends Block<ChatElementProps> {
     constructor(props: ChatElementProps) {
-        super('div', props, 'ChatElement');
+        super(props, 'ChatElement');
     }
 
     render() {

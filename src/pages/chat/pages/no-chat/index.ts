@@ -5,7 +5,7 @@ import Icon from '../../../../components/icon';
 
 class NoChat extends Block {
     constructor(props: Record<string, any> = {}) {
-        super('div', props, 'NoChat');
+        super(props, 'NoChat');
     }
 
     created() {

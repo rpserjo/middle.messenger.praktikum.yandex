@@ -24,12 +24,13 @@ const icons: Record<string, string> = {
 interface IconProps {
     icon?: string,
     fill?: string,
+    path?: string,
     events?: Record<string, Function>
 }
 
-class Icon extends Block {
+class Icon extends Block<IconProps> {
     constructor(props: IconProps = {}) {
-        super('div', props, 'Icon');
+        super(props, 'Icon');
     }
 
     render() {

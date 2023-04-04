@@ -6,9 +6,9 @@ interface DateLineProps {
     date: string
 }
 
-class DateLine extends Block {
+class DateLine extends Block<DateLineProps> {
     constructor(props: DateLineProps) {
-        super('div', props, 'DateLine');
+        super(props, 'DateLine');
     }
 
     render() {

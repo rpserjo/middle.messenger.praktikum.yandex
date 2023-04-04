@@ -13,9 +13,9 @@ interface AvatarUploaderProps {
     cancelButton?: Link | Button
 }
 
-class AvatarUploader extends Block {
+class AvatarUploader extends Block<AvatarUploaderProps> {
     constructor(props: AvatarUploaderProps) {
-        super('div', props, 'AvatarUploader');
+        super(props, 'AvatarUploader');
     }
 
     render() {

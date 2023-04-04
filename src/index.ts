@@ -1,7 +1,7 @@
 import './index.css';
 
 import router from './router/router';
-import Store from './application/Store';
+//import Store from './application/Store';
 
 
 router.start();

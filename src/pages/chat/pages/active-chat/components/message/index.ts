@@ -8,9 +8,9 @@ interface MessageProps {
     messageDatetime: string
 }
 
-class Message extends Block {
+class Message extends Block<MessageProps> {
     constructor(props: MessageProps) {
-        super('div', props, 'Message');
+        super(props, 'Message');
     }
 
     render() {

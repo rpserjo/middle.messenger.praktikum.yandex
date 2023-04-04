@@ -30,7 +30,7 @@
             value="{{{value}}}"
         {{/if}}
     />
+    {{#unless withoutErrorMessage}}
+        <p class="error-message">{{{validationError}}}</p>
+    {{/unless}}
 </div>
-{{#unless withoutErrorMessage}}
-	<p class="error-message">{{{validationError}}}</p>
-{{/unless}}

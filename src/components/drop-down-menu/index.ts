@@ -11,9 +11,9 @@ interface DropDownMenuProps {
     position?: Record<string, number>,
     hidden?: boolean
 }
-class DropDownMenu extends Block {
+class DropDownMenu extends Block<DropDownMenuProps> {
     constructor(props: DropDownMenuProps) {
-        super('div', props, 'DropDownMenu');
+        super(props, 'DropDownMenu');
     }
 
     created() {

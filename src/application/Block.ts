@@ -11,8 +11,6 @@ enum Events {
 abstract class Block<TProps extends Record<string, any> = any> {
     protected element: Nullable<HTMLElement> = null;
 
-    private meta: {tagName: string, props: TProps};
-
     protected uuid: string;
 
     protected children: Record<string, Block | Block[]>;
@@ -21,18 +19,11 @@ abstract class Block<TProps extends Record<string, any> = any> {
 
     private eventBus: EventBus;
 
-    private _name: string;
-
-    protected constructor(tagName: string = 'div', propsAndChildren: TProps = {} as TProps, name: string = 'not set') {
+    protected constructor(propsAndChildren: TProps = {} as TProps, name: string = 'not set') {
         const { children, props } = this.getPropsAndChildren(propsAndChildren);
         this.children = children;
-        this._name = name;
-        this.meta = {
-            tagName,
-            props,
-        };
         this.uuid = makeUUID();
-        this.props = this.makeProxyProps({ ...props, __id: this.uuid, __name: this._name }) as TProps;
+        this.props = this.makeProxyProps({ ...props, __id: this.uuid, __name: name }) as TProps;
         this.eventBus = new EventBus();
         this.registerLifecycleEvents();
         this.eventBus.emit(Events.INIT);
@@ -81,25 +72,13 @@ abstract class Block<TProps extends Record<string, any> = any> {
         this.eventBus.on(Events.FLOW_RENDER, this._render.bind(this));
     }
 
-    private createDocumentElement(tagName: string): HTMLElement {
-        const element = document.createElement(tagName);
-        element.setAttribute('data-id', this.uuid);
-        element.style.display = 'contents';
-        return element;
-    }
-
-    private createResources(): void {
-        const { tagName } = this.meta;
-        this.element = this.createDocumentElement(tagName);
-    }
-
     private componentDidMount(): void {
         this.mounted();
-        this.eventBus.emit(Events.FLOW_RENDER);
     }
 
     private componentDidUpdate(oldProps: TProps, newProps: TProps): void {
         if (oldProps !== newProps) {
+            console.log(this.props.__name, 'UPDATED')
             this.updated();
             this.eventBus.emit(Events.FLOW_RENDER);
         }
@@ -107,9 +86,14 @@ abstract class Block<TProps extends Record<string, any> = any> {
 
     private _render(): void {
         this.removeEvents();
-        const block: DocumentFragment = this.render();
-        this.element?.replaceChildren(block);
-        this.addEvents();
+        const block = this.render();
+        const element = block.firstElementChild as HTMLElement;
+        if(this.element){
+            this.removeEvents();
+            this.element.replaceWith(element);
+        }
+        this.element = element;
+        this.addEvents()
     }
 
     private addEvents(): void {
@@ -134,14 +118,14 @@ abstract class Block<TProps extends Record<string, any> = any> {
         return this.element as HTMLElement;
     }
 
-    setProps(props: TProps): void {
+    setProps(props: Partial<TProps>): void {
         if (!props) {
             return;
         }
         Object.assign(this.props, props);
     }
 
-    compile(template: Function, props: Record<string, unknown>) {
+    compile(template: Function, props: Record<string, any>) {
         const propsAndStubs = { ...props }; // ???
 
         Object.entries(this.children).forEach(([key, child]) => {
@@ -152,7 +136,7 @@ abstract class Block<TProps extends Record<string, any> = any> {
             }
         });
 
-        const fragment = this.createDocumentElement('template') as HTMLTemplateElement;
+        const fragment = document.createElement('template');
         fragment.innerHTML = template(propsAndStubs);
         Object.values(this.children).forEach((child) => {
             if (Array.isArray(child)) {
@@ -170,9 +154,8 @@ abstract class Block<TProps extends Record<string, any> = any> {
     }
 
     private init(): void {
-        this.createResources();
         this.created();
-        //this.eventBus.emit(Events.FLOW_CDM);
+        this.eventBus.emit(Events.FLOW_RENDER);
     }
 
     protected created() {}
@@ -197,7 +180,7 @@ abstract class Block<TProps extends Record<string, any> = any> {
     }
 
     show(): void {
-        this.getContent().style.display = 'block';
+        this.getContent()!.style.display = 'block';
     }
 
     hide(): void {

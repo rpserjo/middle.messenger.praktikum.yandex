@@ -11,7 +11,7 @@ interface DropDownProps {
 
 class DropDownItem extends Block {
     constructor(props: DropDownProps = {}) {
-        super('div', props, 'DropDownItem');
+        super(props, 'DropDownItem');
     }
 
     render() {

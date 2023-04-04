@@ -7,9 +7,9 @@ interface AvatarProps {
     avatarSrc: string
 }
 
-class Avatar extends Block {
+class Avatar extends Block<AvatarProps> {
     constructor(props: AvatarProps) {
-        super('div', props, 'Avatar');
+        super(props, 'Avatar');
     }
 
     render() {

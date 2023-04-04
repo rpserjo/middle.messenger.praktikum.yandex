@@ -5,22 +5,26 @@ import Input from '../../components/input';
 import Button from '../../components/button';
 import Link from '../../components/link';
 import { validate, validateForm } from '../../application/utils/validate';
-import router from '../../router/router';
+import {Spinner} from '../../components/spinner';
+import store from '../../application/Store';
+//import router from '../../router/router';
+
 
 class SignIn extends Block {
     constructor(props: Record<string, any> = {}) {
-        super('div', props, 'SignIn');
+        super(props, 'SignIn');
     }
 
     created() {
-        const {id} = router.getParams();
-        console.log(id)
         const submitHandler = (e: Event, inputs: Input[]) => {
             e.preventDefault();
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
             }
+            console.log(store.getState().isLoading)
+            store.set('isLoading', !store.getState().isLoading)
+            console.log(store)
         };
 
         const loginInput: Block = new Input({
@@ -72,12 +76,17 @@ class SignIn extends Block {
             classList: ['my-10'],
         });
 
+        const spinner: Block = new Spinner();
+
         this.children = {
             loginInput,
             passwordInput,
             submitButton,
             signUpLink,
+            spinner
         };
+
+        console.log(this.children)
     }
 
     render() {

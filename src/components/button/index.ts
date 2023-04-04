@@ -12,7 +12,7 @@ interface ButtonProps {
 }
 class Button extends Block {
     constructor(props: ButtonProps = {}) {
-        super('div', props, 'Button');
+        super(props, 'Button');
     }
 
     created() {

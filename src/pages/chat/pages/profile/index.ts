@@ -10,7 +10,7 @@ import AvatarUploader from './components/avatar-uploader';
 
 class Profile extends Block {
     constructor() {
-        super('div', {}, 'Profile');
+        super({}, 'Profile');
     }
 
     created() {

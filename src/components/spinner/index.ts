@@ -3,12 +3,16 @@ import './spinner.css';
 import Block from '../../application/Block';
 import {withStore} from '../../application/Store';
 
-interface SpinnerProps {
+interface SpinnerProps{
     isLoading: boolean
 }
-class SpinnerBlock extends Block {
-    constructor(props: SpinnerProps) {
-        super('div', props, 'Spinner');
+class SpinnerBlock extends Block<SpinnerProps> {
+    constructor(props: SpinnerProps = {isLoading: false}) {
+        super(props, 'Spinner');
+    }
+
+    updated(){
+
     }
 
     render() {
@@ -16,7 +20,7 @@ class SpinnerBlock extends Block {
     }
 }
 
-export const Spinner = withStore(SpinnerBlock, (state: Indexed) => {
+export const Spinner = withStore(SpinnerBlock, (state: any) => {
     return {
         isLoading: state.isLoading
     }

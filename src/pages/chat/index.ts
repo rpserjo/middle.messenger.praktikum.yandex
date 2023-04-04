@@ -52,7 +52,7 @@ const sampleData: ChatListElement[] = [
 
 class Chat extends Block {
     constructor(props: any = {}) {
-        super('div', props, 'Chat');
+        super(props, 'Chat');
         console.log(props)
     }
 
