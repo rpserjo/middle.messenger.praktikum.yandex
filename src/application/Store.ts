@@ -1,12 +1,15 @@
 import EventBus from './EventBus';
 import set from './utils/set';
+import Block from './Block';
 
 export enum StoreEvents {
     UPDATED = 'store:updated',
 }
 
 class Store extends EventBus {
-    private state: Indexed = {};
+    private state: Indexed = {
+        isLoading: false,
+    };
 
     public getState(): Indexed{
         return this.state;
@@ -19,5 +22,17 @@ class Store extends EventBus {
         this.emit(StoreEvents.UPDATED);
     };
 }
+const store = new Store();
+export default store;
 
-export default new Store();
+
+export function withStore(Component: typeof Block, mapStateToProps: (state: Indexed) => Indexed){
+    return class extends Component {
+        constructor(props: TProps) {
+            super('', {...props, ...mapStateToProps(store.getState())});
+            store.on(StoreEvents.UPDATED, () => {
+                this.setProps({...mapStateToProps(store.getState())})
+            });
+        }
+    }
+}

@@ -1,6 +1,8 @@
 import './index.css';
 
 import router from './router/router';
+import Store from './application/Store';
+
 
 router.start();
 /*import SignIn from './pages/signin';
