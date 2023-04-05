@@ -6,6 +6,7 @@ import {withStore} from '../../application/Store';
 interface SpinnerProps{
     isLoading: boolean
 }
+
 class SpinnerBlock extends Block<SpinnerProps> {
     constructor(props: SpinnerProps = {isLoading: false}) {
         super(props, 'Spinner');

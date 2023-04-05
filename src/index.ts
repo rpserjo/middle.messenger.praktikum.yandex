@@ -1,10 +1,15 @@
 import './index.css';
-
+import Layout from './layout';
+import renderDom from './application/utils/renderDom';
 import router from './router/router';
+
+const layout = new Layout();
+renderDom('#root', layout);
+router.start();
+
 //import Store from './application/Store';
 
-
-router.start();
+//router.start();
 /*import SignIn from './pages/signin';
 import SignUp from './pages/signup';
 import ErrorPage from './pages/error';

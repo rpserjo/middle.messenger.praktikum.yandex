@@ -5,8 +5,9 @@ import Input from '../../components/input';
 import Button from '../../components/button';
 import Link from '../../components/link';
 import { validate, validateForm } from '../../application/utils/validate';
-import {Spinner} from '../../components/spinner';
-import store from '../../application/Store';
+import spinnerController from '../../controllers/SpinnerController';
+import toastController from '../../controllers/ToastController';
+import Modal from '../../components/modal';
 //import router from '../../router/router';
 
 
@@ -22,9 +23,8 @@ class SignIn extends Block {
             if (formData) {
                 console.log(formData);
             }
-            console.log(store.getState().isLoading)
-            store.set('isLoading', !store.getState().isLoading)
-            console.log(store)
+            spinnerController.toggle(true);
+            setTimeout(() => spinnerController.toggle(), 2500)
         };
 
         const loginInput: Block = new Input({
@@ -74,19 +74,49 @@ class SignIn extends Block {
             to: '/signup',
             label: 'Create profile',
             classList: ['my-10'],
+            events: {
+                click: (e: Event) => {
+                    e.preventDefault();
+                    toastController.setWarning('Warning message');
+                }
+            }
         });
 
-        const spinner: Block = new Spinner();
+        const signUpLink2: Block = new Link({
+            to: '/signup',
+            label: 'Create profile',
+            classList: ['my-10'],
+            events: {
+                click: (e: Event) => {
+                    e.preventDefault();
+                    toastController.setDanger('Danger message');
+                }
+            }
+        });
+
+        const signUpLink3: Block = new Link({
+            to: '/signup',
+            label: 'Create profile',
+            classList: ['my-10'],
+            events: {
+                click: (e: Event) => {
+                    e.preventDefault();
+                    modal.show(true);
+                }
+            }
+        });
+
+        const modal = new Modal();
 
         this.children = {
             loginInput,
             passwordInput,
             submitButton,
             signUpLink,
-            spinner
+            signUpLink2,
+            signUpLink3,
+            modal
         };
-
-        console.log(this.children)
     }
 
     render() {

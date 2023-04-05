@@ -78,7 +78,7 @@ abstract class Block<TProps extends Record<string, any> = any> {
 
     private componentDidUpdate(oldProps: TProps, newProps: TProps): void {
         if (oldProps !== newProps) {
-            console.log(this.props.__name, 'UPDATED')
+            //console.log(this.props.__name, 'UPDATED')
             this.updated();
             this.eventBus.emit(Events.FLOW_RENDER);
         }
@@ -179,8 +179,8 @@ abstract class Block<TProps extends Record<string, any> = any> {
         });
     }
 
-    show(): void {
-        this.getContent()!.style.display = 'block';
+    show(flex: boolean = false): void {
+        this.getContent()!.style.display = (flex) ? 'flex' : 'block';
     }
 
     hide(): void {

@@ -4,7 +4,7 @@
 
     /* display: flex; */
     margin: 5px 0;
-    border: 1px solid var(--border-color);
+    /*border: 1px solid var(--border-color);*/
     align-items: center;
 
     label{
@@ -26,7 +26,7 @@
     }
 
     input{
-        border-width: 0;
+        border: 1px solid var(--border-color);
         border-radius: 0;
         line-height: 14px;
         position: relative;
@@ -43,7 +43,10 @@
     }
     
     &.has-error{
-		border-color: var(--color-danger);
+
+        input{
+            border-color: var(--color-danger);
+        }
     }
 
     &.with-icon{
@@ -63,10 +66,13 @@
             }
         }
     }
+
+    p.error-message{
+        color: var(--color-danger);
+        line-height: 20px;
+        height: 20px;
+        text-align: center;
+    }
 }
 
-p.error-message{
-    color: var(--color-danger);
-    line-height: 20px;
-    height: 20px;
-}
+

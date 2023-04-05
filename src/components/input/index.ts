@@ -37,7 +37,7 @@ class Input extends Block<InputProps> {
 
     toggleError(errorMessage: string = ''): void {
         this.errorMessage = errorMessage;
-        this.element?.querySelector('.input-wrapper')?.classList.toggle('has-error', errorMessage.length > 0);
+        this.element?./*querySelector('.input-wrapper')?.*/classList.toggle('has-error', errorMessage.length > 0);
     }
 
     set errorMessage(value: string) {

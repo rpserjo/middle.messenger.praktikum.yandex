@@ -6,7 +6,8 @@ interface LinkProps{
     type?: string,
     to?: string,
     label: string,
-    classList?: string[] | string
+    classList?: string[] | string,
+    events?: Record<string, Function>
 }
 class Link extends Block<LinkProps> {
     constructor(props: LinkProps) {
@@ -17,7 +18,6 @@ class Link extends Block<LinkProps> {
         const type = this.props.type || 'link';
         const classList = (this.props.classList && Array.isArray(this.props.classList)) ? [...this.props.classList, type].join(' ') : type;
         this.setProps({ classList });
-        console.log(this)
     }
 
     render() {

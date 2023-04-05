@@ -55,7 +55,6 @@ class Router {
             if(target?.classList.contains('router-link')){
                 event.preventDefault();
                 const pathname = target.getAttribute('href');
-                console.log(pathname)
                 this.go(pathname as string);
             }
         });

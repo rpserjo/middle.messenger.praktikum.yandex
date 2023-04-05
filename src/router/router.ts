@@ -3,13 +3,16 @@ import SignIn from '../pages/signin';
 import SignUp from '../pages/signup';
 import ErrorPage from '../pages/error';
 import Chat from '../pages/chat';
+import spinnerController from '../controllers/SpinnerController';
 
-const router = new Router('#wrapper');
+const router = new Router('#router-view');
 
 const test = async () => {
+    spinnerController.toggle(true);
     return new Promise((resolve) => {
         setTimeout(() => {
             console.log('timeout')
+            spinnerController.toggle(false);
             resolve(true)
         }, 1500)
     });
