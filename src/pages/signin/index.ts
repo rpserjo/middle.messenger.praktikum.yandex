@@ -9,7 +9,8 @@ import spinnerController from '../../controllers/SpinnerController';
 import toastController from '../../controllers/ToastController';
 import Modal from '../../components/modal';
 //import router from '../../router/router';
-
+import authApi from '../../api/AuthApi';
+import authController from '../../controllers/AuthController';
 
 class SignIn extends Block {
     constructor(props: Record<string, any> = {}) {
@@ -17,14 +18,19 @@ class SignIn extends Block {
     }
 
     created() {
-        const submitHandler = (e: Event, inputs: Input[]) => {
+        /*console.log(authApi);
+        console.log(authApi.signin());*/
+        
+        const submitHandler = async (e: Event, inputs: Input[]) => {
             e.preventDefault();
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
             }
-            spinnerController.toggle(true);
-            setTimeout(() => spinnerController.toggle(), 2500)
+            await authController.signin();
+            /*spinnerController.toggle(true);
+            setTimeout(() => spinnerController.toggle(), 2500)*/
+            
         };
 
         const loginInput: Block = new Input({
