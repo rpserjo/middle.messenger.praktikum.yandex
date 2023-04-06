@@ -12,7 +12,7 @@ import Profile from './pages/profile';
 import router from '../../router/router';
 import {CBlock} from '../../application/Route';
 
-interface ChatListElement {
+/*interface ChatListElement {
     id: number,
     avatarSrc: string,
     chatUserName: string,
@@ -48,7 +48,7 @@ const sampleData: ChatListElement[] = [
         chatLastMessage: 'Last message',
         chatLastMessageTime: 'Mar, 12',
     },
-];
+];*/
 
 class Chat extends Block {
     constructor(props: any = {}) {

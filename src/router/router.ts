@@ -3,28 +3,25 @@ import SignIn from '../pages/signin';
 import SignUp from '../pages/signup';
 import ErrorPage from '../pages/error';
 import Chat from '../pages/chat';
-import spinnerController from '../controllers/SpinnerController';
+import authController from '../controllers/AuthController';
+import Messenger from '../pages/messenger';
 
-const router = new Router('#router-view');
-
-const test = async () => {
-    spinnerController.toggle(true);
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log('timeout')
-            spinnerController.toggle(false);
-            resolve(true)
-        }, 1500)
-    });
+const checkNotAuth = async () => {
+    return !await authController.check();
 }
 
+const checkAuth = async () => {
+    return await authController.check();
+}
+
+const router = new Router('#router-view');
 router.
-    use({pathname: '/', block: SignIn}).
-    use({pathname: '/sign-up', block: SignUp, onBeforeRoute: async () => await test()}).
-    use({pathname: '/messenger', block: Chat}).
-    use({pathname: '/messenger/:id', block: Chat}).
-    use({pathname: '/settings', block: Chat, props: { window: 'settings' }}).
-    use({pathname: '/error_404', block: ErrorPage, props: { errorCode: 404, errorMessage: 'Not found' }}).
+    use({pathname: '/', block: SignIn, routeGuard: {guard: checkNotAuth, redirect: '/messenger'}}).
+    use({pathname: '/sign-up', block: SignUp, routeGuard: {guard: checkNotAuth, redirect: '/messenger'}}).
+    use({pathname: '/messenger', block: Messenger, routeGuard: {guard: checkAuth, redirect: '/'}}).
+    use({pathname: '/messenger/:id', block: Chat, routeGuard: {guard: checkAuth, redirect: '/'}}).
+    use({pathname: '/settings', block: Chat, props: { window: 'settings' }, routeGuard: {guard: checkAuth, redirect: '/'}}).
+    //use({pathname: '/error_404', block: ErrorPage, props: { errorCode: 404, errorMessage: 'Not found' }}).
     use({pathname: '/error_500', block: ErrorPage, props: { errorCode: 500, errorMessage: 'The page isn`t working', backUrl: '/chat' }}).
     use({pathname: '*', block: ErrorPage, props: { errorCode: 404, errorMessage: 'Not found' }})
 

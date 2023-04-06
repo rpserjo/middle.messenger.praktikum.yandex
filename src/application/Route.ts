@@ -43,7 +43,7 @@ class Route {
             return;
         }
 
-        this.block.show();
+        this.block.show(true);
     }
 
     get routepathname(): string {

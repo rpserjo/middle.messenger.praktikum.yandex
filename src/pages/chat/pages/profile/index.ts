@@ -7,6 +7,7 @@ import { validate, validateForm } from '../../../../application/utils/validate';
 import Button from '../../../../components/button';
 import Link from '../../../../components/link';
 import AvatarUploader from './components/avatar-uploader';
+import authController from '../../../../controllers/AuthController';
 
 class Profile extends Block {
     constructor() {
@@ -16,9 +17,12 @@ class Profile extends Block {
     created() {
         const iconLogout = new Icon({
             icon: 'signout',
-            /*events: {
-                click: () => { document.location.pathname = '/signin'; },
-            },*/
+            events: {
+                click: async (e) => {
+                    e.preventDefault();
+                    await authController.logout()
+                },
+            },
         });
 
         const submitHandler = (e: Event, inputs: Input[]): void => {

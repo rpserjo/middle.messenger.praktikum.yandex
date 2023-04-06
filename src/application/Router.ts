@@ -5,14 +5,22 @@ interface RProps {
     block: CBlock,
     props?: TProps,
     onRoute?: () => void | undefined,
-    onBeforeRoute?: () => any | undefined
+    onBeforeRoute?: () => any | undefined,
+    routeGuard?: {
+        guard: () => any | undefined,
+        redirect: string
+    }
 }
 
 interface RouteRecord {
     route: Route,
     pattern: RegExp,
     onRoute?: () => void | undefined,
-    onBeforeRoute?: () => any | undefined
+    onBeforeRoute?: () => any | undefined,
+    routeGuard?: {
+        guard: () => any | undefined,
+        redirect: string
+    }
 }
 
 class Router {
@@ -43,7 +51,8 @@ class Router {
             route,
             pattern: new RegExp('^' + routePath.replace(/:\w+/g, '(\\w+)') + '$', 'g'),
             onRoute: (routeProps.onRoute) ? routeProps.onRoute : undefined,
-            onBeforeRoute: (routeProps.onBeforeRoute) ? routeProps.onBeforeRoute : undefined
+            onBeforeRoute: (routeProps.onBeforeRoute) ? routeProps.onBeforeRoute : undefined,
+            routeGuard: routeProps.routeGuard
         });
 
         return this;
@@ -79,15 +88,17 @@ class Router {
         }
 
         if(route){
-            if(route.onBeforeRoute){
-                route.onBeforeRoute().then((result: boolean) => {
-                    console.log(result)
-                    if(result){
-                        this.executeRoute(route!);
+            if(route.routeGuard){
+                console.log('RG target', route.route.routepathname)
+                route.routeGuard.guard().then(result => {
+                    if(result === true){
+                        this.executeRoute(route);
+                        console.log('RG success')
                     }else{
-                        this.go('/')
+                        console.log('RG fail, redirect to ', route!.routeGuard!.redirect)
+                        this.go(route!.routeGuard!.redirect);
                     }
-                })
+                }).catch(e => console.log(e))
             }else{
                 this.executeRoute(route);
             }

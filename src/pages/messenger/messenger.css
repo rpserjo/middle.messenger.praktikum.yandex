@@ -1,0 +1,70 @@
+.chat-wrapper{
+    flex: 1 1 auto;
+    border-radius: 5px;
+    display: flex;
+    position: relative;
+
+    .chats-side{
+        min-width: 320px;
+        max-width: 320px;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+
+        .chats-list{
+            overflow-y: scroll;
+        }
+    }
+    
+    .chat-side__button{
+		min-width: 50px;
+		flex-grow: 1;
+		display: flex;    
+    }
+    
+    .chats-main{
+        background-color: var(--color-light-gray);
+        flex-grow: 1;
+        border-radius: 0 5px 5px 0;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.chat-header{
+    height: 75px;
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .profile-name{
+        flex-grow: 1;
+        font-size: 24px;
+        padding: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .profile-icon{
+        width: 24px;
+        height: 24px;
+
+        .icon > svg > path{
+            fill: var(--color-primary);
+        }
+    }
+}
+
+/* @media screen and (max-width: 700px){
+    .chats-side{
+        margin-left: -320px;
+        position: absolute;
+        background-color: var(--main-bg-color);
+        z-index: 1;
+    }
+} */

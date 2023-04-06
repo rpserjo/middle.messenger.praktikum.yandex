@@ -13,7 +13,13 @@ interface Options {
     timeout?: number
 }
 
-type HTTPMethod = (url: string, options?: Options) => Promise<unknown>;
+export type HTTPResponse = {
+    reason?: string,
+    code: number,
+    response: string
+}
+
+type HTTPMethod = (url: string, options?: Options) => Promise<Record<string, any>>;
 
 class HTTPTransport {
     private apiUrl: string;
@@ -23,32 +29,32 @@ class HTTPTransport {
     }
     
     private queryString = (data: Record<string, string>) => {
-        return `?${Object.entries(data).map((param) => `${param[0]}=${param[1]}`).join('&')}`;
+        return (data) ? `?${Object.entries(data).map((param) => `${param[0]}=${param[1]}`).join('&')}` : '';
     };
 
-    protected get: HTTPMethod = (url, options = {}) => {
-        const { data } = options;
+    public get: HTTPMethod = (url, options = {}) => {
+        const { data = null } = options;
         url = `${url}${this.queryString(data)}`;
         return this.request(url, { ...options, method: Methods.GET }, options.timeout);
     };
 
-    protected post: HTTPMethod = (url, options = {}) => {
+    public post: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: Methods.POST }, options.timeout);
     };
 
-    protected put: HTTPMethod = (url, options = {}) => {
+    public put: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: Methods.PUT }, options.timeout);
     };
 
-    protected patch: HTTPMethod = (url, options = {}) => {
+    public patch: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: Methods.PATCH }, options.timeout);
     };
 
-    protected delete: HTTPMethod = (url, options = {}) => {
+    public delete: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: Methods.DELETE }, options.timeout);
     };
 
-    private request = (url: string, options: Options, timeout = 5000): Promise<XMLHttpRequest> => {
+    private request = (url: string, options: Options, timeout = 5000): Promise<Record<string, any>> => {
         const { method = Methods.GET, data, headers = {} } = options;
         url = this.apiUrl + url;
         return new Promise((resolve, reject) => {
@@ -61,17 +67,29 @@ class HTTPTransport {
                 });
             }
 
-            xhr.onabort = () => reject({error: {message: 'Request aborted'}});
-            xhr.onerror = () => reject({error: {message: 'Request failed'}});
-            xhr.timeout = () => reject();
+            xhr.onabort = () => reject({reason: 'Request aborted'});
+            xhr.onerror = () => reject({reason: 'Request failed'});
+            xhr.timeout = timeout;
+            xhr.withCredentials = true;
             xhr.onload = () => {
-                resolve(xhr);
+                if(xhr.status < 400){
+                    resolve({
+                        status: xhr.status,
+                        response: xhr.response
+                    })
+                }else{
+                    reject({
+                        reason: 'Bad response',
+                        status: xhr.status,
+                        response: xhr.response
+                    })
+                }
             };
 
             if (method === Methods.GET) {
                 xhr.send();
             } else {
-                xhr.send(data);
+                xhr.send(JSON.stringify(data));
             }
         });
     };

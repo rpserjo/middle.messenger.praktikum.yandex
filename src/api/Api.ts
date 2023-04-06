@@ -1,9 +1,11 @@
 const API = {
-	HOST: 'http://host.domain/api/v1',
+	HOST: 'https://ya-praktikum.tech/api/v2',
 	ENDPOINTS: {
 		AUTH: '/auth',
+		SIGNUP: '/signup',
+		SIGNIN: '/signin',
 		USER: '/user',
-		SIGNIN: '/signin'
+		LOGOUT: '/logout'
 	}
 }
 

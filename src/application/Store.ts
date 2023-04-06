@@ -9,7 +9,8 @@ export enum StoreEvents {
 
 export interface State extends Record<string, any> {
     isLoading: boolean,
-    toast: ToastProps
+    toast: ToastProps,
+    user: {}
 }
 
 class Store extends EventBus {

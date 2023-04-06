@@ -5,6 +5,7 @@ import Input from '../../components/input';
 import { validate, validateForm } from '../../application/utils/validate';
 import Button from '../../components/button';
 import Link from '../../components/link';
+import authController, {SignUpData} from '../../controllers/AuthController';
 
 interface SignUpProps {
 
@@ -20,7 +21,7 @@ class SignUp extends Block {
             e.preventDefault();
             const formData = validateForm(inputs);
             if (formData) {
-                console.log(formData);
+                authController.signup(formData as SignUpData)
             }
         };
 

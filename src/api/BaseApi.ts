@@ -1,10 +1,10 @@
-import HTTPTransport from '../application/HTTPTransport.ts';
-import API from './Api.ts';
+import HTTPTransport from '../application/HTTPTransport';
+import API from './Api';
 
 abstract class BaseApi {
     protected http: HTTPTransport;
     
-    protected constructor(endpoint: string){
+    constructor(endpoint: string){
         this.http = new HTTPTransport(API.HOST + endpoint);
     }
 

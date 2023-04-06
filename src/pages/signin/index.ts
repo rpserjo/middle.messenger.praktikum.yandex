@@ -5,12 +5,12 @@ import Input from '../../components/input';
 import Button from '../../components/button';
 import Link from '../../components/link';
 import { validate, validateForm } from '../../application/utils/validate';
-import spinnerController from '../../controllers/SpinnerController';
+//import spinnerController from '../../controllers/SpinnerController';
 import toastController from '../../controllers/ToastController';
 import Modal from '../../components/modal';
 //import router from '../../router/router';
-import authApi from '../../api/AuthApi';
-import authController from '../../controllers/AuthController';
+//import authApi from '../../api/AuthApi';
+import authController, {SignInData} from '../../controllers/AuthController';
 
 class SignIn extends Block {
     constructor(props: Record<string, any> = {}) {
@@ -18,25 +18,20 @@ class SignIn extends Block {
     }
 
     created() {
-        /*console.log(authApi);
-        console.log(authApi.signin());*/
-        
-        const submitHandler = async (e: Event, inputs: Input[]) => {
+        const submitHandler = async (e: Event, inputs: Input[]): Promise<void> => {
             e.preventDefault();
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
+                await authController.signin(formData as SignInData);
             }
-            await authController.signin();
-            /*spinnerController.toggle(true);
-            setTimeout(() => spinnerController.toggle(), 2500)*/
-            
         };
 
         const loginInput: Block = new Input({
             id: 'login',
             label: 'Login',
             name: 'login',
+            value: 'user123123123',
             placeholder: 'Login',
             type: 'text',
             validation: {
@@ -44,8 +39,8 @@ class SignIn extends Block {
                 rule: 'login',
             },
             events: {
-                focusin: () => (this.children.loginInput as Input).toggleError(),
-                focusout: () => (this.children.loginInput as Input).toggleError(validate(this.children.loginInput as Input).validationError),
+                focusin: () => (loginInput as Input).toggleError(),
+                focusout: () => (loginInput as Input).toggleError(validate(loginInput as Input).validationError),
             },
         });
 
@@ -53,6 +48,7 @@ class SignIn extends Block {
             id: 'password',
             label: 'Password',
             name: 'password',
+            value: 'Santa555',
             placeholder: 'Password',
             type: 'password',
             validation: {
@@ -60,8 +56,8 @@ class SignIn extends Block {
                 rule: 'password',
             },
             events: {
-                focusin: () => (this.children.passwordInput as Input).toggleError(),
-                focusout: () => (this.children.passwordInput as Input).toggleError(validate(this.children.passwordInput as Input).validationError),
+                focusin: () => (passwordInput as Input).toggleError(),
+                focusout: () => (passwordInput as Input).toggleError(validate(passwordInput as Input).validationError),
             },
         });
 
@@ -69,9 +65,9 @@ class SignIn extends Block {
             buttonLabel: 'Sign In',
             type: 'submit',
             events: {
-                click: (e: Event) => {
+                click: async (e: Event): Promise<void> => {
                     const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
-                    submitHandler(e, inputs as Input[]);
+                    await submitHandler(e, inputs as Input[]);
                 },
             },
         });
