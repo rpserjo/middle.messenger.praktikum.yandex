@@ -6,12 +6,20 @@ import Input from '../../../../components/input';
 import { validate, validateForm } from '../../../../application/utils/validate';
 import Button from '../../../../components/button';
 import Link from '../../../../components/link';
-import AvatarUploader from './components/avatar-uploader';
 import authController from '../../../../controllers/AuthController';
+import {User} from '../../../../api/AuthApi';
+import {State, withStore} from '../../../../application/Store';
+import AvatarUploader from './components/avatar-uploader';
+import API from '../../../../api/Api';
+import userController from '../../../../controllers/UserController';
 
-class Profile extends Block {
-    constructor() {
-        super({}, 'Profile');
+interface ProfileProps {
+    user: User
+}
+
+class ProfileBlock extends Block<ProfileProps> {
+    constructor(props: ProfileProps) {
+        super(props, 'Profile');
     }
 
     created() {
@@ -25,25 +33,36 @@ class Profile extends Block {
             },
         });
 
-        const submitHandler = (e: Event, inputs: Input[]): void => {
+        const submitHandler = async (e: Event, inputs: Input[]): void => {
             e.preventDefault();
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
+                await userController.updateProfile(formData)
             }
         };
-        const subroute = (document.location.pathname).replace('/chat/profile', '');
-        const avatarUploader = (subroute === '/avatar')
-            ? new AvatarUploader({
-                uploadForm: true,
-                uploadButton: new Link({ to: '/chat/profile', label: 'Upload', classList: ['button'] }),
-                cancelButton: new Link({ to: '/chat/profile', label: 'Cancel' }),
-            })
-            : new AvatarUploader({
-                uploadForm: false,
-                currentAvatar: '/static/avatars/professorx.png',
-                uploadIcon: new Icon({ icon: 'upload', events: { click: () => { document.location.pathname = '/chat/profile/avatar'; } } }),
-            });
+
+        const uploadIcon = new Icon({
+            icon: 'upload',
+            events: {
+                click: () => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/jpeg, image/png, image/jpg';
+                    input.onchange = async () => {
+                        if(input.files?.length){
+                            await userController.uploadAvatar({avatar: input.files[0]});
+                        }
+                    }
+                    input.click();
+                }
+            }
+        });
+
+        const avatarUploader = new AvatarUploader({
+            currentAvatar: API.RESOURCES + this.props.user.avatar,
+            uploadIcon
+        });
 
         const emailInput = new Input({
             id: 'email',
@@ -51,14 +70,14 @@ class Profile extends Block {
             name: 'email',
             placeholder: 'E-mail',
             type: 'text',
-            value: 'charlesxavier@x-men.com',
+            value: this.props.user.email,
             validation: {
                 required: true,
                 rule: 'email',
             },
             events: {
-                focusin: () => (this.children.emailInput as Input).toggleError(),
-                focusout: () => (this.children.emailInput as Input).toggleError(validate(this.children.emailInput as Input).validationError),
+                focusin: () => (emailInput as Input).toggleError(),
+                focusout: () => (emailInput as Input).toggleError(validate(emailInput as Input).validationError),
             },
         });
 
@@ -68,14 +87,14 @@ class Profile extends Block {
             name: 'login',
             placeholder: 'Login',
             type: 'text',
-            value: 'professorx',
+            value: this.props.user.login,
             validation: {
                 required: true,
                 rule: 'login',
             },
             events: {
-                focusin: () => (this.children.loginInput as Input).toggleError(),
-                focusout: () => (this.children.loginInput as Input).toggleError(validate(this.children.loginInput as Input).validationError),
+                focusin: () => (loginInput as Input).toggleError(),
+                focusout: () => (loginInput as Input).toggleError(validate(loginInput as Input).validationError),
             },
         });
 
@@ -85,14 +104,14 @@ class Profile extends Block {
             name: 'first_name',
             placeholder: 'First name',
             type: 'text',
-            value: 'Charles',
+            value: this.props.user.first_name,
             validation: {
                 required: true,
                 rule: 'name',
             },
             events: {
-                focusin: () => (this.children.firstNameInput as Input).toggleError(),
-                focusout: () => (this.children.firstNameInput as Input).toggleError(validate(this.children.firstNameInput as Input).validationError),
+                focusin: () => (firstNameInput as Input).toggleError(),
+                focusout: () => (firstNameInput as Input).toggleError(validate(firstNameInput as Input).validationError),
             },
         });
 
@@ -102,15 +121,15 @@ class Profile extends Block {
             name: 'second_name',
             placeholder: 'Second name',
             type: 'text',
-            value: 'Xavier',
+            value: this.props.user.second_name,
             validation: {
                 required: true,
                 rule: 'name',
             },
             events: {
-                focusin: () => (this.children.secondNameInput as Input).toggleError(),
+                focusin: () => (secondNameInput as Input).toggleError(),
                 focusout: () => {
-                    (this.children.secondNameInput as Input).toggleError(validate(this.children.secondNameInput as Input).validationError);
+                    (secondNameInput as Input).toggleError(validate(secondNameInput as Input).validationError);
                 },
             },
         });
@@ -121,16 +140,13 @@ class Profile extends Block {
             name: 'display_name',
             placeholder: 'Display name',
             type: 'text',
-            value: 'Charles',
+            value: this.props.user.display_name,
             validation: {
-                // required: true,
                 rule: 'name',
             },
             events: {
-                focusin: () => (this.children.displayNameInput as Input).toggleError(),
-                focusout: () => {
-                    (this.children.displayNameInput as Input).toggleError(validate(this.children.displayNameInput as Input).validationError);
-                },
+                focusin: () => (displayNameInput as Input).toggleError(),
+                focusout: () => (displayNameInput as Input).toggleError(validate(displayNameInput as Input).validationError),
             },
         });
 
@@ -140,18 +156,18 @@ class Profile extends Block {
             name: 'phone',
             placeholder: 'Phone',
             type: 'text',
-            value: '+9999999999',
+            value: this.props.user.phone,
             validation: {
                 required: true,
                 rule: 'phone',
             },
             events: {
-                focusin: () => (this.children.phoneInput as Input).toggleError(),
-                focusout: () => (this.children.phoneInput as Input).toggleError(validate(this.children.phoneInput as Input).validationError),
+                focusin: () => (phoneInput as Input).toggleError(),
+                focusout: () => (phoneInput as Input).toggleError(validate(phoneInput as Input).validationError),
             },
         });
 
-        const passwordInput: Block = new Input({
+        /*const passwordInput: Block = new Input({
             id: 'password',
             label: 'Password',
             name: 'password',
@@ -166,21 +182,33 @@ class Profile extends Block {
                 focusin: () => (this.children.passwordInput as Input).toggleError(),
                 focusout: () => (this.children.passwordInput as Input).toggleError(validate(this.children.passwordInput as Input).validationError),
             },
+        });*/
+
+        const submitButton: Button = new Button({
+            buttonLabel: 'Update profile',
+            type: 'submit',
+            events: {
+                click: (e: Event) => {
+                    const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
+                    submitHandler(e, inputs as Input[]);
+                },
+            },
         });
 
         this.children = {
-            iconLogout,
             avatarUploader,
+            iconLogout,
             emailInput,
             loginInput,
             firstNameInput,
             secondNameInput,
             displayNameInput,
             phoneInput,
-            passwordInput,
+            submitButton
+            /*passwordInput,*/
         };
 
-        const repeatPasswordInput: Input = new Input({
+        /*const repeatPasswordInput: Input = new Input({
             id: 'password2',
             label: 'Repeat password',
             name: 'password2',
@@ -196,20 +224,11 @@ class Profile extends Block {
                     (this.children.repeatPasswordInput as Input).toggleError(validate(this.children.repeatPasswordInput as Input).validationError);
                 },
             },
-        });
+        });*/
 
-        const submitButton: Button = new Button({
-            buttonLabel: 'Update profile',
-            type: 'submit',
-            events: {
-                click: (e: Event) => {
-                    const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
-                    submitHandler(e, inputs as Input[]);
-                },
-            },
-        });
 
-        const cancelLink: Link = new Link({
+
+        /*const cancelLink: Link = new Link({
             to: '/chat',
             label: 'Cancel',
             classList: ['my-10'],
@@ -217,12 +236,16 @@ class Profile extends Block {
 
         this.children = {
             ...this.children, repeatPasswordInput, submitButton, cancelLink,
-        };
+        };*/
     }
 
     render() {
         return this.compile(template, this.props);
     }
 }
+
+const Profile = withStore(ProfileBlock, (state: State) => {
+    return {user: state.user}
+});
 
 export default Profile;

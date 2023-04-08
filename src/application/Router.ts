@@ -1,4 +1,5 @@
 import Route, {CBlock} from './Route';
+import store from './Store';
 
 interface RProps {
     pathname: string,
@@ -59,14 +60,17 @@ class Router {
     }
 
     public start(): void {
-        document.addEventListener('click', (event: Event) => {
+/*        document.addEventListener('click', (event: Event) => {
+            console.log('event', event)
             const target = (event.target as HTMLElement).closest('a');
             if(target?.classList.contains('router-link')){
                 event.preventDefault();
+                event.stopPropagation();
                 const pathname = target.getAttribute('href');
+                console.log('event go', pathname, target)
                 this.go(pathname as string);
             }
-        });
+        });*/
         window.onpopstate = (event: PopStateEvent) => {
             this.onRoute((event.currentTarget as Window).location.pathname);
         }
@@ -89,16 +93,11 @@ class Router {
 
         if(route){
             if(route.routeGuard){
-                console.log('RG target', route.route.routepathname)
-                route.routeGuard.guard().then(result => {
-                    if(result === true){
-                        this.executeRoute(route);
-                        console.log('RG success')
-                    }else{
-                        console.log('RG fail, redirect to ', route!.routeGuard!.redirect)
-                        this.go(route!.routeGuard!.redirect);
-                    }
-                }).catch(e => console.log(e))
+                if(route.routeGuard.guard()) {
+                    this.executeRoute(route);
+                }else{
+                    this.go(route.routeGuard.redirect);
+                }
             }else{
                 this.executeRoute(route);
             }
@@ -110,10 +109,11 @@ class Router {
             route.onRoute();
         }
         this.currentRoute = route.route;
-        this.currentRoute!.render();
+        this.currentRoute.render();
     }
 
     public go(pathname: string): void {
+        console.log('Go:', pathname)
         this.history.pushState({}, '', pathname);
         this.onRoute(pathname);
     }

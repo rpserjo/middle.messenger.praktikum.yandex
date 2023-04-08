@@ -15,6 +15,7 @@ interface AvatarUploaderProps {
 
 class AvatarUploader extends Block<AvatarUploaderProps> {
     constructor(props: AvatarUploaderProps) {
+        console.log(props)
         super(props, 'AvatarUploader');
     }
 

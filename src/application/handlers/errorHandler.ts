@@ -9,6 +9,7 @@ const errorHandler = (error: Record<string, any>): void => {
             message = json.reason;
         }catch(e){
             console.log('Error handler error', e);
+            message = response;
         }
         toastController.setDanger(`Error ${status}: ${message}`);
     }else{

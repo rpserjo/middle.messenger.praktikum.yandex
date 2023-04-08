@@ -5,6 +5,7 @@ import router from './router/router';
 
 const layout = new Layout();
 renderDom('#root', layout);
+//console.log('router', router)
 router.start();
 
 //import Store from './application/Store';

@@ -1,15 +1,38 @@
 import BaseApi from './BaseApi';
 import API from './Api';
-import {SignInData, SignUpData} from '../controllers/AuthController';
+
+export interface User {
+	id: number,
+	first_name: string
+	second_name: string
+	display_name: string
+	login: string
+	email: string
+	phone: string
+	avatar: string
+}
+
+export interface SignInData {
+	login: string,
+	password: string
+}
+
+export interface SignUpData {
+	first_name: string,
+	second_name: string,
+	login: string,
+	email: string,
+	password: string,
+	phone: string
+}
 
 class AuthApi extends BaseApi {
 	constructor(){
-		super(API.ENDPOINTS.AUTH);
+		super(API.ENDPOINTS.AUTH.ENDPOINT);
 	}
 
 	public signup(data: SignUpData): Promise<Record<string, any>>{
-		console.log('AuthApi:signup', data)
-		return this.http.post(API.ENDPOINTS.SIGNUP,{
+		return this.http.post(API.ENDPOINTS.AUTH.SIGNUP,{
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -18,8 +41,7 @@ class AuthApi extends BaseApi {
 	}
 
 	public signin(data: SignInData): Promise<Record<string, any>>{
-		console.log('AuthApi', data)
-		return this.http.post(API.ENDPOINTS.SIGNIN, {
+		return this.http.post(API.ENDPOINTS.AUTH.SIGNIN, {
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -28,7 +50,7 @@ class AuthApi extends BaseApi {
 	}
 
 	public user(): Promise<Record<string, any>>{
-		return this.http.get(API.ENDPOINTS.USER, {
+		return this.http.get(API.ENDPOINTS.AUTH.USER, {
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -36,8 +58,16 @@ class AuthApi extends BaseApi {
 	}
 
 	public logout(): Promise<Record<string, any>>{
-		return this.http.post(API.ENDPOINTS.LOGOUT);
+		return this.http.post(API.ENDPOINTS.AUTH.LOGOUT);
 	}
+
+	public create = undefined;
+
+	public read = undefined;
+
+	public update = undefined;
+
+	public delete = undefined;
 }
 
 const authApi = new AuthApi();

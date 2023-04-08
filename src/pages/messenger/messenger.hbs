@@ -2,13 +2,14 @@
     <div class="chats-side">
         <div class="chat-header">
             {{{ userAvatar }}}
-            <div class="profile-name">{{{ profileName }}}</div>
-            <a href="/settings" class="router-link"><div class="profile-icon" title="Profile">{{{ profileIcon }}}</div></a>
+            <div class="profile-name">{{{ user.first_name }}} {{{ user.second_name }}}</div>
+            <div class="profile-icon" title="Profile">{{{ profileIcon }}}</div>
         </div>
         <div class="chat-header">
             {{{ searchIcon }}}
             {{{ searchInput }}}
         </div>
+        {{{ logout }}}
         <div class="chats-list">
             {{#each chatsList}}
                 {{{ this }}}
@@ -16,6 +17,6 @@
         </div>
     </div>
     <div class="chats-main">
-        {{{ mainWindow }}}
+        {{{ w }}}
     </div>
 </div>

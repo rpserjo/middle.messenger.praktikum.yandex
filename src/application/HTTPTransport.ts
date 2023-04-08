@@ -10,7 +10,8 @@ interface Options {
     method?: Methods,
     data?: any,
     headers?: Record<string, string>,
-    timeout?: number
+    timeout?: number,
+    multipartForm?: boolean
 }
 
 export type HTTPResponse = {
@@ -55,7 +56,7 @@ class HTTPTransport {
     };
 
     private request = (url: string, options: Options, timeout = 5000): Promise<Record<string, any>> => {
-        const { method = Methods.GET, data, headers = {} } = options;
+        const { method = Methods.GET, data, headers = {}, multipartForm = false } = options;
         url = this.apiUrl + url;
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
@@ -72,16 +73,23 @@ class HTTPTransport {
             xhr.timeout = timeout;
             xhr.withCredentials = true;
             xhr.onload = () => {
+                let response;
+                try{
+                    response = JSON.parse(xhr.response);
+                }catch{
+                    response = xhr.response;
+                }
+
                 if(xhr.status < 400){
                     resolve({
                         status: xhr.status,
-                        response: xhr.response
+                        response
                     })
                 }else{
                     reject({
                         reason: 'Bad response',
                         status: xhr.status,
-                        response: xhr.response
+                        response
                     })
                 }
             };
@@ -89,7 +97,12 @@ class HTTPTransport {
             if (method === Methods.GET) {
                 xhr.send();
             } else {
-                xhr.send(JSON.stringify(data));
+                if(multipartForm === true){
+                    xhr.send(data);
+                } else{
+                    xhr.send(JSON.stringify(data));
+                }
+
             }
         });
     };

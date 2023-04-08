@@ -12,7 +12,7 @@ export interface ToastProps {
 class ToastBlock extends Block<ToastProps>{
     private timer: number;
 
-    constructor(props: ToastProps = {displayToast: false, toastMode: null, toastMessage: null}) {
+    constructor(props: ToastProps) {
         super(props,'Toast');
     }
 

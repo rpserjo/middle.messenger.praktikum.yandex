@@ -1,22 +1,9 @@
-import authApi from '../api/AuthApi';
+import authApi, {SignInData, SignUpData, User} from '../api/AuthApi';
 import spinnerController from './SpinnerController';
 import errorHandler from '../application/handlers/errorHandler';
 import router from '../router/router';
 import store from '../application/Store';
-
-export interface SignInData {
-	login: string,
-	password: string
-}
-
-export interface SignUpData {
-	first_name: string,
-	second_name: string,
-	login: string,
-	email: string,
-	password: string,
-	phone: string
-}
+import toastController from './ToastController';
 
 class AuthController{
 	async signup(data: SignUpData): Promise<void>{
@@ -38,9 +25,9 @@ class AuthController{
 			const authResponse = await authApi.signin(data);
 			if(authResponse?.response === 'OK'){
 				const { response } = await this.user();
-				const user = JSON.parse(response);
-				store.set('user', user);
+				store.set('user', response);
 				router.go('/messenger');
+				toastController.setInfo('You logged in');
 			}
 		}catch(e){
 			errorHandler(e)
@@ -49,9 +36,11 @@ class AuthController{
 		}
 	}
 
-	async user(): Promise<void>{
+	async user(): Promise<User>{
 		try{
-			return authApi.user();
+			const user = await authApi.user();
+			store.set('user', user.response);
+			return user;
 		}catch(e){
 			console.log('AuthController:user', e);
 		}
@@ -62,7 +51,10 @@ class AuthController{
 		try{
 			await authApi.logout().then((response) => {
 				if(response.status === 200){
-					router.go('/')
+					store.set('user', null);
+					console.log('Logout, store', store.getState())
+					router.go('/');
+					toastController.setInfo('You logged out');
 				}
 			});
 		}catch (e) {
@@ -72,7 +64,7 @@ class AuthController{
 		}
 	}
 
-	async check(): Promise<void>{
+	async check(): Promise<boolean>{
 		spinnerController.toggle(true);
 		try{
 			return authApi.user().then((response) => {

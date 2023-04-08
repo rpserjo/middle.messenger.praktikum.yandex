@@ -5,12 +5,10 @@ import Input from '../../components/input';
 import Button from '../../components/button';
 import Link from '../../components/link';
 import { validate, validateForm } from '../../application/utils/validate';
-//import spinnerController from '../../controllers/SpinnerController';
 import toastController from '../../controllers/ToastController';
 import Modal from '../../components/modal';
-//import router from '../../router/router';
-//import authApi from '../../api/AuthApi';
-import authController, {SignInData} from '../../controllers/AuthController';
+import authController from '../../controllers/AuthController';
+import {SignInData} from '../../api/AuthApi';
 
 class SignIn extends Block {
     constructor(props: Record<string, any> = {}) {

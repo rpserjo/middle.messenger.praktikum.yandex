@@ -1,5 +1,7 @@
 import { v4 as makeUUID } from 'uuid';
 import EventBus from './EventBus';
+import isEqual from './utils/isEqual';
+import cloneDeep from './utils/cloneDeep';
 
 enum Events {
     INIT = 'flow:init',
@@ -54,9 +56,9 @@ abstract class Block<TProps extends Record<string, any> = any> {
                 return typeof value === 'function' ? value.bind(target) : value;
             },
             set(target: Record<string, any>, prop: string, value: unknown) {
-                const oldValue = target[prop];
+                const oldProps = cloneDeep(target);
                 target[prop] = value;
-                self.eventBus.emit(Events.FLOW_CDU, oldValue, target[prop]);
+                self.eventBus.emit(Events.FLOW_CDU, oldProps, target);
                 return true;
             },
             deleteProperty() {
@@ -77,9 +79,8 @@ abstract class Block<TProps extends Record<string, any> = any> {
     }
 
     private componentDidUpdate(oldProps: TProps, newProps: TProps): void {
-        if (oldProps !== newProps) {
-            //console.log(this.props.__name, 'UPDATED')
-            this.updated();
+        if (!isEqual(oldProps, newProps)) {
+            this.updated(oldProps, newProps);
             this.eventBus.emit(Events.FLOW_RENDER);
         }
     }
@@ -166,7 +167,7 @@ abstract class Block<TProps extends Record<string, any> = any> {
         return new DocumentFragment();
     }
 
-    protected updated() {}
+    protected updated(oldProps, newProps) {}
 
     dispatchComponentDidMount(): void {
         this.eventBus.emit(Events.FLOW_CDM);

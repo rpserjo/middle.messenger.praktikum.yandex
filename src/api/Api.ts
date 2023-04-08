@@ -1,11 +1,22 @@
+const HOST = 'https://ya-praktikum.tech/api/v2';
 const API = {
-	HOST: 'https://ya-praktikum.tech/api/v2',
+	HOST: HOST,
+	RESOURCES: HOST + '/resources',
 	ENDPOINTS: {
-		AUTH: '/auth',
-		SIGNUP: '/signup',
-		SIGNIN: '/signin',
-		USER: '/user',
-		LOGOUT: '/logout'
+		AUTH: {
+			ENDPOINT: '/auth',
+			SIGNUP: '/signup',
+			SIGNIN: '/signin',
+			USER: '/user',
+			LOGOUT: '/logout'
+		},
+		USER: {
+			ENDPOINT: '/user',
+			PROFILE: '/profile',
+			AVATAR: '/profile/avatar',
+			PASSWORD: '/password',
+			SEARCH: '/search'
+		}
 	}
 }
 

@@ -5,14 +5,15 @@ import Input from '../../components/input';
 import { validate, validateForm } from '../../application/utils/validate';
 import Button from '../../components/button';
 import Link from '../../components/link';
-import authController, {SignUpData} from '../../controllers/AuthController';
+import authController from '../../controllers/AuthController';
+import {SignUpData} from '../../api/AuthApi';
 
 interface SignUpProps {
 
 }
 
 class SignUp extends Block {
-    constructor(props: SignUpProps = {}) {
+    constructor(props: SignUpProps) {
         super(props, 'SignUp');
     }
 

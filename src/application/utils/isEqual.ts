@@ -13,7 +13,7 @@ function isArrayOrObject(value: unknown): value is [] | Indexed {
     return isPlainObject(value) || isArray(value);
 }
 
-function isEqual(lhs: Indexed, rhs: Indexed) {
+const isEqual = (lhs: Indexed, rhs: Indexed): boolean => {
     if (Object.keys(lhs).length !== Object.keys(rhs).length) {
         return false;
     }
