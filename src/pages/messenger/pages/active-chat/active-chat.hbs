@@ -1,0 +1,41 @@
+{{#if currentChat }}
+    <div style="display: contents">
+        <div class="chat-header">
+            <div class="chat-header__avatar">
+                {{{ chatAvatar }}}
+            </div>
+            <div class="chat-header__title">
+                {{{ chatTitle }}}
+            </div>
+            <div class="chat-header__options">
+                {{{ optionsDropDown }}}
+            </div>
+        </div>
+        <div class="chat" id="messages-list">
+            << MESSAGES >>
+        </div>
+        <div class="chat-footer">
+            <form>
+                <div class="chat-attach">
+                    {{{ attachDropDown }}}
+                </div>
+                <div class="chat-message">
+                    {{{ chatSendMessage }}}
+                </div>
+                <div class="chat-send">
+                    {{{ sendIcon }}}
+                </div>
+            </form>
+        </div>
+    </div>
+{{else}}
+    <div class="no-chat-wrapper">
+        <div class="no-chat">
+            Select chat to start messaging
+            <div class="new-chat-button">
+                {{{ newChatIcon }}}
+            </div>
+        </div>
+        {{{ newChatModal }}}
+    </div>
+{{/if}}

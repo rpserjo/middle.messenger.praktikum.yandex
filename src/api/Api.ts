@@ -16,6 +16,10 @@ const API = {
 			AVATAR: '/profile/avatar',
 			PASSWORD: '/password',
 			SEARCH: '/search'
+		},
+		CHAT: {
+			ENDPOINT: '/chats',
+			TOKEN: '/token'
 		}
 	}
 }

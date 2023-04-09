@@ -23,7 +23,7 @@ class ProfileBlock extends Block<ProfileProps> {
     }
 
     created() {
-        const iconLogout = new Icon({
+        const iconLogout: Icon = new Icon({
             icon: 'signout',
             events: {
                 click: async (e: Event) => {
@@ -42,13 +42,13 @@ class ProfileBlock extends Block<ProfileProps> {
             }
         };
 
-        const uploadIcon = new Icon({
+        const uploadIcon: Icon = new Icon({
             icon: 'upload',
             events: {
                 click: () => {
                     const input = document.createElement('input');
                     input.type = 'file';
-                    input.accept = 'image/jpeg, image/png, image/jpg';
+                    input.accept = 'image/*';
                     input.onchange = async () => {
                         if(input.files?.length){
                             await userController.uploadAvatar({avatar: input.files[0]});
@@ -59,12 +59,12 @@ class ProfileBlock extends Block<ProfileProps> {
             }
         });
 
-        const avatarUploader = new AvatarUploader({
+        const avatarUploader: AvatarUploader = new AvatarUploader({
             currentAvatar: API.RESOURCES + this.props.user.avatar,
             uploadIcon
         });
 
-        const emailInput = new Input({
+        const emailInput: Input = new Input({
             id: 'email',
             label: 'E-mail',
             name: 'email',
@@ -81,7 +81,7 @@ class ProfileBlock extends Block<ProfileProps> {
             },
         });
 
-        const loginInput = new Input({
+        const loginInput: Input = new Input({
             id: 'login',
             label: 'Login',
             name: 'login',
@@ -98,7 +98,7 @@ class ProfileBlock extends Block<ProfileProps> {
             },
         });
 
-        const firstNameInput = new Input({
+        const firstNameInput: Input = new Input({
             id: 'first_name',
             label: 'First name',
             name: 'first_name',
@@ -115,7 +115,7 @@ class ProfileBlock extends Block<ProfileProps> {
             },
         });
 
-        const secondNameInput = new Input({
+        const secondNameInput: Input = new Input({
             id: 'second_name',
             label: 'Second name',
             name: 'second_name',
@@ -134,7 +134,7 @@ class ProfileBlock extends Block<ProfileProps> {
             },
         });
 
-        const displayNameInput = new Input({
+        const displayNameInput: Input = new Input({
             id: 'display_name',
             label: 'Display name',
             name: 'display_name',
@@ -150,7 +150,7 @@ class ProfileBlock extends Block<ProfileProps> {
             },
         });
 
-        const phoneInput = new Input({
+        const phoneInput: Input = new Input({
             id: 'phone',
             label: 'Phone',
             name: 'phone',
@@ -167,23 +167,6 @@ class ProfileBlock extends Block<ProfileProps> {
             },
         });
 
-        /*const passwordInput: Block = new Input({
-            id: 'password',
-            label: 'Password',
-            name: 'password',
-            placeholder: 'Leave it blank to keep current password',
-            type: 'password',
-            value: '',
-            validation: {
-                // required: true,
-                rule: 'password',
-            },
-            events: {
-                focusin: () => (this.children.passwordInput as Input).toggleError(),
-                focusout: () => (this.children.passwordInput as Input).toggleError(validate(this.children.passwordInput as Input).validationError),
-            },
-        });*/
-
         const submitButton: Button = new Button({
             buttonLabel: 'Update profile',
             type: 'submit',
@@ -195,6 +178,12 @@ class ProfileBlock extends Block<ProfileProps> {
             },
         });
 
+        const changePasswordLink: Link = new Link({
+           label: 'Change password',
+           to: '/settings/password',
+           routerLink: true
+        });
+
         this.children = {
             avatarUploader,
             iconLogout,
@@ -204,39 +193,9 @@ class ProfileBlock extends Block<ProfileProps> {
             secondNameInput,
             displayNameInput,
             phoneInput,
-            submitButton
-            /*passwordInput,*/
+            submitButton,
+            changePasswordLink
         };
-
-        /*const repeatPasswordInput: Input = new Input({
-            id: 'password2',
-            label: 'Repeat password',
-            name: 'password2',
-            placeholder: 'Repeat password',
-            type: 'password',
-            validation: {
-                // required: true,
-                equals: { target: this.children.passwordInput, errorMessage: 'Passwords not match' },
-            },
-            events: {
-                focusin: () => (this.children.repeatPasswordInput as Input).toggleError(),
-                focusout: () => {
-                    (this.children.repeatPasswordInput as Input).toggleError(validate(this.children.repeatPasswordInput as Input).validationError);
-                },
-            },
-        });*/
-
-
-
-        /*const cancelLink: Link = new Link({
-            to: '/chat',
-            label: 'Cancel',
-            classList: ['my-10'],
-        });
-
-        this.children = {
-            ...this.children, repeatPasswordInput, submitButton, cancelLink,
-        };*/
     }
 
     render() {

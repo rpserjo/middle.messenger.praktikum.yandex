@@ -90,6 +90,8 @@ class SignIn extends Block {
                 click: (e: Event) => {
                     e.preventDefault();
                     toastController.setDanger('Danger message');
+                    modal.setProps({modalLabel: 'Another title'})
+                    modal.show(true);
                 }
             }
         });
@@ -106,7 +108,15 @@ class SignIn extends Block {
             }
         });
 
-        const modal = new Modal();
+        const inp = new Input({
+            label: 'Search',
+            value: 'val'
+        });
+
+        const modal = new Modal({
+            modalLabel: 'Test',
+            modalChildren: [inp]
+        });
 
         this.children = {
             loginInput,

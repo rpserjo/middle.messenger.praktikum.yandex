@@ -60,17 +60,6 @@ class Router {
     }
 
     public start(): void {
-/*        document.addEventListener('click', (event: Event) => {
-            console.log('event', event)
-            const target = (event.target as HTMLElement).closest('a');
-            if(target?.classList.contains('router-link')){
-                event.preventDefault();
-                event.stopPropagation();
-                const pathname = target.getAttribute('href');
-                console.log('event go', pathname, target)
-                this.go(pathname as string);
-            }
-        });*/
         window.onpopstate = (event: PopStateEvent) => {
             this.onRoute((event.currentTarget as Window).location.pathname);
         }
@@ -78,9 +67,10 @@ class Router {
     }
 
     private onRoute(pathname: string): void {
-        if (this.currentRoute) {
+        /*if (this.currentRoute) {
+            console.log(this.currentRoute, 'leave')
             this.currentRoute.leave();
-        }
+        }*/
 
         let i = this.routes.length;
         let route = this.routes.find(route => route.route.routepathname === '*') || null;
@@ -108,14 +98,20 @@ class Router {
         if(route.onRoute){
             route.onRoute();
         }
-        this.currentRoute = route.route;
-        this.currentRoute.render();
+
+        if (this.currentRoute?.routepathname !== route.route.routepathname) {
+            console.log(this.currentRoute, 'leave')
+            this.currentRoute?.leave();
+            this.currentRoute = route.route;
+            this.currentRoute.render();
+        }
     }
 
     public go(pathname: string): void {
         console.log('Go:', pathname)
         this.history.pushState({}, '', pathname);
         this.onRoute(pathname);
+        console.log('State', store.getState())
     }
 
     public back(): void {
@@ -127,7 +123,7 @@ class Router {
     }
 
     public getParams(): Record<string, string> {
-        const path: string = this.currentRoute!.routepathname;
+        const path: string = this.currentRoute?.routepathname || '';
         const pathParts: string[] = path.split('/');
         pathParts.shift();
         const paramsKeys: (string | null)[] = [];

@@ -8,11 +8,17 @@ import Messenger from '../pages/messenger';
 import store from '../application/Store';
 
 const checkNotAuth = () => {
+    console.log('check', store.getState(), store.getState().user === null)
     return store.getState().user === null;
 }
 
 const checkIsAuth = () => {
     return store.getState().user !== null;
+}
+
+const onRoute = () => {
+    console.log(router.getParams())
+    setTimeout(() => store.set('currentChat', parseInt(router.getParams().id) || null), 0)
 }
 
 const router = new Router('#router-view');
@@ -21,10 +27,10 @@ window.addEventListener('DOMContentLoaded', async () => {
     router.
         use({pathname: '/', block: SignIn, routeGuard: {guard: checkNotAuth, redirect: '/messenger'}}).
         use({pathname: '/sign-up', block: SignUp, routeGuard: {guard: checkNotAuth, redirect: '/messenger'}}).
-        use({pathname: '/messenger', block: Messenger, routeGuard: {guard: checkIsAuth, redirect: '/'}}).
-        use({pathname: '/messenger/:id', block: Messenger, routeGuard: {guard: checkIsAuth, redirect: '/'}}).
-        use({pathname: '/settings', block: Messenger, props: { window: 'settings' }, routeGuard: {guard: checkIsAuth, redirect: '/'}}).
-            //use({pathname: '/error_404', block: ErrorPage, props: { errorCode: 404, errorMessage: 'Not found' }}).
+        use({pathname: '/messenger', block: Messenger, props: { window: 'chat'}, routeGuard: {guard: checkIsAuth, redirect: '/'}}).
+        use({pathname: '/messenger/:id', block: Messenger, props: { window: 'chat'}, onRoute: onRoute, routeGuard: {guard: checkIsAuth, redirect: '/'}}).
+        use({pathname: '/settings', block: Messenger, props: { window: 'profile' }, routeGuard: {guard: checkIsAuth, redirect: '/'}}).
+        use({pathname: '/settings/password', block: Messenger, props: { window: 'password' }, routeGuard: {guard: checkIsAuth, redirect: '/'}}).
         use({pathname: '/error_500', block: ErrorPage, props: { errorCode: 500, errorMessage: 'The page isn`t working', backUrl: '/chat' }}).
         use({pathname: '*', block: ErrorPage, props: { errorCode: 404, errorMessage: 'Not found' }}).
         start();

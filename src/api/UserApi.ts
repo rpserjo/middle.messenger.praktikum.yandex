@@ -15,6 +15,11 @@ export interface UpdateProfileData {
     phone: string
 }
 
+export interface ChangePasswordData {
+    oldPassword: string,
+    newPassword: string
+}
+
 class UserApi extends BaseApi{
     constructor() {
         super(API.ENDPOINTS.USER.ENDPOINT);
@@ -35,7 +40,16 @@ class UserApi extends BaseApi{
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        });
+    }
+
+    public changePassword(data: ChangePasswordData): Promise<Record<string, any>>{
+        return this.http.put(API.ENDPOINTS.USER.PASSWORD, {
+            data,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
     }
 }
 

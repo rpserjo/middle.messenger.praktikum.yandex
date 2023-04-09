@@ -3,6 +3,7 @@ import set from './utils/set';
 import Block from './Block';
 import {ToastProps} from '../components/toast';
 import {User} from '../api/AuthApi';
+import {ChatElement} from '../pages/messenger/components/chats-list';
 
 export enum StoreEvents {
     UPDATED = 'store:updated',
@@ -11,7 +12,9 @@ export enum StoreEvents {
 export interface State extends Record<string, any> {
     isLoading: boolean,
     toast: ToastProps,
-    user: User | null
+    user: User | null,
+    chats: ChatElement[],
+    currentChat: null | number
 }
 
 class Store extends EventBus {
@@ -22,7 +25,9 @@ class Store extends EventBus {
             toastMode: null,
             toastMessage: null
         },
-        user: null
+        user: null,
+        chats: [],
+        currentChat: null
     };
 
     public getState(): Indexed{

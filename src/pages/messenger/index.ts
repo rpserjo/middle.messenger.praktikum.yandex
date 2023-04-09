@@ -12,6 +12,11 @@ import Avatar from '../chat/components/avatar';
 import {User} from '../../api/AuthApi';
 import Profile from './pages/profile';
 import router from '../../router/router';
+import Link from '../../components/link';
+import Password from './pages/password';
+import NoChat from './pages/no-chat';
+import ChatsList from './components/chats-list';
+import ActiveChat from './pages/active-chat';
 
 interface MessengerProps {
     user: {
@@ -30,8 +35,8 @@ class MessengerBlock extends Block<MessengerProps> {
     created() {
         const userAvatar = new(withStore(Avatar, (state: State) => {
             return {
-                avatarSrc: API.RESOURCES + state.user!.avatar,
-                profileName: `${state.user!.first_name} ${state.user!.second_name}`,
+                avatarSrc: API.RESOURCES + state.user?.avatar,
+                profileName: `${state.user?.first_name} ${state.user?.second_name}`,
             }
         }))();
 
@@ -43,33 +48,36 @@ class MessengerBlock extends Block<MessengerProps> {
         });
 
         const profileIcon = new Icon({
-            icon: 'profile2',
-            events: {
-                click: () => router.go('/settings')
-            }
+            icon: 'profile2'
         });
 
-        const logout = new Button({
-            buttonLabel: 'logout',
-            events: {
-                click: () => authController.logout()
-            }
+        const profileLink = new Link({
+            label: profileIcon,
+            to: '/settings',
+            routerLink: true
         });
 
-        const window: typeof Block | string = (this.props.window === 'settings') ? Profile : (router.getParams()?.id > 0) ? 'chat' : 'no-chat';
+        const chatsList = new ChatsList();
+
+        const windows: Record<string, Block> = {
+            noChat: NoChat,
+            profile: Profile,
+            password: Password,
+            chat: ActiveChat
+        }
 
         this.children = {
             userAvatar,
             searchInput,
-            profileIcon,
-            logout
+            profileLink,
+            chatsList
         };
 
-        if(typeof window === 'string') {
-            console.log('window', window);
+        if(windows[this.props.window]){
+            const currentWindow: CBlock = new windows[this.props.window]();
+            this.children = {...this.children, currentWindow}
         }else{
-            const w: CBlock = new window();
-            this.children = {...this.children, w}
+            console.log(`Window "${this.props.window}" is not registered`)
         }
     }
 
@@ -79,7 +87,6 @@ class MessengerBlock extends Block<MessengerProps> {
 }
 
 const Messenger = withStore(MessengerBlock, (state: State) => {
-    console.log('MSG', state)
     return {
         user: {
             first_name: state.user?.first_name,
