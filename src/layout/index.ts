@@ -9,8 +9,8 @@ class Layout extends Block{
     }
 
     created() {
-        const spinner = new Spinner();
-        const toast = new Toast();
+        const spinner = new Spinner({});
+        const toast = new Toast({});
         this.children = {
             spinner,
             toast

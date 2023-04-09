@@ -1,4 +1,4 @@
-const cloneDeep = (obj: Indexed<T>): Indexed<T> => {
+const cloneDeep = (obj: any): any => {
     if (obj === null) return null;
     const clone: any = { ...obj };
     Object.keys(clone).forEach(

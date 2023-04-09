@@ -5,7 +5,7 @@ import cutString from '../../../../application/utils/cutString';
 import store from '../../../../application/Store';
 
 class ChatListElement extends Block{
-    constructor(props){
+    constructor(props: TProps){
         super(props);
     }
 
@@ -13,7 +13,7 @@ class ChatListElement extends Block{
         if(this.props.id === store.getState().currentChat){
             console.log(this.props.id)
         }
-        const chatLastMessage = (this.props.last_message) ? cutString(this.props.last_message) : 'No messages...';
+        const chatLastMessage = (this.props.last_message) ? cutString(this.props.last_message, 15) : 'No messages...';
         const chatNewMessages = (this.props.unread_count) ? (this.props.unread_count) : '';
         this.setProps({chatLastMessage, chatNewMessages});
         this.props.events = {

@@ -23,7 +23,7 @@ class ChatsController {
         }
     }
 
-    async getChats(data: GetChatsData): Promise<void>{
+    async getChats(data: GetChatsData = {}): Promise<void>{
         spinnerController.toggle(true);
         try{
             const response = await chatsApi.getChats(data);

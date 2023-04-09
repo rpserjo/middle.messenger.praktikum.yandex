@@ -1,6 +1,5 @@
 import BaseApi from './BaseApi';
 import API from './Api';
-import {User} from './AuthApi';
 
 export interface UploadAvatarData {
     avatar: File

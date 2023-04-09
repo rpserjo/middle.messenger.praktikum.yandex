@@ -1,16 +1,14 @@
 import template from './active-chat.hbs';
 import './active-chat.css';
 import Block from '../../../../application/Block';
-import store, {State, withStore} from '../../../../application/Store';
-import router from '../../../../router/router';
-import chatsApi from '../../../../api/ChatsApi';
+import {State, withStore} from '../../../../application/Store';
 import DropDownMenu from '../../../../components/drop-down-menu';
 import Input from '../../../../components/input';
 import {validateForm} from '../../../../application/utils/validate';
 import Button from '../../../../components/button';
 
 interface ActiveChatProps {
-    chatId: number,
+    currentChat: number,
     chatTitle: string,
     chatAvatar: string,
 }
@@ -136,8 +134,8 @@ const ActiveChat = withStore(ActiveChatBlock, (state: State) => {
     }
     return {
         currentChat: state.currentChat,
-        chatTitle: state.chats.find(chat => chat.id === state.currentChat).title,
-        chatAvatar: state.chats.find(chat => chat.id === state.currentChat).avatar,
+        chatTitle: state.chats.find(chat => chat.id === state.currentChat)?.title,
+        chatAvatar: state.chats.find(chat => chat.id === state.currentChat)?.avatar,
     }
 });
 

@@ -166,8 +166,8 @@ abstract class Block<TProps extends Record<string, any> = any> {
     protected render() {
         return new DocumentFragment();
     }
-
-    protected updated(oldProps, newProps) {}
+    //@ts-ignore
+    protected updated(oldProps: TProps, newProps: TProps) {}
 
     dispatchComponentDidMount(): void {
         this.eventBus.emit(Events.FLOW_CDM);

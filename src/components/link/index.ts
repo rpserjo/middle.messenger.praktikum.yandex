@@ -6,7 +6,7 @@ import router from '../../router/router';
 interface LinkProps{
     type?: string,
     to?: string,
-    label: string | typeof Block,
+    label: string | Block,
     classList?: string[] | string,
     events?: Record<string, Function>,
     routerLink?: boolean
@@ -25,7 +25,7 @@ class Link extends Block<LinkProps> {
                 ...this.props.events,
                 click: (e: Event) => {
                     e.preventDefault();
-                    router.go(this.props.to)
+                    router.go(this.props.to || '/')
                 }
             };
         }

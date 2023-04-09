@@ -2,7 +2,6 @@ import Router from '../application/Router';
 import SignIn from '../pages/signin';
 import SignUp from '../pages/signup';
 import ErrorPage from '../pages/error';
-import Chat from '../pages/chat';
 import authController from '../controllers/AuthController';
 import Messenger from '../pages/messenger';
 import store from '../application/Store';

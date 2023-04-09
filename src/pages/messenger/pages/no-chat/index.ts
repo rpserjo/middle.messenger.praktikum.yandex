@@ -6,7 +6,7 @@ import Modal from '../../../../components/modal';
 import Input from '../../../../components/input';
 import Button from '../../../../components/button';
 import {validateForm} from '../../../../application/utils/validate';
-import chatsApi from '../../../../api/ChatsApi';
+import {CreateChatData} from '../../../../api/ChatsApi';
 import chatsController from '../../../../controllers/ChatsController';
 
 class NoChat extends Block {
@@ -19,7 +19,7 @@ class NoChat extends Block {
             e.preventDefault();
             const formData = validateForm([input]);
             if(formData){
-                const result = await chatsController.createChat(formData);
+                const result = await chatsController.createChat(formData as CreateChatData);
                 if(result){
                     input.value = '';
                     newChatModal.hide();

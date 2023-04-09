@@ -5,6 +5,7 @@ import {validate, validateForm} from '../../../../application/utils/validate';
 import Button from '../../../../components/button';
 import Link from '../../../../components/link';
 import userController from '../../../../controllers/UserController';
+import {ChangePasswordData} from '../../../../api/UserApi';
 
 class Password extends Block{
     constructor() {
@@ -70,7 +71,7 @@ class Password extends Block{
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
-                await userController.changePassword(formData)
+                await userController.changePassword(formData as ChangePasswordData)
             }
         }
 

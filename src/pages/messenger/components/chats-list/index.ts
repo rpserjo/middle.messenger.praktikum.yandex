@@ -1,13 +1,11 @@
 import template from './chats-list.hbs';
 import Block from '../../../../application/Block';
 import {User} from '../../../../api/AuthApi';
-import store, {State, withStore} from '../../../../application/Store';
+import {State, withStore} from '../../../../application/Store';
 import chatsController from '../../../../controllers/ChatsController';
-import Input from '../../../../components/input';
 import ChatListElement from '../chat-element';
 import Link from '../../../../components/link';
 import isEqual from '../../../../application/utils/isEqual';
-import router from '../../../../router/router';
 
 export interface ChatElement{
     id: number,
@@ -51,7 +49,7 @@ class ChatsListBlock extends Block<ChatListProps> {
         }
     }
 
-    updated(oldProps, newProps) {
+    updated(oldProps: Record<string, any>, newProps: Record<string, any>) {
         if(!isEqual(oldProps, newProps)){
             this.children.list = this.props.chats.map(e => {
                 return new Link({

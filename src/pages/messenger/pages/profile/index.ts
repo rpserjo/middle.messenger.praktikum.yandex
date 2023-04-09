@@ -12,6 +12,7 @@ import {State, withStore} from '../../../../application/Store';
 import AvatarUploader from './components/avatar-uploader';
 import API from '../../../../api/Api';
 import userController from '../../../../controllers/UserController';
+import {UpdateProfileData} from '../../../../api/UserApi';
 
 interface ProfileProps {
     user: User
@@ -33,12 +34,12 @@ class ProfileBlock extends Block<ProfileProps> {
             },
         });
 
-        const submitHandler = async (e: Event, inputs: Input[]): void => {
+        const submitHandler = async (e: Event, inputs: Input[]): Promise<void> => {
             e.preventDefault();
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
-                await userController.updateProfile(formData)
+                await userController.updateProfile(formData as UpdateProfileData)
             }
         };
 
@@ -59,7 +60,7 @@ class ProfileBlock extends Block<ProfileProps> {
             }
         });
 
-        const avatarUploader: AvatarUploader = new AvatarUploader({
+        const avatarUploader: Block = new AvatarUploader({
             currentAvatar: API.RESOURCES + this.props.user.avatar,
             uploadIcon
         });

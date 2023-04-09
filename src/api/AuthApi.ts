@@ -60,14 +60,6 @@ class AuthApi extends BaseApi {
 	public logout(): Promise<Record<string, any>>{
 		return this.http.post(API.ENDPOINTS.AUTH.LOGOUT);
 	}
-
-	public create = undefined;
-
-	public read = undefined;
-
-	public update = undefined;
-
-	public delete = undefined;
 }
 
 const authApi = new AuthApi();

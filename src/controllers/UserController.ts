@@ -1,5 +1,4 @@
 import userApi, {ChangePasswordData, UpdateProfileData, UploadAvatarData} from '../api/UserApi';
-import {User} from '../api/AuthApi';
 import spinnerController from './SpinnerController';
 import errorHandler from '../application/handlers/errorHandler';
 import store from '../application/Store';

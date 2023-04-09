@@ -36,11 +36,11 @@ class AuthController{
 		}
 	}
 
-	async user(): Promise<User>{
+	async user(): Promise<any>{
 		try{
 			const user = await authApi.user();
 			store.set('user', user.response);
-			return user;
+			return user as User;
 		}catch(e){
 			console.log('AuthController:user', e);
 		}
@@ -75,6 +75,7 @@ class AuthController{
 			}).catch(() => false);
 		}catch (e) {
 			router.go('/error_500');
+			return false;
 		} finally {
 			spinnerController.toggle(false);
 		}
