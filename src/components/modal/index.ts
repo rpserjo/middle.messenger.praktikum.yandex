@@ -5,12 +5,12 @@ import Link from '../link';
 
 interface ModalProps {
     modalLabel?: string,
+    modalClass?: string,
     modalChildren?: Block[],
 }
 
-class Modal extends Block<ModalProps>{
+class Modal extends Block<ModalProps> {
     constructor(props: ModalProps) {
-        console.log('PRops', props);
         super(props);
     }
 
@@ -21,37 +21,22 @@ class Modal extends Block<ModalProps>{
                 click: (e: Event) => {
                     e.preventDefault();
                     this.hide();
-                }
-            }
+                },
+            },
         });
-
-        //this.children.modalChildren = this.props.modalChildren;
 
         this.children = {
             ...this.children,
             hideButton,
-            //modalChildren: this.props.modalChildren
-        }
-
-        console.log(this);
+        };
     }
 
-    mounted(){
+    mounted() {
         this.hide();
-        setTimeout(() => {
-            const bg = this.getElement.querySelector('.modal-wrapper');
-            console.log(bg)
-        }, 1000)
-
-        //?.addEventListener('click', (e: Event) => this.hide())
     }
 
-    render(){
+    render() {
         return this.compile(template, this.props);
-    }
-
-    updated(){
-        console.log('modal updated');
     }
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable */
 function isPlainObject(value: unknown): value is Indexed {
     return typeof value === 'object'
         && value !== null
@@ -33,6 +34,6 @@ const isEqual = (lhs: Indexed, rhs: Indexed): boolean => {
     }
 
     return true;
-}
+};
 
 export default isEqual;

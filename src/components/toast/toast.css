@@ -10,7 +10,7 @@
     max-width: 350px;
     padding: 10px;
     transition: all ease-in-out 0.5s;
-    z-index: 10;
+    z-index: 100;
     display: flex;
 
     &.visibl1e{

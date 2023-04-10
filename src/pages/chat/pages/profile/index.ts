@@ -20,7 +20,7 @@ class Profile extends Block {
             events: {
                 click: async (e: Event) => {
                     e.preventDefault();
-                    await authController.logout()
+                    await authController.logout();
                 },
             },
         });

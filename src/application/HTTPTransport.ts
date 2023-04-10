@@ -24,11 +24,11 @@ type HTTPMethod = (url: string, options?: Options) => Promise<Record<string, any
 
 class HTTPTransport {
     private apiUrl: string;
-    
-    constructor(apiUrl: string){
+
+    constructor(apiUrl: string) {
         this.apiUrl = apiUrl;
     }
-    
+
     private queryString = (data: Record<string, string>) => {
         return (data) ? `?${Object.entries(data).map((param) => `${param[0]}=${param[1]}`).join('&')}` : '';
     };
@@ -56,7 +56,9 @@ class HTTPTransport {
     };
 
     private request = (url: string, options: Options, timeout = 5000): Promise<Record<string, any>> => {
-        const { method = Methods.GET, data, headers = {}, multipartForm = false } = options;
+        const {
+            method = Methods.GET, data, headers = {}, multipartForm = false,
+        } = options;
         url = this.apiUrl + url;
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
@@ -68,41 +70,38 @@ class HTTPTransport {
                 });
             }
 
-            xhr.onabort = () => reject({reason: 'Request aborted'});
-            xhr.onerror = () => reject({reason: 'Request failed'});
+            xhr.onabort = () => reject({ reason: 'Request aborted' });
+            xhr.onerror = () => reject({ reason: 'Request failed' });
             xhr.timeout = timeout;
             xhr.withCredentials = true;
             xhr.onload = () => {
                 let response;
-                try{
+                try {
                     response = JSON.parse(xhr.response);
-                }catch{
+                } catch {
                     response = xhr.response;
                 }
 
-                if(xhr.status < 400){
+                if (xhr.status < 400) {
                     resolve({
                         status: xhr.status,
-                        response
-                    })
-                }else{
+                        response,
+                    });
+                } else {
                     reject({
                         reason: 'Bad response',
                         status: xhr.status,
-                        response
-                    })
+                        response,
+                    });
                 }
             };
 
             if (method === Methods.GET) {
                 xhr.send();
+            } else if (multipartForm === true) {
+                xhr.send(data);
             } else {
-                if(multipartForm === true){
-                    xhr.send(data);
-                } else{
-                    xhr.send(JSON.stringify(data));
-                }
-
+                xhr.send(JSON.stringify(data));
             }
         });
     };

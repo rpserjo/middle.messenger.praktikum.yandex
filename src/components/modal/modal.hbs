@@ -1,4 +1,4 @@
-<div class="modal__wrapper" ref="background">
+<div class="modal__wrapper">
     <div class="modal__container">
         <div class="modal__header">
             <div class="modal__header-label">
@@ -8,7 +8,7 @@
                 {{{ hideButton }}}
             </div>
         </div>
-        <div class="modal__content">
+        <div class="modal__content {{{modalClass}}}">
             {{#each modalChildren}}
                 {{{ this }}}
             {{/each}}

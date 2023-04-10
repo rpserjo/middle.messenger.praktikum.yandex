@@ -1,3 +1,4 @@
+/* eslint-disable */
 const cloneDeep = (obj: any): any => {
     if (obj === null) return null;
     const clone: any = { ...obj };
@@ -9,6 +10,6 @@ const cloneDeep = (obj: any): any => {
         return Array.from(clone);
     }
     return clone;
-}
+};
 
 export default cloneDeep;

@@ -1,18 +1,18 @@
 import template from './password.hbs';
 import Block from '../../../../application/Block';
 import Input from '../../../../components/input';
-import {validate, validateForm} from '../../../../application/utils/validate';
+import { validate, validateForm } from '../../../../application/utils/validate';
 import Button from '../../../../components/button';
 import Link from '../../../../components/link';
 import userController from '../../../../controllers/UserController';
-import {ChangePasswordData} from '../../../../api/UserApi';
+import { ChangePasswordData } from '../../../../api/UserApi';
 
-class Password extends Block{
-    constructor() {
-        super();
+class Password extends Block {
+    constructor(props: TProps) {
+        super(props);
     }
 
-    created(){
+    created() {
         const oldPasswordInput: Input = new Input({
             id: 'oldPassword',
             label: 'Current password',
@@ -71,9 +71,9 @@ class Password extends Block{
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
-                await userController.changePassword(formData as ChangePasswordData)
+                await userController.changePassword(formData as ChangePasswordData);
             }
-        }
+        };
 
         const submitButton = new Button({
             buttonLabel: 'Change password',
@@ -81,23 +81,23 @@ class Password extends Block{
                 click: (e: Event) => {
                     const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
                     submitHandler(e, inputs as Input[]);
-                }
-            }
+                },
+            },
         });
 
         const cancelLink = new Link({
             label: 'Cancel',
             to: '/settings',
-            routerLink: true
-        })
+            routerLink: true,
+        });
 
         this.children = {
             oldPasswordInput,
             newPasswordInput,
             repeatNewPasswordInput,
             submitButton,
-            cancelLink
-        }
+            cancelLink,
+        };
     }
 
     render() {

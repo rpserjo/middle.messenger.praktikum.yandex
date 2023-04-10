@@ -1,9 +1,9 @@
 import template from './layout.hbs';
 import Block from '../application/Block';
-import {Spinner} from '../components/spinner';
-import {Toast} from '../components/toast';
+import { Spinner } from '../components/spinner';
+import { Toast } from '../components/toast';
 
-class Layout extends Block{
+class Layout extends Block {
     constructor(props: TProps = {}) {
         super(props);
     }
@@ -13,7 +13,7 @@ class Layout extends Block{
         const toast = new Toast({});
         this.children = {
             spinner,
-            toast
+            toast,
         };
     }
 

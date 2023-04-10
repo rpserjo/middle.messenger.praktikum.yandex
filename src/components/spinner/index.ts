@@ -1,18 +1,18 @@
 import template from './spinner.hbs';
 import './spinner.css';
 import Block from '../../application/Block';
-import {withStore} from '../../application/Store';
+import { State, withStore } from '../../application/Store';
 
 interface SpinnerProps{
     isLoading: boolean
 }
 
 class SpinnerBlock extends Block<SpinnerProps> {
-    constructor(props: SpinnerProps = {isLoading: false}) {
+    constructor(props: SpinnerProps = { isLoading: false }) {
         super(props, 'Spinner');
     }
 
-    updated(){
+    updated() {
 
     }
 
@@ -21,8 +21,8 @@ class SpinnerBlock extends Block<SpinnerProps> {
     }
 }
 
-export const Spinner = withStore(SpinnerBlock, (state: any) => {
+export const Spinner = withStore(SpinnerBlock, (state: State) => {
     return {
-        isLoading: state.isLoading
-    }
+        isLoading: state.isLoading,
+    };
 });

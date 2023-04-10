@@ -16,7 +16,7 @@ import Button from '../../../../components/button';
 
 class ActiveChat extends Block {
     constructor() {
-        super( {}, 'ActiveChat');
+        super({}, 'ActiveChat');
     }
 
     created() {

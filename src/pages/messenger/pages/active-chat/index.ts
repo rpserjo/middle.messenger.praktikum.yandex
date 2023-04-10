@@ -1,18 +1,22 @@
 import template from './active-chat.hbs';
 import './active-chat.css';
 import Block from '../../../../application/Block';
-import {State, withStore} from '../../../../application/Store';
+import store, { State, withStore } from '../../../../application/Store';
 import DropDownMenu from '../../../../components/drop-down-menu';
 import Input from '../../../../components/input';
 import Icon from '../../../../components/icon';
 import Modal from '../../../../components/modal';
-import {validateForm} from '../../../../application/utils/validate';
+import { validateForm } from '../../../../application/utils/validate';
 import Button from '../../../../components/button';
 import chatsController from '../../../../controllers/ChatsController';
 import toastController from '../../../../controllers/ToastController';
-import store from '../../../../application/Store';
+
 import isEqual from '../../../../application/utils/isEqual';
 import router from '../../../../router/router';
+import { AddUsersList, DeleteUsersList } from '../../components/users';
+import userController from '../../../../controllers/UserController';
+import { SearchUserData } from '../../../../api/UserApi';
+import { CreateChatData } from '../../../../api/ChatsApi';
 
 interface ActiveChatProps {
     currentChat: number,
@@ -20,12 +24,12 @@ interface ActiveChatProps {
     chatAvatar: string,
 }
 
-class ActiveChatBlock extends Block<ActiveChatProps>{
+class ActiveChatBlock extends Block<ActiveChatProps> {
     constructor(props: ActiveChatProps) {
         super(props, 'Active chat');
     }
 
-    created(){
+    created() {
         const optionsDropDown = new DropDownMenu({
             dropDownMenuIcon: 'options',
             dropDownMenuTitle: 'Options',
@@ -34,51 +38,88 @@ class ActiveChatBlock extends Block<ActiveChatProps>{
                     icon: 'addUser',
                     label: 'Add user',
                     events: {
-                        click: () => console.log('Add user'),
+                        click: () => addUserModal.show(true),
                     },
                 },
                 {
                     icon: 'removeUser',
                     label: 'Remove user',
                     events: {
-                        click: () => console.log('Remove user'),
+                        click: () => deleteUserModal.show(true),
                     },
                 },
                 {
                     icon: 'remove',
                     label: 'Delete chat',
                     events: {
-                        click: async () => {
-                            deleteChatModal.show();                            
-                        },
+                        click: () => deleteChatModal.show(true),
                     },
                 },
             ],
         });
-        
+        // ADD USER
+        const addUserInput = new Input({
+            name: 'query',
+            placeholder: 'Enter user login an press Enter',
+            label: 'Search for user',
+            events: {
+                keydown: async (e: KeyboardEvent) => {
+                    if (e.code === 'Enter') {
+                        const users = await userController.searchUsers({ login: addUserInput.value } as SearchUserData);
+                        addUserList.setProps({
+                            usersList: users,
+                        });
+                    }
+                },
+            },
+        });
+
+        const addUserList = new (withStore(AddUsersList, (state: State) => {
+            return {
+                currentChat: state.currentChat,
+            };
+        }))({});
+
         const addUserModal = new Modal({
             modalLabel: 'Add user to chat',
-            
+            modalChildren: [addUserInput, addUserList],
         });
-        
+
+        // DELETE USER
+
+        const deleteUsersList = new (withStore(DeleteUsersList, (state: State) => {
+            return {
+                currentChat: state.currentChat,
+                usersList: state.currentChatUsers,
+            };
+        }))({});
+
+        const deleteUserModal = new Modal({
+            modalLabel: 'Delete user from chat',
+            modalChildren: [deleteUsersList],
+        });
+
         const deleteChatModal = new Modal({
-           modalLabel: 'Delete chat?',
-           modalChildren: [
+            modalLabel: 'Delete chat?',
+            modalClass: 'flex-row',
+            modalChildren: [
                 new Button({
                     buttonLabel: 'Delete',
+                    classList: ['inline'],
                     events: {
                         click: async () => {
-                            const response = await chatsController.deleteChat({chatId: store.getState().currentChat});
-                        }
-                    }
+                            await chatsController.deleteChat({ chatId: store.getState().currentChat });
+                        },
+                    },
                 }),
                 new Button({
                     buttonLabel: 'Cancel',
+                    classList: ['inline'],
                     events: {
-                        click: () => deleteChatModal.hide()
-                    }
+                        click: () => deleteChatModal.hide(),
+                    },
                 }),
-           ]
+            ],
         });
 
         const attachDropDown = new DropDownMenu({
@@ -99,10 +140,10 @@ class ActiveChatBlock extends Block<ActiveChatProps>{
                             input.type = 'file';
                             input.accept = 'image/*';
                             input.addEventListener('change', () => {
-                               console.log(input.files); 
+                                console.log(input.files);
                             });
                             input.click();
-                        }
+                        },
                     },
                 },
                 {
@@ -137,13 +178,11 @@ class ActiveChatBlock extends Block<ActiveChatProps>{
             events: {
                 click: (e: Event) => {
                     e.preventDefault();
-                    //const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
+                    // const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
                     submitHandler(e, [chatSendMessage]);
                 },
             },
         });
-
-
 
         const submitHandler = (e: Event, inputs: Input[]) => {
             e.preventDefault();
@@ -152,18 +191,18 @@ class ActiveChatBlock extends Block<ActiveChatProps>{
                 console.log(formData);
             }
         };
-        
-        const newChatSubmitHandler = async(e: Event, input: Input) => {
+
+        const newChatSubmitHandler = async (e: Event, input: Input) => {
             e.preventDefault();
             const formData = validateForm([input]);
-            if(formData){
+            if (formData) {
                 const result = await chatsController.createChat(formData as CreateChatData);
-                if(result){
+                if (result) {
                     input.value = '';
                     newChatModal.hide();
                 }
             }
-        }
+        };
 
         const newChatInput = new Input({
             label: 'Chat title',
@@ -172,46 +211,46 @@ class ActiveChatBlock extends Block<ActiveChatProps>{
             id: 'title',
             validation: {
                 required: true,
-            }
+            },
         });
 
         const newChatSubmit = new Button({
             buttonLabel: 'Create',
             events: {
-                click: (e: Event) => newChatSubmitHandler(e, newChatInput)
-            }
-        })
+                click: (e: Event) => newChatSubmitHandler(e, newChatInput),
+            },
+        });
         const newChatModal = new Modal({
             modalLabel: 'Create new chat',
-            modalChildren: [newChatInput, newChatSubmit]
+            modalChildren: [newChatInput, newChatSubmit],
         });
         const newChatIcon = new Icon({
             icon: 'newChat',
             events: {
-                click: () => newChatModal.show(true)
-            }
+                click: () => newChatModal.show(true),
+            },
         });
-        
+
         this.children = {
+            addUserModal,
+            deleteUserModal,
             deleteChatModal,
             optionsDropDown,
             attachDropDown,
             chatSendMessage,
             sendIcon,
             newChatIcon,
-            newChatModal
+            newChatModal,
         };
-
-
     }
 
-    render(){
+    render() {
         return this.compile(template, this.props);
     }
-    
-    updated(oldProps: TProps, newProps: TProps){
-        if(!isEqual(oldProps, newProps)){
-            if(newProps.currentChat > 0 && store.getState().chats.length > 0 && newProps.chatTitle === undefined){
+
+    updated(oldProps: TProps, newProps: TProps) {
+        if (!isEqual(oldProps, newProps)) {
+            if (newProps.currentChat > 0 && store.getState().chats.length > 0 && newProps.chatTitle === undefined) {
                 toastController.setWarning(`Chat with ID#${this.props.currentChat} not found`);
                 router.go('/messenger');
                 store.set('currentChat', null);
@@ -221,19 +260,18 @@ class ActiveChatBlock extends Block<ActiveChatProps>{
 }
 
 const ActiveChat = withStore(ActiveChatBlock, (state: State) => {
-    console.log('STATE', state)
-    if(state.currentChat == null || state.chats.length === 0){
+    if (state.currentChat == null || state.chats.length === 0) {
         return {
             currentChat: null,
             chatTitle: null,
-            chatAvatar: null
-        }
+            chatAvatar: null,
+        };
     }
     return {
         currentChat: state.currentChat,
-        chatTitle: state.chats.find(chat => chat.id === state.currentChat)?.title || undefined,
-        chatAvatar: state.chats.find(chat => chat.id === state.currentChat)?.avatar,
-    }
+        chatTitle: state.chats.find((chat) => chat.id === state.currentChat)?.title || undefined,
+        chatAvatar: state.chats.find((chat) => chat.id === state.currentChat)?.avatar,
+    };
 });
 
 export default ActiveChat;

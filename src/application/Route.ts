@@ -7,8 +7,11 @@ export interface CBlock<TProps extends Record<string, any> = any> {
 
 class Route {
     private pathname: string;
+
     private blockClass: CBlock;
+
     private block: Block | null;
+
     private props: TProps;
 
     constructor(pathname: string, view: CBlock, props: TProps) {
@@ -33,12 +36,12 @@ class Route {
     }
 
     public match(pathname: string): boolean {
-        return this.pathname === pathname;//isEqual(pathname, this._pathname);
+        return this.pathname === pathname;// isEqual(pathname, this._pathname);
     }
 
     public render(): void {
         if (!this.block) {
-            this.block = new this.blockClass(this.props);
+            this.block = new this.blockClass(this.props);   // eslint-disable-line
             render(this.props.rootQuery, this.block!);
             return;
         }

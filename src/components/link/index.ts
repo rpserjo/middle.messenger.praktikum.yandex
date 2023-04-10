@@ -20,13 +20,13 @@ class Link extends Block<LinkProps> {
         const type = this.props.type || 'link';
         const classList = (this.props.classList && Array.isArray(this.props.classList)) ? [...this.props.classList, type].join(' ') : type;
         this.setProps({ classList });
-        if(this.props.routerLink){
+        if (this.props.routerLink) {
             this.props.events = {
                 ...this.props.events,
                 click: (e: Event) => {
                     e.preventDefault();
-                    router.go(this.props.to || '/')
-                }
+                    router.go(this.props.to || '/');
+                },
             };
         }
     }

@@ -1,7 +1,7 @@
 import template from './toast.hbs';
 import './toast.css';
 import Block from '../../application/Block';
-import store, {State, withStore} from '../../application/Store';
+import store, { State, withStore } from '../../application/Store';
 
 export interface ToastProps {
     displayToast: boolean,
@@ -9,22 +9,22 @@ export interface ToastProps {
     toastMessage: null | string
 }
 
-class ToastBlock extends Block<ToastProps>{
+class ToastBlock extends Block<ToastProps> {
     private timer: number;
 
     constructor(props: ToastProps) {
-        super(props,'Toast');
+        super(props, 'Toast');
     }
 
-    mounted(){
+    mounted() {
         this.hide();
     }
 
-    updated(){
-        if(this.props.displayToast === true){
+    updated() {
+        if (this.props.displayToast === true) {
             this.show();
-            setTimeout(() => this.getElement.style.transform = 'translateY(-100px)', 0);
-            if(this.timer){
+            setTimeout(() => { this.getElement.style.transform = 'translateY(-100px)'; }, 0);
+            if (this.timer) {
                 clearTimeout(this.timer);
             }
             this.timer = setTimeout(() => {
@@ -39,17 +39,17 @@ class ToastBlock extends Block<ToastProps>{
             store.set('toast', {
                 displayToast: false,
                 toastMode: null,
-                toastMessage: null
+                toastMessage: null,
             });
             this.hide();
         }, 500);
     }
 
-    render(){
+    render() {
         return this.compile(template, this.props);
     }
 }
 
 export const Toast = withStore(ToastBlock, (state: State) => {
-    return state.toast
+    return state.toast;
 });

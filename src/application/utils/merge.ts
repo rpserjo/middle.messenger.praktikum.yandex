@@ -1,5 +1,6 @@
-const  merge = (lhs: Indexed, rhs: Indexed): Indexed => {
-    for (let p in rhs) {
+/* eslint-disable */
+const merge = (lhs: Indexed, rhs: Indexed): Indexed => {
+    for (const p in rhs) {
         if (!rhs.hasOwnProperty(p)) {
             continue;
         }
@@ -10,12 +11,12 @@ const  merge = (lhs: Indexed, rhs: Indexed): Indexed => {
             } else {
                 lhs[p] = rhs[p];
             }
-        } catch(e) {
+        } catch (e) {
             lhs[p] = rhs[p];
         }
     }
 
     return lhs;
-}
+};
 
 export default merge;

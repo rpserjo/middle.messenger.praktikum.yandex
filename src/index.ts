@@ -5,19 +5,19 @@ import router from './router/router';
 
 const layout = new Layout();
 renderDom('#root', layout);
-//console.log('router', router)
+// console.log('router', router)
 router.start();
 
-//import Store from './application/Store';
+// import Store from './application/Store';
 
-//router.start();
-/*import SignIn from './pages/signin';
+// router.start();
+/* import SignIn from './pages/signin';
 import SignUp from './pages/signup';
 import ErrorPage from './pages/error';
 //import Chat from './pages/chat';
-import Router from './application/Router';*/
+import Router from './application/Router'; */
 
-/*const router = new Router('#wrapper');
+/* const router = new Router('#wrapper');
 
 router.
     use('/signin', SignIn).
@@ -25,10 +25,9 @@ router.
     use('/error_404', ErrorPage, { errorCode: 404, errorMessage: 'Not found' }).
     use('/error_500', ErrorPage, { errorCode: 500, errorMessage: 'The page isn`t working', backUrl: '/chat' }).
     use('*', ErrorPage, { errorCode: 404, errorMessage: 'Not found' }).
-    start();*/
+    start(); */
 
-
-/*let currentPage: Block;
+/* let currentPage: Block;
 const currentPathname: string = window.location.pathname;
 
 switch (currentPathname) {
@@ -57,4 +56,4 @@ default:
     currentPage = new ErrorPage();
 }
 
-renderDom('#wrapper', currentPage);*/
+renderDom('#wrapper', currentPage); */

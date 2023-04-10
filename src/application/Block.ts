@@ -45,7 +45,7 @@ abstract class Block<TProps extends Record<string, any> = any> {
             }
         });
 
-        return { children, props: props as TProps};
+        return { children, props: props as TProps };
     }
 
     private makeProxyProps(props: TProps) {
@@ -89,7 +89,7 @@ abstract class Block<TProps extends Record<string, any> = any> {
         this.removeEvents();
         const block = this.render();
         const element = block.firstElementChild as HTMLElement;
-        if(this.element){
+        if (this.element) {
             this.removeEvents();
             this.element.replaceWith(element);
         }
@@ -166,7 +166,8 @@ abstract class Block<TProps extends Record<string, any> = any> {
     protected render() {
         return new DocumentFragment();
     }
-    //@ts-ignore
+
+    // @ts-ignore
     protected updated(oldProps: TProps, newProps: TProps) {}
 
     dispatchComponentDidMount(): void {

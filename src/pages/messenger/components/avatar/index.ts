@@ -17,7 +17,7 @@ class Avatar extends Block<AvatarProps> {
     }
 
     updated() {
-        console.log('avatar updated')
+        console.log('avatar updated');
     }
 }
 

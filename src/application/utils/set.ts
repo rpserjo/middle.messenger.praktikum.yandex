@@ -14,6 +14,6 @@ const set = (object: Indexed | unknown, path: string, value: unknown): Indexed |
     }), value as any);
 
     return merge(object as Indexed, result);
-}
+};
 
 export default set;

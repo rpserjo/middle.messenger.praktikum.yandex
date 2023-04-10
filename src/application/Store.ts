@@ -1,9 +1,9 @@
 import EventBus from './EventBus';
 import set from './utils/set';
 import Block from './Block';
-import {ToastProps} from '../components/toast';
-import {User} from '../api/AuthApi';
-import {ChatElement} from '../pages/messenger/components/chats-list';
+import { ToastProps } from '../components/toast';
+import { User } from '../api/AuthApi';
+import { ChatElement } from '../pages/messenger/components/chats-list';
 
 export enum StoreEvents {
     UPDATED = 'store:updated',
@@ -14,7 +14,8 @@ export interface State extends Record<string, any> {
     toast: ToastProps,
     user: User | null,
     chats: ChatElement[],
-    currentChat: null | number
+    currentChat: null | number,
+    currentChatUsers: User[]
 }
 
 class Store extends EventBus {
@@ -23,14 +24,15 @@ class Store extends EventBus {
         toast: {
             displayToast: false,
             toastMode: null,
-            toastMessage: null
+            toastMessage: null,
         },
         user: null,
         chats: [],
-        currentChat: null
+        currentChat: null,
+        currentChatUsers: [],
     };
 
-    public getState(): Indexed{
+    public getState(): Indexed {
         return this.state;
     }
 
@@ -39,20 +41,18 @@ class Store extends EventBus {
 
         // метод EventBus
         this.emit(StoreEvents.UPDATED);
-    };
-
-
+    }
 }
 const store = new Store();
 export default store;
 
-export function withStore<SP extends Partial<any>>(Component: typeof Block<SP>, mapStateToProps: (state: any) => SP){
+export function withStore<SP extends Partial<any>>(Component: typeof Block<SP>, mapStateToProps: (state: any) => SP) {
     return class extends Component {
         constructor(props: any) {
-            super({...props, ...mapStateToProps(store.getState())});
+            super({ ...props, ...mapStateToProps(store.getState()) });
             store.on(StoreEvents.UPDATED, () => {
-                this.setProps({...mapStateToProps(store.getState())})
+                this.setProps({ ...mapStateToProps(store.getState()) });
             });
         }
-    }
+    };
 }

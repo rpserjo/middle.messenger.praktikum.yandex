@@ -1,27 +1,27 @@
 import store from '../application/Store';
 
-class ToastController{
-    public setInfo(message: string): void{
+class ToastController {
+    public setInfo(message: string): void {
         store.set('toast', {
             displayToast: true,
             toastMode: 'info',
-            toastMessage: message
+            toastMessage: message,
         });
     }
 
-    public setWarning(message: string): void{
+    public setWarning(message: string): void {
         store.set('toast', {
             displayToast: true,
             toastMode: 'warning',
-            toastMessage: message
+            toastMessage: message,
         });
     }
 
-    public setDanger(message: string): void{
+    public setDanger(message: string): void {
         store.set('toast', {
             displayToast: true,
             toastMode: 'danger',
-            toastMessage: message
+            toastMessage: message,
         });
     }
 }

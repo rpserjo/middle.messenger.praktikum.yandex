@@ -1,5 +1,4 @@
-import Route, {CBlock} from './Route';
-import store from './Store';
+import Route, { CBlock } from './Route';
 
 interface RProps {
     pathname: string,
@@ -28,8 +27,11 @@ class Router {
     private static __instance: Router;
 
     private routes: RouteRecord[];
+
     private history: History;
+
     private currentRoute: Nullable<Route>;
+
     private rootQuery: string;
 
     constructor(rootQuery: string) {
@@ -46,14 +48,14 @@ class Router {
     }
 
     public use(routeProps: RProps) {
-        const route: Route = new Route(routeProps.pathname, routeProps.block, {...routeProps.props, rootQuery: this.rootQuery});
+        const route: Route = new Route(routeProps.pathname, routeProps.block, { ...routeProps.props, rootQuery: this.rootQuery });
         const routePath: string = routeProps.pathname.replace('*', '');
         this.routes.push({
             route,
-            pattern: new RegExp('^' + routePath.replace(/:\w+/g, '(\\w+)') + '$', 'g'),
+            pattern: new RegExp(`^${routePath.replace(/:\w+/g, '(\\w+)')}$`, 'g'),
             onRoute: (routeProps.onRoute) ? routeProps.onRoute : undefined,
             onBeforeRoute: (routeProps.onBeforeRoute) ? routeProps.onBeforeRoute : undefined,
-            routeGuard: routeProps.routeGuard
+            routeGuard: routeProps.routeGuard,
         });
 
         return this;
@@ -62,45 +64,39 @@ class Router {
     public start(): void {
         window.onpopstate = (event: PopStateEvent) => {
             this.onRoute((event.currentTarget as Window).location.pathname);
-        }
+        };
         this.onRoute(window.location.pathname);
     }
 
     private onRoute(pathname: string): void {
-        /*if (this.currentRoute) {
-            console.log(this.currentRoute, 'leave')
-            this.currentRoute.leave();
-        }*/
-
         let i = this.routes.length;
-        let route = this.routes.find(route => route.route.routepathname === '*') || null;
-        while(i--){
+        let route = this.routes.find((route: RouteRecord) => route.route.routepathname === '*') || null;
+        while (i--) {
             const args = pathname.match(this.routes[i].pattern);
-            if(args){
+            if (args) {
                 route = this.routes[i];
             }
         }
 
-        if(route){
-            if(route.routeGuard){
-                if(route.routeGuard.guard()) {
+        if (route) {
+            if (route.routeGuard) {
+                if (route.routeGuard.guard()) {
                     this.executeRoute(route);
-                }else{
+                } else {
                     this.go(route.routeGuard.redirect);
                 }
-            }else{
+            } else {
                 this.executeRoute(route);
             }
         }
     }
 
     private executeRoute(route: RouteRecord): void {
-        if(route.onRoute){
+        if (route.onRoute) {
             route.onRoute();
         }
 
         if (this.currentRoute?.routepathname !== route.route.routepathname) {
-            console.log(this.currentRoute, 'leave')
             this.currentRoute?.leave();
             this.currentRoute = route.route;
             this.currentRoute.render();
@@ -108,10 +104,8 @@ class Router {
     }
 
     public go(pathname: string): void {
-        console.log('Go:', pathname)
         this.history.pushState({}, '', pathname);
         this.onRoute(pathname);
-        console.log('State', store.getState())
     }
 
     public back(): void {
@@ -128,18 +122,18 @@ class Router {
         pathParts.shift();
         const paramsKeys: (string | null)[] = [];
         pathParts.forEach((part: string) => {
-            if(/:[A-Za-z0-9]/.test(part)){
+            if (/:[A-Za-z0-9]/.test(part)) {
                 paramsKeys.push(part.replace(':', ''));
-            }else{
+            } else {
                 paramsKeys.push(null);
             }
         });
         const url: string = window.location.pathname;
-        const urlParts: string[] = url.split('/')
+        const urlParts: string[] = url.split('/');
         urlParts.shift();
         const params: Record<string, string> = {};
         urlParts.forEach((part, i) => {
-            if(paramsKeys[i] && paramsKeys[i] !== null){
+            if (paramsKeys[i] && paramsKeys[i] !== null) {
                 params[paramsKeys[i] as string] = part;
             }
         });

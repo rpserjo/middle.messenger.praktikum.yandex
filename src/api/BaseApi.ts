@@ -3,8 +3,8 @@ import API from './Api';
 
 abstract class BaseApi {
     protected http: HTTPTransport;
-    
-    constructor(endpoint: string){
+
+    protected constructor(endpoint: string) {
         this.http = new HTTPTransport(API.HOST + endpoint);
     }
 }

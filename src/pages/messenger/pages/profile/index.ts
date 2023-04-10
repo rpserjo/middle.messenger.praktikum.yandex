@@ -7,12 +7,12 @@ import { validate, validateForm } from '../../../../application/utils/validate';
 import Button from '../../../../components/button';
 import Link from '../../../../components/link';
 import authController from '../../../../controllers/AuthController';
-import {User} from '../../../../api/AuthApi';
-import {State, withStore} from '../../../../application/Store';
+import { User } from '../../../../api/AuthApi';
+import { State, withStore } from '../../../../application/Store';
 import AvatarUploader from './components/avatar-uploader';
 import API from '../../../../api/Api';
 import userController from '../../../../controllers/UserController';
-import {UpdateProfileData} from '../../../../api/UserApi';
+import { UpdateProfileData } from '../../../../api/UserApi';
 
 interface ProfileProps {
     user: User
@@ -29,7 +29,7 @@ class ProfileBlock extends Block<ProfileProps> {
             events: {
                 click: async (e: Event) => {
                     e.preventDefault();
-                    await authController.logout()
+                    await authController.logout();
                 },
             },
         });
@@ -39,7 +39,7 @@ class ProfileBlock extends Block<ProfileProps> {
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
-                await userController.updateProfile(formData as UpdateProfileData)
+                await userController.updateProfile(formData as UpdateProfileData);
             }
         };
 
@@ -51,18 +51,18 @@ class ProfileBlock extends Block<ProfileProps> {
                     input.type = 'file';
                     input.accept = 'image/*';
                     input.onchange = async () => {
-                        if(input.files?.length){
-                            await userController.uploadAvatar({avatar: input.files[0]});
+                        if (input.files?.length) {
+                            await userController.uploadAvatar({ avatar: input.files[0] });
                         }
-                    }
+                    };
                     input.click();
-                }
-            }
+                },
+            },
         });
 
         const avatarUploader: Block = new AvatarUploader({
             currentAvatar: API.RESOURCES + this.props.user.avatar,
-            uploadIcon
+            uploadIcon,
         });
 
         const emailInput: Input = new Input({
@@ -180,9 +180,9 @@ class ProfileBlock extends Block<ProfileProps> {
         });
 
         const changePasswordLink: Link = new Link({
-           label: 'Change password',
-           to: '/settings/password',
-           routerLink: true
+            label: 'Change password',
+            to: '/settings/password',
+            routerLink: true,
         });
 
         this.children = {
@@ -195,7 +195,7 @@ class ProfileBlock extends Block<ProfileProps> {
             displayNameInput,
             phoneInput,
             submitButton,
-            changePasswordLink
+            changePasswordLink,
         };
     }
 
@@ -205,7 +205,7 @@ class ProfileBlock extends Block<ProfileProps> {
 }
 
 const Profile = withStore(ProfileBlock, (state: State) => {
-    return {user: state.user}
+    return { user: state.user };
 });
 
 export default Profile;

@@ -19,7 +19,7 @@ class ErrorPage extends Block<ErrorPageProps> {
         const backLink = new Link({
             to: (this.props.backUrl) ? this.props.backUrl : '/',
             label: 'Back',
-            routerLink: true
+            routerLink: true,
         });
 
         this.children = { backLink };
@@ -30,9 +30,9 @@ class ErrorPage extends Block<ErrorPageProps> {
     }
 
     mounted() {
-        console.log('Mounted')
-        console.log(router)
-        console.log(router.getParams())
+        console.log('Mounted');
+        console.log(router);
+        console.log(router.getParams());
     }
 }
 
