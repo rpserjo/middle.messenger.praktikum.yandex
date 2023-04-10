@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "parcel index.html --no-cache --open",
+    "dev": "parcel index.html --no-cache",
     "start": "npm run build && node server.js",
     "build": "npm run lint && tsc && parcel build index.html",
     "lint": "eslint \"**/*.ts\" && stylelint \"**/*.css\""

@@ -11,6 +11,10 @@ export interface GetChatsData{
     filter?: string
 }
 
+export interface DeleteChatData{
+    chatId: number,
+}
+
 class ChatsApi extends BaseApi {
     constructor() {
         super(API.ENDPOINTS.CHAT.ENDPOINT);
@@ -28,6 +32,15 @@ class ChatsApi extends BaseApi {
     public getChats(data: GetChatsData): Promise<Record<string, any>>{
         return this.http.get('', {
             data
+        });
+    }
+    
+    public deleteChat(data: DeleteChatData): Promise<Record<string, any>>{
+        return this.http.delete('', {
+           data,
+           headers: {
+                'Content-Type': 'application/json'
+            } 
         });
     }
 
