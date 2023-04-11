@@ -87,6 +87,7 @@ const Messenger = withStore(MessengerBlock, (state: State) => {
             first_name: state.user?.first_name,
             second_name: state.user?.second_name,
         },
+        profileName: `${state.user.first_name} ${state.user.second_name}`,
     };
 });
 

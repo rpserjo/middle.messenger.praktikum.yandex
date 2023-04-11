@@ -10,11 +10,13 @@ import { validateForm } from '../../../../application/utils/validate';
 import Button from '../../../../components/button';
 import chatsController from '../../../../controllers/ChatsController';
 import toastController from '../../../../controllers/ToastController';
+import messengerController from '../../../../controllers/MessengerController';
 
 import isEqual from '../../../../application/utils/isEqual';
 import router from '../../../../router/router';
 import { AddUsersList, DeleteUsersList } from '../../components/users';
 import userController from '../../../../controllers/UserController';
+//import messengerController from '../../../controllers/MessengerController';
 import { SearchUserData } from '../../../../api/UserApi';
 import { CreateChatData } from '../../../../api/ChatsApi';
 
@@ -189,6 +191,9 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
+                if (formData.message.length > 0) {
+                    messengerController.sendMessage(formData.message);
+                }
             }
         };
 
@@ -220,10 +225,12 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                 click: (e: Event) => newChatSubmitHandler(e, newChatInput),
             },
         });
+        
         const newChatModal = new Modal({
             modalLabel: 'Create new chat',
             modalChildren: [newChatInput, newChatSubmit],
         });
+        
         const newChatIcon = new Icon({
             icon: 'newChat',
             events: {
@@ -247,13 +254,33 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
     render() {
         return this.compile(template, this.props);
     }
+    
+    async mounted() {
+        //const token = await chatsController.getToken(this.props.currentChat);
+    }
 
-    updated(oldProps: TProps, newProps: TProps) {
+    async updated(oldProps: TProps, newProps: TProps) {
+        console.log('LOG_0 updated');
+        console.log(oldProps, newProps)
         if (!isEqual(oldProps, newProps)) {
             if (newProps.currentChat > 0 && store.getState().chats.length > 0 && newProps.chatTitle === undefined) {
+                console.log('LOG1 updated')
                 toastController.setWarning(`Chat with ID#${this.props.currentChat} not found`);
                 router.go('/messenger');
                 store.set('currentChat', null);
+                return;
+            }
+            
+            if (newProps.currentChat > 0 && newProps.chatTitle !== null) {
+                
+                console.log('LOG2 updated')
+                const token = await chatsController.getToken(this.props.currentChat);
+                console.log(token, this.props.currentChat, store.getState().user.id)
+                messengerController.connect({
+                    userId: store.getState().user.id,
+                    chatId: this.props.currentChat,
+                    token
+                })
             }
         }
     }
@@ -261,12 +288,14 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
 
 const ActiveChat = withStore(ActiveChatBlock, (state: State) => {
     if (state.currentChat == null || state.chats.length === 0) {
+        console.log('CHAT WITH STORE, ZERO CHATID');
         return {
             currentChat: null,
             chatTitle: null,
             chatAvatar: null,
         };
     }
+    console.log('CHAT WITH STORE, NONZERO CHATID');
     return {
         currentChat: state.currentChat,
         chatTitle: state.chats.find((chat) => chat.id === state.currentChat)?.title || undefined,

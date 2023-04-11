@@ -119,7 +119,10 @@ class ChatsController {
         }
     }
 
-    // async getToken(chatId: number):
+    async getToken(chatId: number){
+        const response = await chatsApi.getToken(chatId);
+        return response.response.token;
+    }
 }
 
 const chatsController = new ChatsController();
