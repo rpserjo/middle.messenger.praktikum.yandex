@@ -9,7 +9,7 @@ import merge from '../application/utils/merge';
 import router from '../router/router';
 
 class UserController {
-    async uploadAvatar(data: UploadAvatarData): Promise<void> {
+    async uploadAvatar(data: IUploadAvatarData): Promise<void> {
         spinnerController.toggle(true);
         try {
             const { response } = await userApi.uploadAvatar(data);
@@ -24,7 +24,7 @@ class UserController {
         }
     }
 
-    async updateProfile(data: UpdateProfileData): Promise<void> {
+    async updateProfile(data: IUpdateProfileData): Promise<void> {
         spinnerController.toggle(true);
         try {
             const { response } = await userApi.updateProfile(data);
@@ -40,7 +40,7 @@ class UserController {
         }
     }
 
-    async changePassword(data: ChangePasswordData): Promise<void> {
+    async changePassword(data: IChangePasswordData): Promise<void> {
         spinnerController.toggle(true);
         try {
             const response = await userApi.changePassword(data);
@@ -57,7 +57,7 @@ class UserController {
         }
     }
 
-    async searchUsers(data: SearchUserData): Promise<any | void> {
+    async searchUsers(data: ISearchUserData): Promise<any | void> {
         spinnerController.toggle(true);
         try {
             const response = await userApi.searchUsers(data);

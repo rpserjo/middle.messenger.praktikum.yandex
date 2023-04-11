@@ -12,13 +12,10 @@ import Link from '../../components/link';
 import Password from './pages/password';
 import ChatsList from './components/chats-list';
 import ActiveChat from './pages/active-chat';
+import chatsController from '../../controllers/ChatsController';
 
 interface MessengerProps {
-    user: {
-        first_name: string,
-        second_name: string
-    },
-    chats: any[],
+    profileName: string,
     window: string
 }
 
@@ -52,7 +49,7 @@ class MessengerBlock extends Block<MessengerProps> {
             routerLink: true,
         });
 
-        const chatsList = new ChatsList({});
+        const chatsList = new ChatsList();
 
         const windows: Record<string, CBlock> = {
             profile: Profile,
@@ -76,17 +73,20 @@ class MessengerBlock extends Block<MessengerProps> {
         }
     }
 
+    async mounted() {
+        await chatsController.getChats();
+    }
+
     render() {
         return this.compile(template, this.props);
     }
 }
 
 const Messenger = withStore(MessengerBlock, (state: State) => {
+    if(state.user === null){
+        return;
+    }
     return {
-        user: {
-            first_name: state.user?.first_name,
-            second_name: state.user?.second_name,
-        },
         profileName: `${state.user.first_name} ${state.user.second_name}`,
     };
 });

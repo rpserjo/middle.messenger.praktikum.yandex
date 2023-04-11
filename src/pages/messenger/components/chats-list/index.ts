@@ -7,7 +7,7 @@ import ChatListElement from '../chat-element';
 import Link from '../../../../components/link';
 import isEqual from '../../../../application/utils/isEqual';
 
-export interface ChatElement{
+/*export interface ChatElement{
     id: number,
     title: string,
     avatar: string,
@@ -17,57 +17,54 @@ export interface ChatElement{
         time: string,
         content: string
     }
-}
+}*/
+
 interface ChatListProps {
-    chats: ChatElement[]
+    chatsList: IChatElement[]
 }
 
 class ChatsListBlock extends Block<ChatListProps> {
-    constructor(props: ChatListProps) {
+    constructor(props: ChatListProps = {}) {
         super(props, 'Chats list');
     }
 
-    created() {
-        chatsController.getChats();
-        if (this.props.chats) {
-            this.children.list = this.props.chats.map((e) => {
-                return new Link({
-                    label: new ChatListElement({
-                        ...e,
-                        events: {
-                            click: () => console.log('TETS', this),
-                        },
-                    }),
-                    to: `/messenger/${e.id}`,
-                    type: 'inherit',
-                    routerLink: true,
-
-                });
+    private propsToChildren(): void {
+        console.log('props 2 children')
+        this.children.list = this.props.chatsList.map((chatElement: IChatElement) => {
+            return new Link({
+                label: new ChatListElement({
+                    chatElement
+                }),
+                to: `/messenger/${chatElement.id}`,
+                type: 'inherit',
+                routerLink: true,
             });
+        });
+    }
+
+    created() {
+       if (this.props.chatsList) {
+            this.propsToChildren();
         }
     }
 
     updated(oldProps: Record<string, any>, newProps: Record<string, any>) {
+        console.log('chats list updated');
         if (!isEqual(oldProps, newProps)) {
-            this.children.list = this.props.chats.map((e) => {
-                return new Link({
-                    label: new ChatListElement(e),
-                    to: `/messenger/${e.id}`,
-                    type: 'inherit',
-                    routerLink: true,
-                });
-            });
+            console.log(oldProps, newProps)
+            this.propsToChildren();
         }
     }
 
     render() {
+        console.log('chats list render', this.children)
         return this.compile(template, this.props);
     }
 }
 
 const ChatList = withStore(ChatsListBlock, (state: State) => {
     return {
-        chats: [...state.chats],
+        chatsList: [...state.chatsList],
     };
 });
 

@@ -6,7 +6,7 @@ import store from '../application/Store';
 import toastController from './ToastController';
 
 class AuthController {
-    async signup(data: SignUpData): Promise<void> {
+    async signup(data: ISignUpData): Promise<void> {
         spinnerController.toggle(true);
         try {
             await authApi.signup(data).then((response) => {
@@ -19,7 +19,7 @@ class AuthController {
         }
     }
 
-    async signin(data: SignInData): Promise<void> {
+    async signin(data: ISignInData): Promise<void> {
         spinnerController.toggle(true);
         try {
             const authResponse = await authApi.signin(data);

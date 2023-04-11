@@ -12,25 +12,13 @@ import router from '../router/router';
 import store from '../application/Store';
 
 class ChatsController {
-    async createChat(data: CreateChatData): Promise<void | boolean> {
+    async createChat(data: ICreateChatData): Promise<void | boolean> {
         spinnerController.toggle(true);
         try {
             const response = await chatsApi.createChat(data);
             if (response.status === 200 && response.response.id > 0) {
                 toastController.setInfo(`Chat '${data.title}' created`);
-                const newChats = [
-                    {
-                        id: response.response.id,
-                        avatar: null,
-                        created_by: 123,
-                        last_message: null,
-                        title: data.title,
-                        unread_count: 0,
-                    },
-                    ...store.getState().chats,
-                ];
-                store.set('chats', newChats);
-
+                await this.getChats();
                 router.go(`/messenger/${response.response.id}`);
                 return true;
             }
@@ -41,12 +29,12 @@ class ChatsController {
         }
     }
 
-    async getChats(data: GetChatsData = {}): Promise<void> {
+    async getChats(data: IGetChatsData = {}): Promise<void> {
         spinnerController.toggle(true);
         try {
             const response = await chatsApi.getChats(data);
             if (Array.isArray(response.response)) {
-                store.set('chats', response.response);
+                store.set('chatsList', response.response);
             }
         } catch (e) {
             errorHandler(e);
@@ -55,13 +43,13 @@ class ChatsController {
         }
     }
 
-    async deleteChat(data: DeleteChatData): Promise<void> {
+    async deleteChat(data: IDeleteChatData): Promise<void> {
         spinnerController.toggle(true);
         try {
             const response = await chatsApi.deleteChat(data);
             if (response.status === 200) {
-                const newChats = store.getState().chats.filter((chat: Record<string, any>) => chat.id !== data.chatId);
-                store.set('chats', newChats);
+                const newChats = store.getState().chatsList.filter((chat: Record<string, any>) => chat.id !== data.chatId);
+                store.set('chatsList', newChats);
                 toastController.setInfo('Chat was deleted');
                 router.go('/messenger');
             }
@@ -72,7 +60,7 @@ class ChatsController {
         }
     }
 
-    async addUsers(data: AddDeleteUsersData): Promise<void> {
+    async addUsers(data: IAddDeleteUsersData): Promise<void> {
         spinnerController.toggle(true);
         try {
             const response = await chatsApi.addUsers(data);
@@ -93,7 +81,7 @@ class ChatsController {
             const response = await chatsApi.getUsers(data);
             console.log(response);
             if (response.status === 200) {
-                store.set('currentChatUsers', response.response);
+                store.set('currentChat.chatUsers', response.response);
                 console.log(store.getState());
             }
         } catch (e) {
@@ -103,7 +91,7 @@ class ChatsController {
         }
     }
 
-    async deleteUsers(data: AddDeleteUsersData): Promise<void> {
+    async deleteUsers(data: IAddDeleteUsersData): Promise<void> {
         spinnerController.toggle(true);
         try {
             const response = await chatsApi.deleteUsers(data);

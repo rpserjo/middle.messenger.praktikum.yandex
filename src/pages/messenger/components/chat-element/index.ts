@@ -4,24 +4,30 @@ import Block from '../../../../application/Block';
 import cutString from '../../../../application/utils/cutString';
 import store from '../../../../application/Store';
 
-class ChatListElement extends Block {
-    constructor(props: TProps) {
+interface ChatListElementProps {
+    currentChat: Nullable<number>,
+    chatElement: IChatElement,
+    events?: () => void
+}
+
+class ChatListElement extends Block<ChatListElementProps> {
+    constructor(props: ChatListElementProps) {
         super(props);
     }
 
     created() {
-        if (this.props.id === store.getState().currentChat) {
+/*        if (this.props.id === store.getState().currentChat) {
             console.log(this.props.id);
-        }
-        const chatLastMessage = (this.props.last_message) ? cutString(this.props.last_message, 15) : 'No messages...';
-        const chatNewMessages = (this.props.unread_count) ? (this.props.unread_count) : '';
+        }*/
+        const chatLastMessage = (this.props.chatElement.last_message) ? cutString(this.props.chatElement.last_message.content, 15) : 'No messages...';
+        const chatNewMessages = (this.props.chatElement.unread_count) ? (this.props.chatElement.unread_count) : '';
         this.setProps({ chatLastMessage, chatNewMessages });
-        this.props.events = {
+        /*this.props.events = {
             click: () => {
                 document.querySelectorAll('.active').forEach((el) => el.classList.remove('active'));
                 this.getElement.classList.add('active');
             },
-        };
+        };*/
     }
 
     render() {

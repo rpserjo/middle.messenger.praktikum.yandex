@@ -15,6 +15,7 @@ function isArrayOrObject(value: unknown): value is [] | Indexed {
 }
 
 const isEqual = (lhs: Indexed, rhs: Indexed): boolean => {
+    //console.log('EQUAL', lhs, rhs)
     if (Object.keys(lhs).length !== Object.keys(rhs).length) {
         return false;
     }

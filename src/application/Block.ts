@@ -59,6 +59,9 @@ abstract class Block<TProps extends Record<string, any> = any> {
                 const oldProps = cloneDeep(target);
                 target[prop] = value;
                 self.eventBus.emit(Events.FLOW_CDU, oldProps, target);
+                /*const oldProps = cloneDeep(target[prop]);
+                target[prop] = value;
+                self.eventBus.emit(Events.FLOW_CDU, oldProps, target[prop]);*/
                 return true;
             },
             deleteProperty() {
@@ -79,6 +82,7 @@ abstract class Block<TProps extends Record<string, any> = any> {
     }
 
     private componentDidUpdate(oldProps: TProps, newProps: TProps): void {
+        //console.log('CDU', this.props.__name, oldProps, newProps)
         if (!isEqual(oldProps, newProps)) {
             this.updated(oldProps, newProps);
             this.eventBus.emit(Events.FLOW_RENDER);

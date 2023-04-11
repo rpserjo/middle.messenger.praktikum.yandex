@@ -19,11 +19,16 @@ import userController from '../../../../controllers/UserController';
 //import messengerController from '../../../controllers/MessengerController';
 import { SearchUserData } from '../../../../api/UserApi';
 import { CreateChatData } from '../../../../api/ChatsApi';
+import {User} from '../../../../api/AuthApi';
+import cloneDeep from '../../../../application/utils/cloneDeep';
 
 interface ActiveChatProps {
-    currentChat: number,
-    chatTitle: string,
-    chatAvatar: string,
+    currentChat: {
+        id: number | null,
+        avatar: string | null,
+        title: string | null,
+        chatUsers: User[]
+    }
 }
 
 class ActiveChatBlock extends Block<ActiveChatProps> {
@@ -78,9 +83,9 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
 
         const addUserList = new (withStore(AddUsersList, (state: State) => {
             return {
-                currentChat: state.currentChat,
+                currentChatId: state.currentChat.id,
             };
-        }))({});
+        }))();
 
         const addUserModal = new Modal({
             modalLabel: 'Add user to chat',
@@ -91,10 +96,9 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
 
         const deleteUsersList = new (withStore(DeleteUsersList, (state: State) => {
             return {
-                currentChat: state.currentChat,
-                usersList: state.currentChatUsers,
+                currentChatId: state.currentChat.id,
             };
-        }))({});
+        }))();
 
         const deleteUserModal = new Modal({
             modalLabel: 'Delete user from chat',
@@ -110,7 +114,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                     classList: ['inline'],
                     events: {
                         click: async () => {
-                            await chatsController.deleteChat({ chatId: store.getState().currentChat });
+                            await chatsController.deleteChat({ chatId: this.props.currentChat.id });
                         },
                     },
                 }),
@@ -254,53 +258,66 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
     render() {
         return this.compile(template, this.props);
     }
-    
-    async mounted() {
-        //const token = await chatsController.getToken(this.props.currentChat);
-    }
 
     async updated(oldProps: TProps, newProps: TProps) {
         console.log('LOG_0 updated');
         console.log(oldProps, newProps)
         if (!isEqual(oldProps, newProps)) {
-            if (newProps.currentChat > 0 && store.getState().chats.length > 0 && newProps.chatTitle === undefined) {
+            if (newProps.currentChat.id > 0 && store.getState().chatsList.length > 0 && newProps.currentChat.title === undefined) {
                 console.log('LOG1 updated')
-                toastController.setWarning(`Chat with ID#${this.props.currentChat} not found`);
+                toastController.setWarning(`Chat with ID#${this.props.currentChat.id} not found`);
                 router.go('/messenger');
-                store.set('currentChat', null);
+                store.set('currentChat', {
+                    id: null,
+                    title: null,
+                    avatar: null,
+                    chatUsers: [],
+                    messages: []
+                });
                 return;
             }
             
-            if (newProps.currentChat > 0 && newProps.chatTitle !== null) {
-                
-                console.log('LOG2 updated')
-                const token = await chatsController.getToken(this.props.currentChat);
-                console.log(token, this.props.currentChat, store.getState().user.id)
+            if (newProps.currentChat.id > 0 && newProps.currentChat.title !== null) {
+                console.log('LOG2 updated');
+                await chatsController.getUsers({ id: newProps.currentChat.id });
+                const token = await chatsController.getToken(this.props.currentChat.id);
+                console.log('WS', token, this.props.currentChat, store.getState().user.id)
                 messengerController.connect({
                     userId: store.getState().user.id,
-                    chatId: this.props.currentChat,
+                    chatId: this.props.currentChat.id,
                     token
-                })
+                });
             }
         }
     }
 }
 
 const ActiveChat = withStore(ActiveChatBlock, (state: State) => {
-    if (state.currentChat == null || state.chats.length === 0) {
+/*    if (state.currentChat.id === null || state.chatsList.length === 0) {
         console.log('CHAT WITH STORE, ZERO CHATID');
+        state.currentChat = {
+            id: null,
+            title: null,
+            avatar: null,
+            chatUsers: []
+        }
         return {
-            currentChat: null,
-            chatTitle: null,
-            chatAvatar: null,
+            currentChat: state.currentChat
         };
     }
     console.log('CHAT WITH STORE, NONZERO CHATID');
+    state.currentChat = {
+        title: state.chatsList.find((chat) => chat.id === state.currentChat.id)?.title,
+        avatar: null,
+        chatUsers: []
+    }
     return {
         currentChat: state.currentChat,
-        chatTitle: state.chats.find((chat) => chat.id === state.currentChat)?.title || undefined,
-        chatAvatar: state.chats.find((chat) => chat.id === state.currentChat)?.avatar,
-    };
+    };*/
+    //console.log('Active chat', cloneDeep(state))
+    return {
+        currentChat: {...state.currentChat}
+    }
 });
 
 export default ActiveChat;

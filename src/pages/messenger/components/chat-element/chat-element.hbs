@@ -1,11 +1,11 @@
 <div class="chat-element">
     <div class="chat-element__element">
         <div class="user-avatar">
-            {{{ chatUserAvatar }}}
+            {{{ chatElement.avatar }}}
         </div>
         <div class="chat-info">
             <div class="chat-info__row">
-                <div class="user-name">{{{ title }}}</div>
+                <div class="user-name">{{{ chatElement.title }}}</div>
                 {{#if chatNewMessages}}
                     <div class="chat-new-messages">{{{ chatNewMessages }}}</div>
                 {{/if}}

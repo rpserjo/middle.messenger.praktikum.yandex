@@ -91,15 +91,18 @@ class Router {
         }
     }
 
-    private executeRoute(route: RouteRecord): void {
-        if (route.onRoute) {
-            route.onRoute();
-        }
-
+    private async executeRoute(route: RouteRecord): void {
         if (this.currentRoute?.routepathname !== route.route.routepathname) {
             this.currentRoute?.leave();
             this.currentRoute = route.route;
             this.currentRoute.render();
+        }
+        if(route.onBeforeRoute){
+            await route.onBeforeRoute();
+        }
+        if (route.onRoute) {
+            console.log('onRoute', document.location.pathname)
+            route.onRoute();
         }
     }
 

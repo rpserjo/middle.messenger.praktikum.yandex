@@ -1,7 +1,7 @@
 import BaseApi from './BaseApi';
 import API from './Api';
 
-export interface User {
+/*export interface User {
     id: number,
     first_name: string
     second_name: string
@@ -10,7 +10,7 @@ export interface User {
     email: string
     phone: string
     avatar: string
-}
+}*/
 
 export interface SignInData {
     login: string,
@@ -31,7 +31,7 @@ class AuthApi extends BaseApi {
         super(API.ENDPOINTS.AUTH.ENDPOINT);
     }
 
-    public signup(data: SignUpData): Promise<Record<string, any>> {
+    public signup(data: ISignUpData): Promise<Record<string, any>> {
         return this.http.post(API.ENDPOINTS.AUTH.SIGNUP, {
             headers: {
                 'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ class AuthApi extends BaseApi {
         });
     }
 
-    public signin(data: SignInData): Promise<Record<string, any>> {
+    public signin(data: ISignInData): Promise<Record<string, any>> {
         return this.http.post(API.ENDPOINTS.AUTH.SIGNIN, {
             headers: {
                 'Content-Type': 'application/json',

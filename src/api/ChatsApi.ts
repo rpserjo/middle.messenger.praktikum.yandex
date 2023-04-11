@@ -33,7 +33,7 @@ class ChatsApi extends BaseApi {
         super(API.ENDPOINTS.CHAT.ENDPOINT);
     }
 
-    public createChat(data: CreateChatData): Promise<Record<string, any>> {
+    public createChat(data: ICreateChatData): Promise<Record<string, any>> {
         return this.http.post('', {
             data,
             headers: {
@@ -42,13 +42,13 @@ class ChatsApi extends BaseApi {
         });
     }
 
-    public getChats(data: GetChatsData): Promise<Record<string, any>> {
+    public getChats(data: IGetChatsData): Promise<Record<string, any>> {
         return this.http.get('', {
             data,
         });
     }
 
-    public deleteChat(data: DeleteChatData): Promise<Record<string, any>> {
+    public deleteChat(data: IDeleteChatData): Promise<Record<string, any>> {
         return this.http.delete('', {
             data,
             headers: {
@@ -61,7 +61,7 @@ class ChatsApi extends BaseApi {
         return this.http.post(`${API.ENDPOINTS.CHAT.TOKEN}/${chatId}`);
     }
 
-    public addUsers(data: AddDeleteUsersData): Promise<Record<string, any>> {
+    public addUsers(data: IAddDeleteUsersData): Promise<Record<string, any>> {
         return this.http.put(API.ENDPOINTS.CHAT.USERS, {
             data,
             headers: {
@@ -70,7 +70,7 @@ class ChatsApi extends BaseApi {
         });
     }
 
-    public getUsers(data: GetUsersData): Promise<Record<string, any>> {
+    public getUsers(data: IGetUsersData): Promise<Record<string, any>> {
         return this.http.get(`/${data.id}${API.ENDPOINTS.CHAT.USERS}`, {
             data,
             headers: {
@@ -79,7 +79,7 @@ class ChatsApi extends BaseApi {
         });
     }
 
-    public deleteUsers(data: AddDeleteUsersData): Promise<Record<string, any>> {
+    public deleteUsers(data: IAddDeleteUsersData): Promise<Record<string, any>> {
         return this.http.delete(API.ENDPOINTS.CHAT.USERS, {
             data,
             headers: {

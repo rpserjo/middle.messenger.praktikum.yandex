@@ -6,12 +6,12 @@ import store from '../../../../application/Store';
 import { User } from '../../../../api/AuthApi';
 
 interface UsersListProps {
-    currentChat: number,
-    usersList: User[],
+    currentChatId: number,
+    usersList: IUser[],
 }
 
 class UsersList extends Block<UsersListProps> {
-    constructor(props: UsersListProps = { currentChat: 0, usersList: [] }) {
+    constructor(props: UsersListProps = {}) {
         props.usersList = (props.usersList) ? props.usersList : [];
         super(props);
     }
@@ -23,13 +23,13 @@ class UsersList extends Block<UsersListProps> {
 
 class AddUsersList extends UsersList {
     updated() {
-        this.children.users = (this.props.usersList || []).map((user: User) => {
+        this.children.users = (this.props.usersList || []).map((user: IUser) => {
             return new Link({
                 label: `${user.first_name} ${user.second_name} / @${user.login}`,
                 events: {
                     click: async (e: Event) => {
                         e.preventDefault();
-                        await chatsController.addUsers({ users: [user.id], chatId: this.props.currentChat as number });
+                        await chatsController.addUsers({ users: [user.id], chatId: this.props.currentChatId as number });
                     },
                 },
             });
@@ -39,26 +39,40 @@ class AddUsersList extends UsersList {
 
 class DeleteUsersList extends UsersList {
     async updated(oldProps:TProps, newProps: TProps) {
-        if (newProps.currentChat !== oldProps.currentChat) {
-            await chatsController.getUsers({ id: this.props.currentChat as number });
-        }
+        /*if (newProps.currentChatId !== oldProps.currentChatId) {
+            await chatsController.getUsers({ id: this.props.currentChatId as number });
+        }*/
 
-        if (newProps.usersList !== oldProps.usersList) {
+        /*if (newProps.usersList !== oldProps.usersList) {
             console.log('New userslist');
-            this.children.users = (this.props.usersList || []).map((user: User) => {
+            this.children.users = (this.props.usersList || []).map((user: IUser) => {
                 return new Link({
                     label: `${user.first_name} ${user.second_name} / @${user.login}`,
                     events: {
                         click: async (e: Event) => {
                             e.preventDefault();
                             if (user.id !== store.getState().user.id) {
-                                await chatsController.deleteUsers({ users: [user.id], chatId: this.props.currentChat as number });
+                                await chatsController.deleteUsers({ users: [user.id], chatId: this.props.currentChatId as number });
                             }
                         },
                     },
                 });
             });
-        }
+        }*/
+        console.log('DELETE USERS')
+        this.children.users = (store.getState().currentChat.chatUsers || []).map((user: IUser) => {
+            return new Link({
+                label: `${user.first_name} ${user.second_name} / @${user.login}`,
+                events: {
+                    click: async (e: Event) => {
+                        e.preventDefault();
+                        if (user.id !== store.getState().user.id) {
+                            await chatsController.deleteUsers({ users: [user.id], chatId: this.props.currentChatId as number });
+                        }
+                    },
+                },
+            });
+        });
     }
 }
 
