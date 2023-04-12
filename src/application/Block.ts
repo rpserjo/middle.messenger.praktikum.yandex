@@ -123,7 +123,7 @@ abstract class Block<TProps extends Record<string, any> = any> {
         return this.element as HTMLElement;
     }
 
-    setProps(props: Partial<TProps>): void {
+    setProps(props: TProps): void {
         if (!props) {
             return;
         }

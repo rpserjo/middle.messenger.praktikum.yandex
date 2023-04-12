@@ -76,7 +76,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                     if (e.code === 'Enter' || e.keyCode === 13) {
                         const users = await userController.searchUsers({ login: addUserInput.value } as SearchUserData);
                         addUserList.setProps({
-                            usersList: users,
+                            usersList: users as IUser[],
                         });
                     }
                 }
