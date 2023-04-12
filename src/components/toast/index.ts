@@ -20,7 +20,7 @@ class ToastBlock extends Block<ToastProps> {
         this.hide();
     }
 
-    updated() {
+    updated(oldProps, newProps) {
         if (this.props.displayToast === true) {
             this.show();
             setTimeout(() => { this.getElement.style.transform = 'translateY(-100px)'; }, 0);
@@ -51,5 +51,5 @@ class ToastBlock extends Block<ToastProps> {
 }
 
 export const Toast = withStore(ToastBlock, (state: State) => {
-    return state.toast;
+    return {...state.toast};
 });

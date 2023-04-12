@@ -21,6 +21,7 @@ import { SearchUserData } from '../../../../api/UserApi';
 import { CreateChatData } from '../../../../api/ChatsApi';
 import {User} from '../../../../api/AuthApi';
 import cloneDeep from '../../../../application/utils/cloneDeep';
+import MessagesList from '../../components/messages-list'
 
 interface ActiveChatProps {
     currentChat: {
@@ -71,19 +72,22 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             label: 'Search for user',
             events: {
                 keydown: async (e: KeyboardEvent) => {
-                    if (e.code === 'Enter') {
+                    //console.log(e)
+                    if (e.code === 'Enter' || e.keyCode === 13) {
                         const users = await userController.searchUsers({ login: addUserInput.value } as SearchUserData);
+                        //store.set('currentChat.usersList', users);  // -> move to controller
                         addUserList.setProps({
                             usersList: users,
                         });
                     }
-                },
+                }
             },
         });
 
         const addUserList = new (withStore(AddUsersList, (state: State) => {
             return {
                 currentChatId: state.currentChat.id,
+                //usersList: state.currentChat.usersList
             };
         }))();
 
@@ -95,8 +99,10 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
         // DELETE USER
 
         const deleteUsersList = new (withStore(DeleteUsersList, (state: State) => {
+            //console.log('delete UL', state);
             return {
                 currentChatId: state.currentChat.id,
+                usersList: state.currentChat.chatUsers
             };
         }))();
 
@@ -175,6 +181,11 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             withoutErrorMessage: true,
             events: {
                 focusin: () => (chatSendMessage as Input).toggleError(),
+                click: (e: Event) => {
+                    if(e.code === 'Enter' || e.keyCode === 13){
+                        submitHandler(e, chatSendMessage);
+                    }
+                }
             },
         });
 
@@ -184,7 +195,6 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             events: {
                 click: (e: Event) => {
                     e.preventDefault();
-                    // const inputs = Object.values(this.children).filter((child: Block) => child instanceof Input);
                     submitHandler(e, [chatSendMessage]);
                 },
             },
@@ -196,6 +206,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             if (formData) {
                 console.log(formData);
                 if (formData.message.length > 0) {
+                    chatSendMessage.value = '';
                     messengerController.sendMessage(formData.message);
                 }
             }
@@ -241,6 +252,8 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                 click: () => newChatModal.show(true),
             },
         });
+        
+        const messagesList = new MessagesList();
 
         this.children = {
             addUserModal,
@@ -252,6 +265,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             sendIcon,
             newChatIcon,
             newChatModal,
+            messagesList
         };
     }
 
@@ -279,10 +293,12 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             
             if (newProps.currentChat.id > 0 && newProps.currentChat.title !== null) {
                 console.log('LOG2 updated');
+                console.log('WS check', cloneDeep(messengerController))
                 await chatsController.getUsers({ id: newProps.currentChat.id });
+                console.log('USERS LOADED');
                 const token = await chatsController.getToken(this.props.currentChat.id);
                 console.log('WS', token, this.props.currentChat, store.getState().user.id)
-                messengerController.connect({
+                await messengerController.connect({
                     userId: store.getState().user.id,
                     chatId: this.props.currentChat.id,
                     token
@@ -293,30 +309,11 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
 }
 
 const ActiveChat = withStore(ActiveChatBlock, (state: State) => {
-/*    if (state.currentChat.id === null || state.chatsList.length === 0) {
-        console.log('CHAT WITH STORE, ZERO CHATID');
-        state.currentChat = {
-            id: null,
-            title: null,
-            avatar: null,
-            chatUsers: []
+    return {
+        currentChat: {
+            id: state.currentChat.id,
+            title: state.currentChat.title
         }
-        return {
-            currentChat: state.currentChat
-        };
-    }
-    console.log('CHAT WITH STORE, NONZERO CHATID');
-    state.currentChat = {
-        title: state.chatsList.find((chat) => chat.id === state.currentChat.id)?.title,
-        avatar: null,
-        chatUsers: []
-    }
-    return {
-        currentChat: state.currentChat,
-    };*/
-    //console.log('Active chat', cloneDeep(state))
-    return {
-        currentChat: {...state.currentChat}
     }
 });
 

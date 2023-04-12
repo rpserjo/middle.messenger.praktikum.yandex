@@ -29,6 +29,13 @@ class Modal extends Block<ModalProps> {
             ...this.children,
             hideButton,
         };
+        this.props.events = {
+            click: (e: Event) => {
+                if(e.target && !e.target.closest('.modal__container')){
+                    this.hide();
+                }
+            }
+        }
     }
 
     mounted() {

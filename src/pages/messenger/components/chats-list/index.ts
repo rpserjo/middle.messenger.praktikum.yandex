@@ -20,7 +20,8 @@ import isEqual from '../../../../application/utils/isEqual';
 }*/
 
 interface ChatListProps {
-    chatsList: IChatElement[]
+    chatsList: IChatElement[],
+    currentChatId: number | null
 }
 
 class ChatsListBlock extends Block<ChatListProps> {
@@ -33,7 +34,8 @@ class ChatsListBlock extends Block<ChatListProps> {
         this.children.list = this.props.chatsList.map((chatElement: IChatElement) => {
             return new Link({
                 label: new ChatListElement({
-                    chatElement
+                    chatElement,
+                    currentChatId: this.props.currentChatId
                 }),
                 to: `/messenger/${chatElement.id}`,
                 type: 'inherit',
@@ -64,6 +66,7 @@ class ChatsListBlock extends Block<ChatListProps> {
 
 const ChatList = withStore(ChatsListBlock, (state: State) => {
     return {
+        currentChatId: state.currentChat.id,
         chatsList: [...state.chatsList],
     };
 });
