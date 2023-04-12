@@ -15,7 +15,7 @@ const checkIsAuth = () => {
     return store.getState().user !== null;
 };
 
-const onRouteCallback1 = () => {
+const onMessengerRoute = () => {
     store.set('currentChat', {
         id: null,
         title: null,
@@ -56,7 +56,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     router
         .use({ pathname: '/', block: SignIn, routeGuard: { guard: checkNotAuth, redirect: '/messenger' } })
         .use({ pathname: '/sign-up', block: SignUp, routeGuard: { guard: checkNotAuth, redirect: '/messenger' } })
-        .use({ pathname: '/messenger', block: Messenger, props: { window: 'chat' }, onRoute: onRouteCallback1, routeGuard: { guard: checkIsAuth, redirect: '/' } })
+        .use({ pathname: '/messenger', block: Messenger, props: { window: 'chat' }, onRoute: onMessengerRoute, routeGuard: { guard: checkIsAuth, redirect: '/' } })
         .use({ pathname: '/messenger/:id', block: Messenger, props: { window: 'chat' }, onBeforeRoute: onBeforeChatRoute, routeGuard: { guard: checkIsAuth, redirect: '/' } })
         .use({ pathname: '/settings', block: Messenger, props: { window: 'profile' }, routeGuard: { guard: checkIsAuth, redirect: '/' } })
         .use({ pathname: '/settings/password', block: Messenger, props: { window: 'password' }, routeGuard: { guard: checkIsAuth, redirect: '/' } })

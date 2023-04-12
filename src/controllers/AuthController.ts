@@ -9,9 +9,23 @@ class AuthController {
     async signup(data: ISignUpData): Promise<void> {
         spinnerController.toggle(true);
         try {
-            await authApi.signup(data).then((response) => {
-                console.log(response);
-            });
+            const response = await authApi.signup(data);//.then((response) => {
+            if(response.status === 200 && response.response.id > 0){
+                toastController.setInfo('Profile created');
+                /*const { user } = */await this.user();
+                /*store.set('user', user);*/
+                //router.go('/messenger');
+                setTimeout(() => {
+                    router.go('/messenger');
+                }, 1500)
+               /* const { user } = await this.user();
+                store.set('user', user);
+                router.go('/messenger');*/
+            //        return true;
+            }
+            /*}).then(() => {
+
+            });*/
         } catch (e) {
             errorHandler(e);
         } finally {
@@ -24,8 +38,8 @@ class AuthController {
         try {
             const authResponse = await authApi.signin(data);
             if (authResponse?.response === 'OK') {
-                const { response } = await this.user();
-                store.set('user', response);
+                /*const { response } = */await this.user();
+                //store.set('user', response);
                 router.go('/messenger');
                 toastController.setInfo('You logged in');
             }

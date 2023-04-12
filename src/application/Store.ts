@@ -40,7 +40,8 @@ class Store extends EventBus {
             title: null,
             avatar: null,
             chatUsers: [],
-            messages: []
+            messages: [],
+            offsetLoaded: 0,
         }
     };
 
@@ -49,6 +50,7 @@ class Store extends EventBus {
     }
 
     public set(path: string, value: unknown): void {
+        console.log('STATE SET', path, value)
         set(this.state, path, value);
 
         // метод EventBus
@@ -70,7 +72,6 @@ export function withStore<SP extends Partial<any>>(Component: typeof Block<SP>, 
                     this.setProps({...newState});
                 }
                 state = newState;
-                //this.setProps({ ...mapStateToProps(store.getState()) });
             });
         }
     };

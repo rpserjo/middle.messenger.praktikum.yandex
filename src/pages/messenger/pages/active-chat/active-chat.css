@@ -39,9 +39,19 @@
 
 .chat-attach, .chat-send{
     width: 44px;
-    height: 44px;
     margin: 16px;
     cursor: pointer;
+}
+
+.chat-send {
+    path{
+        fill: var(--color-primary);
+    }
+
+    button{
+        background: transparent;
+        box-shadow: none;
+    }
 }
 
 .chat-attach{

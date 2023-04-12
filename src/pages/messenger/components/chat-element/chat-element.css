@@ -10,7 +10,7 @@ a.chatlist{
     cursor: pointer;
 
     &.active{
-        background-color: var(--color-primary);
+        background-color: var(--color-gray);
     }
 
     &__element{
@@ -72,9 +72,9 @@ a.chatlist{
                 }
             }
         }
+    }
 
-        &:hover{
-            background-color: var(--bg-light-gray);
-        }
+    &:hover{
+         background-color: var(--bg-light-gray);
     }
 }

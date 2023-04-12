@@ -7,18 +7,6 @@ import ChatListElement from '../chat-element';
 import Link from '../../../../components/link';
 import isEqual from '../../../../application/utils/isEqual';
 
-/*export interface ChatElement{
-    id: number,
-    title: string,
-    avatar: string,
-    unread_count: number,
-    last_message: {
-        user: User,
-        time: string,
-        content: string
-    }
-}*/
-
 interface ChatListProps {
     chatsList: IChatElement[],
     currentChatId: number | null
@@ -30,7 +18,6 @@ class ChatsListBlock extends Block<ChatListProps> {
     }
 
     private propsToChildren(): void {
-        console.log('props 2 children')
         this.children.list = this.props.chatsList.map((chatElement: IChatElement) => {
             return new Link({
                 label: new ChatListElement({
@@ -51,15 +38,12 @@ class ChatsListBlock extends Block<ChatListProps> {
     }
 
     updated(oldProps: Record<string, any>, newProps: Record<string, any>) {
-        console.log('chats list updated');
         if (!isEqual(oldProps, newProps)) {
-            console.log(oldProps, newProps)
             this.propsToChildren();
         }
     }
 
     render() {
-        console.log('chats list render', this.children)
         return this.compile(template, this.props);
     }
 }

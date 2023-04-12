@@ -14,8 +14,11 @@ function isArrayOrObject(value: unknown): value is [] | Indexed {
     return isPlainObject(value) || isArray(value);
 }
 
-const isEqual = (lhs: Indexed, rhs: Indexed): boolean => {
-    //console.log('EQUAL', lhs, rhs)
+const isEqual = (lhs: Indexed | null, rhs: Indexed | null): boolean => {
+    if(lhs === null || rhs === null){
+        console.log('NULL', rhs, lhs)
+        return false;
+    }
     if (Object.keys(lhs).length !== Object.keys(rhs).length) {
         return false;
     }

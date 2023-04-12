@@ -6,7 +6,7 @@ import Icon from '../../components/icon';
 import { CBlock } from '../../application/Route';
 import { State, withStore } from '../../application/Store';
 import API from '../../api/Api';
-import Avatar from '../chat/components/avatar';
+import Avatar from '../messenger/components/avatar';
 import Profile from './pages/profile';
 import Link from '../../components/link';
 import Password from './pages/password';
@@ -27,7 +27,7 @@ class MessengerBlock extends Block<MessengerProps> {
     created() {
         const userAvatar = new (withStore(Avatar, (state: State) => {
             return {
-                avatarSrc: `${API.RESOURCES}${state.user?.avatar}`,
+                avatarSrc: (state.user?.avatar !== null) ? `${API.RESOURCES}${state.user?.avatar}` : '',
                 profileName: `${state.user?.first_name} ${state.user?.second_name}`,
             };
         }))({});
@@ -84,7 +84,9 @@ class MessengerBlock extends Block<MessengerProps> {
 
 const Messenger = withStore(MessengerBlock, (state: State) => {
     if(state.user === null){
-        return;
+        return {
+            profileName: null
+        };
     }
     return {
         profileName: `${state.user.first_name} ${state.user.second_name}`,

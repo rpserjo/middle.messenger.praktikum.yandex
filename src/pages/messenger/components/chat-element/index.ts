@@ -3,6 +3,7 @@ import './chat-element.css';
 import Block from '../../../../application/Block';
 import cutString from '../../../../application/utils/cutString';
 import store from '../../../../application/Store';
+import dateFormatter from '../../../../application/utils/dateFormatter';
 
 interface ChatListElementProps {
     currentChatId: number | null,
@@ -16,20 +17,18 @@ class ChatListElement extends Block<ChatListElementProps> {
     }
 
     created() {
-        const chatLastMessage = this.lastMessage(this.props.chatElement.last_message)// ? cutString(this.props.chatElement.last_message.content, 15) : 'No messages...';
+        const chatLastMessage = this.lastMessage(this.props.chatElement.last_message);
         const chatNewMessages = (this.props.chatElement.unread_count) ? (this.props.chatElement.unread_count) : '';
-        const chatLastMessageTime = (this.props.chatElement.last_message) ? this.props.chatElement.last_message.time : '';
+        const chatLastMessageTime = (this.props.chatElement.last_message) ?dateFormatter(this.props.chatElement.last_message.time, true) : '';
         this.setProps({ chatLastMessage, chatNewMessages, chatLastMessageTime });
     }
     
     private lastMessage(lastMessage: Nullable<ILastMessage>): string{
         if(!lastMessage){
-            return '<i>No messages yet</i>';
+            return `<i>No messages yet</i>`;
         }
         
         return (lastMessage.user.login === store.getState().user.login) ? `<b>You:</b> ${cutString(lastMessage.content, 15)}` : cutString(lastMessage.content, 15);
-        
-        //return cutString(lastMessage.content, 15);
     }
 
     render() {

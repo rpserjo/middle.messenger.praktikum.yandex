@@ -5,7 +5,7 @@ import Link from '../../../../components/link';
 import Message from '../message';
 
 interface MessagesListProps {
-    messagesList?: MessagesList[]
+    messagesList?: IMessagesList[]
 }
 
 class MessagesListBlock extends Block<MessagesListProps>{
@@ -14,22 +14,26 @@ class MessagesListBlock extends Block<MessagesListProps>{
     }
     
     render() {
-        console.log('Messages list render', this.props)
         return this.compile(template, this.props);
     }
     
     updated(oldProps, newProps){
-        this.children.messages = this.props.messagesList.reverse().map(message => {
+        this.children.messages = this.props.messagesList?.reverse().map(message => {
             return new Message({
                 ...message
             });
-        });
-        console.log('MESSAGES LIST', newProps, this.props);
+        }) || [];
+        setTimeout(() => {
+            const div = document.querySelector('#messages-list');
+            div?.scrollBy({
+                top: div.scrollHeight,
+                behavior: 'smooth'
+            })
+        }, 200)
     }
 }
 
 const MessagesList = withStore(MessagesListBlock, (state: State) => {
-    console.log('MESSAGES LIST withState', [...state.currentChat.messages]);
     return {
         messagesList: [...state.currentChat.messages]
     }

@@ -79,10 +79,8 @@ class ChatsController {
         spinnerController.toggle(true);
         try {
             const response = await chatsApi.getUsers(data);
-            console.log(response);
             if (response.status === 200) {
                 store.set('currentChat.chatUsers', response.response);
-                console.log(store.getState());
             }
         } catch (e) {
             errorHandler(e);
@@ -95,7 +93,6 @@ class ChatsController {
         spinnerController.toggle(true);
         try {
             const response = await chatsApi.deleteUsers(data);
-            console.log(response);
             if (response.status === 200) {
                 toastController.setInfo('User was deleted');
                 await this.getUsers({ id: data.chatId });

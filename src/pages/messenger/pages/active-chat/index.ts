@@ -41,6 +41,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
         const optionsDropDown = new DropDownMenu({
             dropDownMenuIcon: 'options',
             dropDownMenuTitle: 'Options',
+            hidden: true,
             dropDownMenuItems: [
                 {
                     icon: 'addUser',
@@ -72,10 +73,8 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             label: 'Search for user',
             events: {
                 keydown: async (e: KeyboardEvent) => {
-                    //console.log(e)
                     if (e.code === 'Enter' || e.keyCode === 13) {
                         const users = await userController.searchUsers({ login: addUserInput.value } as SearchUserData);
-                        //store.set('currentChat.usersList', users);  // -> move to controller
                         addUserList.setProps({
                             usersList: users,
                         });
@@ -87,7 +86,6 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
         const addUserList = new (withStore(AddUsersList, (state: State) => {
             return {
                 currentChatId: state.currentChat.id,
-                //usersList: state.currentChat.usersList
             };
         }))();
 
@@ -99,7 +97,6 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
         // DELETE USER
 
         const deleteUsersList = new (withStore(DeleteUsersList, (state: State) => {
-            //console.log('delete UL', state);
             return {
                 currentChatId: state.currentChat.id,
                 usersList: state.currentChat.chatUsers
@@ -181,9 +178,9 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             withoutErrorMessage: true,
             events: {
                 focusin: () => (chatSendMessage as Input).toggleError(),
-                click: (e: Event) => {
+                keydown: (e: KeyboardEvent) => {
                     if(e.code === 'Enter' || e.keyCode === 13){
-                        submitHandler(e, chatSendMessage);
+                        submitHandler(e, [chatSendMessage]);
                     }
                 }
             },
@@ -274,11 +271,8 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
     }
 
     async updated(oldProps: TProps, newProps: TProps) {
-        console.log('LOG_0 updated');
-        console.log(oldProps, newProps)
         if (!isEqual(oldProps, newProps)) {
             if (newProps.currentChat.id > 0 && store.getState().chatsList.length > 0 && newProps.currentChat.title === undefined) {
-                console.log('LOG1 updated')
                 toastController.setWarning(`Chat with ID#${this.props.currentChat.id} not found`);
                 router.go('/messenger');
                 store.set('currentChat', {
@@ -292,12 +286,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             }
             
             if (newProps.currentChat.id > 0 && newProps.currentChat.title !== null) {
-                console.log('LOG2 updated');
-                console.log('WS check', cloneDeep(messengerController))
-                await chatsController.getUsers({ id: newProps.currentChat.id });
-                console.log('USERS LOADED');
                 const token = await chatsController.getToken(this.props.currentChat.id);
-                console.log('WS', token, this.props.currentChat, store.getState().user.id)
                 await messengerController.connect({
                     userId: store.getState().user.id,
                     chatId: this.props.currentChat.id,

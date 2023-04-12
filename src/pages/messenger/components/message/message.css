@@ -1,0 +1,48 @@
+.message{
+    display: flex;
+    margin: 5px 0;
+
+    &.incoming{
+        justify-content: flex-start;
+
+        .message__wrapper{
+            border: 1px solid var(--color-gray);
+            background-color: var(--color-gray);
+            border-radius: 0 5px 5px;
+        }
+    }
+
+    &.outgoing{
+         justify-content: flex-end;
+
+        .message__wrapper{
+            border: 1px solid var(--color-primary);
+            background-color: var(--color-primary);
+            border-radius: 5px 5px 0;
+
+            .message__content, .message__time{
+                color: var(--color-white);
+            }
+        }
+    }
+
+    .message__wrapper{
+        padding: 10px;
+        max-width: 55%;
+        border: 1px solid teal;
+    }
+
+    .message__sender{
+        font-weight: bold;
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .message__time{
+        font-size: 12px;
+        justify-content: flex-end;
+        display: flex;
+    }
+}
+
+
