@@ -49,7 +49,7 @@ class MessengerBlock extends Block<MessengerProps> {
             routerLink: true,
         });
 
-        const chatsList = new ChatsList();
+        const chatsList = new ChatsList({});
 
         const windows: Record<string, CBlock> = {
             profile: Profile,
@@ -83,9 +83,9 @@ class MessengerBlock extends Block<MessengerProps> {
 }
 
 const Messenger = withStore(MessengerBlock, (state: State) => {
-    if(state.user === null){
+    if (state.user === null) {
         return {
-            profileName: null
+            profileName: null,
         };
     }
     return {

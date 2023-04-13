@@ -2,8 +2,6 @@ import EventBus from './EventBus';
 import set from './utils/set';
 import Block from './Block';
 import { ToastProps } from '../components/toast';
-import { User } from '../api/AuthApi';
-import { ChatElement } from '../pages/messenger/components/chats-list';
 import cloneDeep from './utils/cloneDeep';
 import isEqual from './utils/isEqual';
 
@@ -15,13 +13,14 @@ export interface State extends Record<string, unknown> {
     isLoading: boolean,
     toast: ToastProps,
     user: IUser | null,
-    chatsList: IChatElement,
+    chatsList: IChatElement[],
     currentChat: {
         id: number | null,
         title: string | null,
         avatar: string | null,
         chatUsers: IUser[],
-        messages: any[]
+        messages: any[],
+        offsetLoaded: number
     }
 }
 
@@ -42,7 +41,7 @@ class Store extends EventBus {
             chatUsers: [],
             messages: [],
             offsetLoaded: 0,
-        }
+        },
     };
 
     public getState(): Indexed {
@@ -50,7 +49,7 @@ class Store extends EventBus {
     }
 
     public set(path: string, value: unknown): void {
-        console.log('STATE SET', path, value)
+        console.log('STATE SET', path, value);
         set(this.state, path, value);
 
         // метод EventBus
@@ -69,7 +68,7 @@ export function withStore<SP extends Partial<any>>(Component: typeof Block<SP>, 
             store.on(StoreEvents.UPDATED, () => {
                 const newState = mapStateToProps(store.getState());
                 if (!isEqual(state, newState)) {
-                    this.setProps({...newState});
+                    this.setProps({ ...newState });
                 }
                 state = newState;
             });

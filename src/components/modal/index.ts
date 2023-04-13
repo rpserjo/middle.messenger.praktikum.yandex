@@ -7,6 +7,7 @@ interface ModalProps {
     modalLabel?: string,
     modalClass?: string,
     modalChildren?: Block[],
+    events?: Record<string, Function>
 }
 
 class Modal extends Block<ModalProps> {
@@ -31,11 +32,11 @@ class Modal extends Block<ModalProps> {
         };
         this.props.events = {
             click: (e: Event) => {
-                if(e.target && !e.target.closest('.modal__container')){
+                if (e.target && !(e.target as HTMLElement).closest('.modal__container')) {
                     this.hide();
                 }
-            }
-        }
+            },
+        };
     }
 
     mounted() {

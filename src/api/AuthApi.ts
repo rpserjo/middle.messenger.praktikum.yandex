@@ -1,7 +1,7 @@
 import BaseApi from './BaseApi';
 import API from './Api';
 
-/*export interface User {
+/* export interface User {
     id: number,
     first_name: string
     second_name: string
@@ -10,7 +10,7 @@ import API from './Api';
     email: string
     phone: string
     avatar: string
-}*/
+} */
 
 export interface SignInData {
     login: string,

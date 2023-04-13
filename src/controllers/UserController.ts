@@ -1,6 +1,4 @@
-import userApi, {
-    ChangePasswordData, SearchUserData, UpdateProfileData, UploadAvatarData,
-} from '../api/UserApi';
+import userApi from '../api/UserApi';
 import spinnerController from './SpinnerController';
 import errorHandler from '../application/handlers/errorHandler';
 import store from '../application/Store';

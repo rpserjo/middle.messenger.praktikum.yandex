@@ -14,23 +14,22 @@ const dateFormatter = (dateString: string, short: boolean = true): string => {
     const m = (_m < 10) ? `0${_m}` : `${_m}`;
     const delta = now.getDate() - _d;
     if (short) {
-        if (delta === 0){
+        if (delta === 0) {
             return `${h}:${i}`;
-        } else if (delta < 8) {
+        } if (delta < 8) {
             return `${days[day]}`;
         }
         return `${d}.${m}`;
-    }else{
-        let time = `${d} ${months[m]}, `;
-
-        if(delta === 1) time = 'yesterday, '
-
-        if(delta === 0) time = '';
-
-        time = `${time}${h}:${i}`;
-
-        return time;
     }
-}
+    let time = `${d} ${months[_m]}, `;
+
+    if (delta === 1) time = 'yesterday, ';
+
+    if (delta === 0) time = '';
+
+    time = `${time}${h}:${i}`;
+
+    return time;
+};
 
 export default dateFormatter;

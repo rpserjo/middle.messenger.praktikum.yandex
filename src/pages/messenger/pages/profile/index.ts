@@ -7,7 +7,6 @@ import { validate, validateForm } from '../../../../application/utils/validate';
 import Button from '../../../../components/button';
 import Link from '../../../../components/link';
 import authController from '../../../../controllers/AuthController';
-import { User } from '../../../../api/AuthApi';
 import { State, withStore } from '../../../../application/Store';
 import AvatarUploader from './components/avatar-uploader';
 import API from '../../../../api/Api';
@@ -15,7 +14,7 @@ import userController from '../../../../controllers/UserController';
 import { UpdateProfileData } from '../../../../api/UserApi';
 
 interface ProfileProps {
-    user: User
+    user: IUser
 }
 
 class ProfileBlock extends Block<ProfileProps> {

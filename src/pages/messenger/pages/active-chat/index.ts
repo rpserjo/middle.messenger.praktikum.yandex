@@ -16,19 +16,16 @@ import isEqual from '../../../../application/utils/isEqual';
 import router from '../../../../router/router';
 import { AddUsersList, DeleteUsersList } from '../../components/users';
 import userController from '../../../../controllers/UserController';
-//import messengerController from '../../../controllers/MessengerController';
 import { SearchUserData } from '../../../../api/UserApi';
 import { CreateChatData } from '../../../../api/ChatsApi';
-import {User} from '../../../../api/AuthApi';
-import cloneDeep from '../../../../application/utils/cloneDeep';
-import MessagesList from '../../components/messages-list'
+import MessagesList from '../../components/messages-list';
 
 interface ActiveChatProps {
     currentChat: {
         id: number | null,
         avatar: string | null,
         title: string | null,
-        chatUsers: User[]
+        chatUsers: IUser[]
     }
 }
 
@@ -74,20 +71,21 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             events: {
                 keydown: async (e: KeyboardEvent) => {
                     if (e.code === 'Enter' || e.keyCode === 13) {
-                        const users = await userController.searchUsers({ login: addUserInput.value } as SearchUserData);
+                        const users = await userController.searchUsers({ login: addUserInput.value } as SearchUserData) as IUser[];
                         addUserList.setProps({
-                            usersList: users as IUser[],
+                            usersList: users,
                         });
                     }
-                }
+                },
             },
         });
 
         const addUserList = new (withStore(AddUsersList, (state: State) => {
             return {
-                currentChatId: state.currentChat.id,
+                currentChatId: Number(state.currentChat.id),
+                usersList: [],
             };
-        }))();
+        }))({});
 
         const addUserModal = new Modal({
             modalLabel: 'Add user to chat',
@@ -99,9 +97,9 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
         const deleteUsersList = new (withStore(DeleteUsersList, (state: State) => {
             return {
                 currentChatId: state.currentChat.id,
-                usersList: state.currentChat.chatUsers
+                usersList: state.currentChat.chatUsers,
             };
-        }))();
+        }))({});
 
         const deleteUserModal = new Modal({
             modalLabel: 'Delete user from chat',
@@ -117,7 +115,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                     classList: ['inline'],
                     events: {
                         click: async () => {
-                            await chatsController.deleteChat({ chatId: this.props.currentChat.id });
+                            await chatsController.deleteChat({ chatId: Number(this.props.currentChat.id) });
                         },
                     },
                 }),
@@ -179,10 +177,10 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             events: {
                 focusin: () => (chatSendMessage as Input).toggleError(),
                 keydown: (e: KeyboardEvent) => {
-                    if(e.code === 'Enter' || e.keyCode === 13){
+                    if (e.code === 'Enter' || e.keyCode === 13) {
                         submitHandler(e, [chatSendMessage]);
                     }
-                }
+                },
             },
         });
 
@@ -237,20 +235,20 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                 click: (e: Event) => newChatSubmitHandler(e, newChatInput),
             },
         });
-        
+
         const newChatModal = new Modal({
             modalLabel: 'Create new chat',
             modalChildren: [newChatInput, newChatSubmit],
         });
-        
+
         const newChatIcon = new Icon({
             icon: 'newChat',
             events: {
                 click: () => newChatModal.show(true),
             },
         });
-        
-        const messagesList = new MessagesList();
+
+        const messagesList = new MessagesList({});
 
         this.children = {
             addUserModal,
@@ -262,7 +260,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             sendIcon,
             newChatIcon,
             newChatModal,
-            messagesList
+            messagesList,
         };
     }
 
@@ -280,17 +278,18 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                     title: null,
                     avatar: null,
                     chatUsers: [],
-                    messages: []
+                    messages: [],
                 });
                 return;
             }
-            
+
             if (newProps.currentChat.id > 0 && newProps.currentChat.title !== null) {
-                const token = await chatsController.getToken(this.props.currentChat.id);
+                const token = await chatsController.getToken(Number(this.props.currentChat.id));
+                console.log('WS token', token);
                 await messengerController.connect({
                     userId: store.getState().user.id,
-                    chatId: this.props.currentChat.id,
-                    token
+                    chatId: Number(this.props.currentChat.id),
+                    token,
                 });
             }
         }
@@ -301,9 +300,9 @@ const ActiveChat = withStore(ActiveChatBlock, (state: State) => {
     return {
         currentChat: {
             id: state.currentChat.id,
-            title: state.currentChat.title
-        }
-    }
+            title: state.currentChat.title,
+        },
+    };
 });
 
 export default ActiveChat;

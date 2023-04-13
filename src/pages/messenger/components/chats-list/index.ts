@@ -1,8 +1,6 @@
 import template from './chats-list.hbs';
 import Block from '../../../../application/Block';
-import { User } from '../../../../api/AuthApi';
 import { State, withStore } from '../../../../application/Store';
-import chatsController from '../../../../controllers/ChatsController';
 import ChatListElement from '../chat-element';
 import Link from '../../../../components/link';
 import isEqual from '../../../../application/utils/isEqual';
@@ -13,7 +11,7 @@ interface ChatListProps {
 }
 
 class ChatsListBlock extends Block<ChatListProps> {
-    constructor(props: ChatListProps = {}) {
+    constructor(props: ChatListProps) {
         super(props, 'Chats list');
     }
 
@@ -22,7 +20,7 @@ class ChatsListBlock extends Block<ChatListProps> {
             return new Link({
                 label: new ChatListElement({
                     chatElement,
-                    currentChatId: this.props.currentChatId
+                    currentChatId: this.props.currentChatId,
                 }),
                 to: `/messenger/${chatElement.id}`,
                 type: 'inherit',
@@ -32,7 +30,7 @@ class ChatsListBlock extends Block<ChatListProps> {
     }
 
     created() {
-       if (this.props.chatsList) {
+        if (this.props.chatsList) {
             this.propsToChildren();
         }
     }
@@ -51,7 +49,7 @@ class ChatsListBlock extends Block<ChatListProps> {
 const ChatList = withStore(ChatsListBlock, (state: State) => {
     return {
         currentChatId: state.currentChat.id,
-        chatsList: [...state.chatsList],
+        chatsList: [...state.chatsList as any[]],
     };
 });
 

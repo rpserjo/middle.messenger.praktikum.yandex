@@ -3,16 +3,15 @@ import Block from '../../../../application/Block';
 import Link from '../../../../components/link';
 import chatsController from '../../../../controllers/ChatsController';
 import store from '../../../../application/Store';
-import { User } from '../../../../api/AuthApi';
 
 interface UsersListProps {
     currentChatId: number,
-    usersList: IUser[],
+    usersList: IUser[] | never[],
 }
 
 class UsersList extends Block<UsersListProps> {
-    constructor(props: UsersListProps = {}) {
-        props.usersList = (props.usersList) ? props.usersList : [];
+    constructor(props: UsersListProps) {
+        // props.usersList = (props.usersList) ? props.usersList : [];
         super(props);
     }
 
@@ -38,7 +37,8 @@ class AddUsersList extends UsersList {
 }
 
 class DeleteUsersList extends UsersList {
-    async updated(oldProps:TProps, newProps: TProps) {
+    // async updated(oldProps:TProps, newProps: TProps) {
+    async updated() {
         this.children.users = (this.props.usersList || []).map((user: IUser) => {
             return new Link({
                 label: `${user.first_name} ${user.second_name} / @${user.login}`,

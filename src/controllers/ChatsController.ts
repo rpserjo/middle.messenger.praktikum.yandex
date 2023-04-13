@@ -1,10 +1,4 @@
-import chatsApi, {
-    CreateChatData,
-    GetChatsData,
-    DeleteChatData,
-    GetUsersData,
-    AddDeleteUsersData,
-} from '../api/ChatsApi';
+import chatsApi from '../api/ChatsApi';
 import spinnerController from './SpinnerController';
 import errorHandler from '../application/handlers/errorHandler';
 import toastController from './ToastController';
@@ -12,7 +6,7 @@ import router from '../router/router';
 import store from '../application/Store';
 
 class ChatsController {
-    async createChat(data: ICreateChatData): Promise<void | boolean> {
+    async createChat(data: ICreateChatData): Promise<void | boolean | undefined> {
         spinnerController.toggle(true);
         try {
             const response = await chatsApi.createChat(data);
@@ -75,7 +69,7 @@ class ChatsController {
         }
     }
 
-    async getUsers(data: GetUsersData): Promise<Record<string, any> | void> {
+    async getUsers(data: IGetUsersData): Promise<Record<string, any> | void> {
         spinnerController.toggle(true);
         try {
             const response = await chatsApi.getUsers(data);
@@ -104,7 +98,7 @@ class ChatsController {
         }
     }
 
-    async getToken(chatId: number){
+    async getToken(chatId: number) {
         const response = await chatsApi.getToken(chatId);
         return response.response.token;
     }

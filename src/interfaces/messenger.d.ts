@@ -10,5 +10,5 @@ declare interface IMessage {
     user_id: number,
     content: string,
     file?: any
-    
+
 }

@@ -91,17 +91,17 @@ class Router {
         }
     }
 
-    private async executeRoute(route: RouteRecord): void {
+    private async executeRoute(route: RouteRecord): Promise<void> {
         if (this.currentRoute?.routepathname !== route.route.routepathname) {
             this.currentRoute?.leave();
             this.currentRoute = route.route;
             this.currentRoute.render();
         }
-        if(route.onBeforeRoute){
+        if (route.onBeforeRoute) {
             await route.onBeforeRoute();
         }
         if (route.onRoute) {
-            console.log('onRoute', document.location.pathname)
+            console.log('onRoute', document.location.pathname);
             route.onRoute();
         }
     }

@@ -1,4 +1,4 @@
-import authApi, { SignInData, SignUpData, User } from '../api/AuthApi';
+import authApi from '../api/AuthApi';
 import spinnerController from './SpinnerController';
 import errorHandler from '../application/handlers/errorHandler';
 import router from '../router/router';
@@ -9,23 +9,13 @@ class AuthController {
     async signup(data: ISignUpData): Promise<void> {
         spinnerController.toggle(true);
         try {
-            const response = await authApi.signup(data);//.then((response) => {
-            if(response.status === 200 && response.response.id > 0){
+            const response = await authApi.signup(data);
+            if (response.status === 200 && response.response.id > 0) {
                 toastController.setInfo('Profile created');
-                /*const { user } = */await this.user();
-                /*store.set('user', user);*/
-                //router.go('/messenger');
                 setTimeout(() => {
                     router.go('/messenger');
-                }, 1500)
-               /* const { user } = await this.user();
-                store.set('user', user);
-                router.go('/messenger');*/
-            //        return true;
+                }, 1000);
             }
-            /*}).then(() => {
-
-            });*/
         } catch (e) {
             errorHandler(e);
         } finally {
@@ -38,8 +28,7 @@ class AuthController {
         try {
             const authResponse = await authApi.signin(data);
             if (authResponse?.response === 'OK') {
-                /*const { response } = */await this.user();
-                //store.set('user', response);
+                await this.user();
                 router.go('/messenger');
                 toastController.setInfo('You logged in');
             }
@@ -50,11 +39,11 @@ class AuthController {
         }
     }
 
-    async user(): Promise<any> {
+    async user(): Promise<IUser | undefined> {
         try {
             const user = await authApi.user();
             store.set('user', user.response);
-            return user as User;
+            return user as IUser;
         } catch (e) {
             console.log('AuthController:user', e);
         }
