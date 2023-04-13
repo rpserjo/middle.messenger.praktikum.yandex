@@ -13,6 +13,7 @@ import Password from './pages/password';
 import ChatsList from './components/chats-list';
 import ActiveChat from './pages/active-chat';
 import chatsController from '../../controllers/ChatsController';
+import CONFIG from '../../application/config';
 
 interface MessengerProps {
     profileName: string,
@@ -27,7 +28,7 @@ class MessengerBlock extends Block<MessengerProps> {
     created() {
         const userAvatar = new (withStore(Avatar, (state: State) => {
             return {
-                avatarSrc: (state.user?.avatar !== null) ? `${API.RESOURCES}${state.user?.avatar}` : '',
+                avatarSrc: (state.user?.avatar !== null) ? `${API.RESOURCES}${state.user?.avatar}` : CONFIG.USER_AVATAR,
                 profileName: `${state.user?.first_name} ${state.user?.second_name}`,
             };
         }))({});

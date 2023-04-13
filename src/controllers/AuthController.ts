@@ -12,6 +12,7 @@ class AuthController {
             const response = await authApi.signup(data);
             if (response.status === 200 && response.response.id > 0) {
                 toastController.setInfo('Profile created');
+                await this.user();
                 setTimeout(() => {
                     router.go('/messenger');
                 }, 1000);
