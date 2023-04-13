@@ -3,6 +3,7 @@ import './users.css';
 import Block from '../../../../application/Block';
 import chatsController from '../../../../controllers/ChatsController';
 import User from '../user';
+import store from '../../../../application/Store';
 
 interface UsersListProps {
     currentChatId: number,
@@ -22,15 +23,6 @@ class UsersList extends Block<UsersListProps> {
 class AddUsersList extends UsersList {
     updated() {
         this.children.users = (this.props.usersList || []).map((user: IUser) => {
-            /* return new Link({
-                label: `${user.first_name} ${user.second_name} / @${user.login}`,
-                events: {
-                    click: async (e: Event) => {
-                        e.preventDefault();
-                        await chatsController.addUsers({ users: [user.id], chatId: this.props.currentChatId as number });
-                    },
-                },
-            }); */
             return new User({
                 profileName: (user.display_name) ? user.display_name : `${user.first_name} ${user.second_name}`,
                 login: user.login,
@@ -47,7 +39,6 @@ class AddUsersList extends UsersList {
 }
 
 class DeleteUsersList extends UsersList {
-    // async updated(oldProps:TProps, newProps: TProps) {
     async updated() {
         this.children.users = (this.props.usersList || []).map((user: IUser) => {
             return new User({
@@ -57,7 +48,9 @@ class DeleteUsersList extends UsersList {
                 events: {
                     click: async (e: Event) => {
                         e.preventDefault();
-                        await chatsController.addUsers({ users: [user.id], chatId: this.props.currentChatId as number });
+                        if (user.id !== store.getState().user.id) {
+                            await chatsController.deleteUsers({ users: [user.id], chatId: this.props.currentChatId as number });
+                        }
                     },
                 },
             });
