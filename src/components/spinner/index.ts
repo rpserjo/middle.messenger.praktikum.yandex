@@ -21,8 +21,10 @@ class SpinnerBlock extends Block<SpinnerProps> {
     }
 }
 
-export const Spinner = withStore(SpinnerBlock, (state: State) => {
+const Spinner = withStore(SpinnerBlock, (state: State) => {
     return {
         isLoading: state.isLoading,
     };
 });
+
+export default Spinner;

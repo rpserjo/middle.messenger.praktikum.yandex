@@ -29,12 +29,11 @@ const onBeforeChatRoute = async () => {
     if (store.getState().chatsList.length === 0) {
         await chatsController.getChats();
     }
-
     store.set('currentChat', {
         id: parseInt(router.getParams().id, 10),
         title: store.getState().chatsList.find((chat: IChatElement) => chat.id === parseInt(router.getParams().id, 10))?.title || undefined,
         messages: [],
-        avatar: null,
+        avatar: store.getState().chatsList.find((chat: IChatElement) => chat.id === parseInt(router.getParams().id, 10))?.avatar || undefined,
     });
     await chatsController.getUsers({ id: parseInt(router.getParams().id, 10) });
 };

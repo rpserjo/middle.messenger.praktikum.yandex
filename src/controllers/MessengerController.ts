@@ -17,9 +17,12 @@ class MessengerController {
 
     private ping: number;
 
-    public async connect(options: SocketOptions) {
+    public async connect(options: SocketOptions): Promise<void> {
         if (this.webSocket !== null) {
+            console.log('WS exists');
             await this.close();
+        } else {
+            console.log('WS is null');
         }
 
         this.userId = options.userId;
@@ -29,24 +32,31 @@ class MessengerController {
         this.webSocket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${this.userId}/${this.chatId}/${this.token}`);
 
         this.webSocket.addEventListener('open', () => {
+            console.log('WS connected');
             this.fetchMessages();
         });
 
         this.webSocket.addEventListener('message', (event) => {
             const data = JSON.parse(event.data);
+            const { messages } = store.getState().currentChat;
             if (Array.isArray(data)) {
-                store.set('currentChat.messages', data);
+                const offset = store.getState().currentChat.offsetLoaded;
+                store.set('currentChat.scroll', offset === 0);
+                store.set('currentChat.messages', [...messages, ...data]);
+                store.set('currentChat.canLoadMore', (data.length === 20));
+                store.set('currentChat.offsetLoaded', offset + 20);
             } else if (data.type === 'message') {
+                store.set('currentChat.scroll', true);
                 store.set('currentChat.messages', [
                     data,
-                    ...store.getState().currentChat.messages,
+                    ...messages,
                 ]);
             }
         });
 
         this.webSocket.addEventListener('close', (event: CloseEvent) => {
             if (event.wasClean) {
-                console.log(`WS #${this.chatId} connection was closed`);
+                console.log(`WS #${this.chatId} connection was closed clean`);
             } else {
                 console.log(`WS #${this.chatId} network error`);
             }
@@ -54,36 +64,49 @@ class MessengerController {
         });
 
         this.ping = setInterval(() => {
-            this.webSocket.send(JSON.stringify({
+            this.webSocket?.send(JSON.stringify({
                 type: 'ping',
             }));
         }, 10000);
     }
 
-    public send(content: string, type: string = 'message') {
-        this.webSocket.send(JSON.stringify({
+    public send(content: string, type: string = 'message'): void {
+        this.webSocket?.send(JSON.stringify({
             content,
             type,
         }));
     }
 
-    public sendMessage(content: string) {
+    public sendMessage(content: string): void {
         this.send(content, 'message');
     }
 
-    public async close() {
+    public async close(): Promise<boolean> {
         return new Promise((resolve) => {
             if (!this.webSocket) {
                 resolve(true);
             } else {
                 clearInterval(this.ping);
-                this.webSocket.addEventListener('close', () => resolve(true));
+                this.webSocket.addEventListener('close', () => {
+                    console.log('WS reconnect');
+                    resolve(true);
+                });
+                this.webSocket.close();
             }
         });
     }
 
-    public fetchMessages(offset: number = 0) {
+    public fetchMessages(offset: number = 0): void {
         this.send(`${offset}`, 'get old');
+    }
+
+    public fetchMoreMessages(): void {
+        const { canLoadMore } = store.getState().currentChat;
+        const offset = store.getState().currentChat.offsetLoaded;
+
+        if (canLoadMore) {
+            this.fetchMessages(offset);
+        }
     }
 }
 

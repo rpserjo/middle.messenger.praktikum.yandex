@@ -18,7 +18,7 @@
     "import/no-extraneous-dependencies": "off",
     "import/extensions": "off",
     "import/no-unresolved": "off",
-    "max-len": ["warn", 150],
+    "max-len": ["warn", 175],
     "max-classes-per-file": "off",
     "object-curly-newline": "off",
     "no-constructor-return": "off",
@@ -30,6 +30,8 @@
     "no-shadow": "off",
     "no-use-before-define": "off",
     "no-global-assign": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "consistent-return": "off",
+    "no-plusplus": "off"
   }
 }

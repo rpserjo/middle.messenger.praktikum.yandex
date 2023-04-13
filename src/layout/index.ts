@@ -1,7 +1,7 @@
 import template from './layout.hbs';
 import Block from '../application/Block';
-import { Spinner } from '../components/spinner';
-import { Toast } from '../components/toast';
+import Spinner from '../components/spinner';
+import Toast from '../components/toast';
 
 class Layout extends Block {
     constructor(props: TProps = {}) {

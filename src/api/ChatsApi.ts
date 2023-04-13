@@ -1,33 +1,6 @@
 import BaseApi from './BaseApi';
 import API from './Api';
 
-export interface CreateChatData {
-    title: string
-}
-
-export interface GetChatsData{
-    offset?: number,
-    limit?: number,
-    filter?: string
-}
-
-export interface DeleteChatData{
-    chatId: number,
-}
-
-export interface AddDeleteUsersData{
-    users: number[],
-    chatId: number
-}
-
-export interface GetUsersData {
-    id: number,
-    offset?: number,
-    limit?: number,
-    name?: string,
-    email?: string
-}
-
 class ChatsApi extends BaseApi {
     constructor() {
         super(API.ENDPOINTS.CHAT.ENDPOINT);
@@ -85,6 +58,16 @@ class ChatsApi extends BaseApi {
             headers: {
                 'Content-Type': 'application/json',
             },
+        });
+    }
+
+    public uploadChatAvatar(data: IUploadChatAvatar): Promise<Record<string, any>> {
+        const formData = new FormData();
+        formData.append('chatId', data.chatId);
+        formData.append('avatar', data.avatar);
+        return this.http.put(API.ENDPOINTS.CHAT.AVATAR, {
+            data: formData,
+            multipartForm: true,
         });
     }
 }

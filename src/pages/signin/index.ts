@@ -29,7 +29,6 @@ class SignIn extends Block {
             id: 'login',
             label: 'Login',
             name: 'login',
-            value: 'user123123123',
             placeholder: 'Login',
             type: 'text',
             validation: {
@@ -46,7 +45,6 @@ class SignIn extends Block {
             id: 'password',
             label: 'Password',
             name: 'password',
-            value: 'Santa555',
             placeholder: 'Password',
             type: 'password',
             validation: {

@@ -15,10 +15,6 @@ class Avatar extends Block<AvatarProps> {
     render() {
         return this.compile(template, this.props);
     }
-
-    updated() {
-        console.log('avatar updated');
-    }
 }
 
 export default Avatar;

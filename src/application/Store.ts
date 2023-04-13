@@ -2,7 +2,6 @@ import EventBus from './EventBus';
 import set from './utils/set';
 import Block from './Block';
 import { ToastProps } from '../components/toast';
-import cloneDeep from './utils/cloneDeep';
 import isEqual from './utils/isEqual';
 
 export enum StoreEvents {
@@ -20,8 +19,11 @@ export interface State extends Record<string, unknown> {
         avatar: string | null,
         chatUsers: IUser[],
         messages: any[],
-        offsetLoaded: number
-    }
+        offsetLoaded: number,
+        canLoadMore: boolean,
+        scroll: boolean
+    },
+    filesToSend: File[] | null
 }
 
 class Store extends EventBus {
@@ -41,7 +43,10 @@ class Store extends EventBus {
             chatUsers: [],
             messages: [],
             offsetLoaded: 0,
+            canLoadMore: false,
+            scroll: false,
         },
+        filesToSend: null,
     };
 
     public getState(): Indexed {
@@ -49,15 +54,12 @@ class Store extends EventBus {
     }
 
     public set(path: string, value: unknown): void {
-        console.log('STATE SET', path, value);
         set(this.state, path, value);
-
-        // метод EventBus
         this.emit(StoreEvents.UPDATED);
     }
 }
 const store = new Store();
-store.on(StoreEvents.UPDATED, () => console.log('STATE', cloneDeep(store.getState())));
+
 export default store;
 
 export function withStore<SP extends Partial<any>>(Component: typeof Block<SP>, mapStateToProps: (state: any) => SP) {

@@ -41,6 +41,11 @@
     align-items: center;
     justify-content: space-between;
 
+    .profile-avatar{
+        height: 54px;
+        width: 54px;
+    }
+
     .profile-name{
         flex-grow: 1;
         font-size: 24px;

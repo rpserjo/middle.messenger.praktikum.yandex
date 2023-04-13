@@ -98,9 +98,31 @@ class ChatsController {
         }
     }
 
-    async getToken(chatId: number) {
+    async getToken(chatId: number): Promise<string> {
         const response = await chatsApi.getToken(chatId);
         return response.response.token;
+    }
+
+    async uploadAvatar(data: IUploadChatAvatar): Promise<void> {
+        spinnerController.toggle(true);
+        try {
+            const { response } = await chatsApi.uploadChatAvatar(data);
+            if (response) {
+                store.set('currentChat.avatar', response.avatar);
+                const chats = store.getState().chatsList;
+                store.set('chatsList', chats.map((chat: IChatElement) => {
+                    if (chat.id === response.id) {
+                        return { ...chat, avatar: response.avatar };
+                    }
+                    return chat;
+                }));
+                toastController.setInfo('Chat avatar updated');
+            }
+        } catch (e) {
+            errorHandler(e);
+        } finally {
+            spinnerController.toggle(false);
+        }
     }
 }
 

@@ -21,6 +21,7 @@ const API = {
             ENDPOINT: '/chats',
             TOKEN: '/token',
             USERS: '/users',
+            AVATAR: '/avatar',
         },
     },
 };

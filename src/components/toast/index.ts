@@ -50,6 +50,8 @@ class ToastBlock extends Block<ToastProps> {
     }
 }
 
-export const Toast = withStore(ToastBlock, (state: State) => {
+const Toast = withStore(ToastBlock, (state: State) => {
     return { ...state.toast };
 });
+
+export default Toast;

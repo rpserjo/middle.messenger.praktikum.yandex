@@ -40,3 +40,8 @@ declare interface IGetUsersData {
     name?: string,
     email?: string
 }
+
+declare interface IUploadChatAvatar {
+    chatId: string,
+    avatar: File
+}

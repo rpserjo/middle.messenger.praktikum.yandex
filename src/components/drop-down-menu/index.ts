@@ -35,6 +35,10 @@ class DropDownMenu extends Block<DropDownMenuProps> {
         };
     }
 
+    public hide() {
+        this.element?.querySelector('.drop-down-menu__list')?.classList.toggle('hidden', true);
+    }
+
     render() {
         return this.compile(template, this.props);
     }

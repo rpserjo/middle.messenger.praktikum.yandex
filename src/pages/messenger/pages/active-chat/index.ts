@@ -17,8 +17,11 @@ import router from '../../../../router/router';
 import { AddUsersList, DeleteUsersList } from '../../components/users';
 import userController from '../../../../controllers/UserController';
 import { SearchUserData } from '../../../../api/UserApi';
-import { CreateChatData } from '../../../../api/ChatsApi';
 import MessagesList from '../../components/messages-list';
+import Avatar from '../../components/avatar';
+import API from '../../../../api/Api';
+import CONFIG from '../../../../application/config';
+import MediaPreview from '../../components/media-preview';
 
 interface ActiveChatProps {
     currentChat: {
@@ -35,6 +38,35 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
     }
 
     created() {
+        const chatIconBack = new Icon({
+            icon: 'back',
+            events: {
+                click: () => router.go('/messenger'),
+            },
+        });
+
+        const chatAvatar = new (withStore(Avatar, (state: State) => {
+            return {
+                avatarSrc: (state.currentChat.avatar) ? `${API.RESOURCES}${state.currentChat.avatar}` : CONFIG.CHAT_AVATAR,
+                profileName: state.currentChat.title,
+            };
+        }))({
+            events: {
+                click: () => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+                    input.onchange = async () => {
+                        if (input.files?.length) {
+                            await chatsController.uploadAvatar({ avatar: input.files[0], chatId: String(this.props.currentChat.id) });
+                        }
+                    };
+                    input.click();
+                },
+            },
+
+        });
+
         const optionsDropDown = new DropDownMenu({
             dropDownMenuIcon: 'options',
             dropDownMenuTitle: 'Options',
@@ -129,6 +161,8 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             ],
         });
 
+        const mediaPreview = new MediaPreview({});
+
         const attachDropDown = new DropDownMenu({
             dropDownMenuIcon: 'attach',
             dropDownMenuTitle: 'Attach',
@@ -146,10 +180,12 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                             const input = document.createElement('input');
                             input.type = 'file';
                             input.accept = 'image/*';
+                            input.multiple = true;
                             input.addEventListener('change', () => {
-                                console.log(input.files);
+                                store.set('filesToSend', input.files);
                             });
                             input.click();
+                            attachDropDown.hide();
                         },
                     },
                 },
@@ -157,7 +193,14 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                     icon: 'geolocation',
                     label: 'Geolocation',
                     events: {
-                        click: () => console.log('Attach geolocation'),
+                        click: () => {
+                            navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
+                                chatSendMessage.value = `Lat: ${position.coords.latitude}; Lon: ${position.coords.longitude}`;
+                            }, () => {
+                                toastController.setDanger('Access to geolocation denied');
+                            });
+                            attachDropDown.hide();
+                        },
                     },
                 },
             ],
@@ -211,7 +254,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             e.preventDefault();
             const formData = validateForm([input]);
             if (formData) {
-                const result = await chatsController.createChat(formData as CreateChatData);
+                const result = await chatsController.createChat(formData as ICreateChatData);
                 if (result) {
                     input.value = '';
                     newChatModal.hide();
@@ -254,6 +297,8 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             addUserModal,
             deleteUserModal,
             deleteChatModal,
+            chatIconBack,
+            chatAvatar,
             optionsDropDown,
             attachDropDown,
             chatSendMessage,
@@ -261,6 +306,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             newChatIcon,
             newChatModal,
             messagesList,
+            mediaPreview,
         };
     }
 
@@ -285,7 +331,6 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
 
             if (newProps.currentChat.id > 0 && newProps.currentChat.title !== null) {
                 const token = await chatsController.getToken(Number(this.props.currentChat.id));
-                console.log('WS token', token);
                 await messengerController.connect({
                     userId: store.getState().user.id,
                     chatId: Number(this.props.currentChat.id),

@@ -1,8 +1,26 @@
 .chat-header__title{
-    padding-left: 40px;
+    padding-left: 20px;
     font-size: 24px;
     font-weight: 500;
     flex-grow: 1;
+}
+
+.chat-header__back{
+    width: 48px;
+
+    .icon {
+        cursor: pointer;
+
+        path {
+            fill: var(--color-gray3);
+        }
+    }
+}
+
+.chat-header__avatar{
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
 }
 
 .chat-header__options{

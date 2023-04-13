@@ -4,11 +4,14 @@
         {{{ deleteUserModal }}}
         {{{ deleteChatModal }}}
         <div class="chat-header">
-            <div class="chat-header__avatar">
+            <div class="chat-header__back" title="Back">
+                {{{ chatIconBack }}}
+            </div>
+            <div class="chat-header__avatar" title="Upload avatar">
                 {{{ chatAvatar }}}
             </div>
             <div class="chat-header__title">
-                {{{ currentChat.title }}} # {{{ currentChat.id }}}
+                {{{ currentChat.title }}}
             </div>
             <div class="chat-header__options">
                 {{{ optionsDropDown }}}
@@ -16,6 +19,9 @@
         </div>
         <div class="chat" id="messages-list">
             {{{ messagesList }}}
+        </div>
+        <div class="chat-mediapreview">
+            {{{ mediaPreview }}}
         </div>
         <div class="chat-footer">
             <form>
