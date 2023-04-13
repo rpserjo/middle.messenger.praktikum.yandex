@@ -5,10 +5,9 @@ import Input from '../../components/input';
 import Button from '../../components/button';
 import Link from '../../components/link';
 import { validate, validateForm } from '../../application/utils/validate';
-import toastController from '../../controllers/ToastController';
-import Modal from '../../components/modal';
 import authController from '../../controllers/AuthController';
 import { SignInData } from '../../api/AuthApi';
+import router from '../../router/router';
 
 class SignIn extends Block {
     constructor(props: Record<string, any> = {}) {
@@ -75,45 +74,9 @@ class SignIn extends Block {
             events: {
                 click: (e: Event) => {
                     e.preventDefault();
-                    toastController.setWarning('Warning message');
+                    router.go('/sign-up');
                 },
             },
-        });
-
-        const signUpLink2: Block = new Link({
-            to: '/signup',
-            label: 'Create profile',
-            classList: ['my-10'],
-            events: {
-                click: (e: Event) => {
-                    e.preventDefault();
-                    toastController.setDanger('Danger message');
-                    modal.setProps({ modalLabel: 'Another title' });
-                    modal.show(true);
-                },
-            },
-        });
-
-        const signUpLink3: Block = new Link({
-            to: '/signup',
-            label: 'Create profile',
-            classList: ['my-10'],
-            events: {
-                click: (e: Event) => {
-                    e.preventDefault();
-                    modal.show(true);
-                },
-            },
-        });
-
-        const inp = new Input({
-            label: 'Search',
-            value: 'val',
-        });
-
-        const modal = new Modal({
-            modalLabel: 'Test',
-            modalChildren: [inp],
         });
 
         this.children = {
@@ -121,9 +84,6 @@ class SignIn extends Block {
             passwordInput,
             submitButton,
             signUpLink,
-            signUpLink2,
-            signUpLink3,
-            modal,
         };
     }
 
