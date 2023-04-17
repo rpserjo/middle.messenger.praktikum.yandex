@@ -1,9 +1,0 @@
-.avatar{
-    min-width: 55px;
-    min-height: 55px;
-    background-color: var(--color-light-gray);
-    border-radius: 5px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}

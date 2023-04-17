@@ -1,6 +1,6 @@
 import template from './input.hbs';
 import './input.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 
 interface InputProps {
     type?: string,
@@ -14,12 +14,12 @@ interface InputProps {
     events?: Record<string, any>
 }
 
-class Input extends Block {
+class Input extends Block<InputProps> {
     constructor(props: InputProps = { type: 'text', withoutErrorMessage: false }) {
-        super('div', props, 'Input');
+        super(props, 'Input');
     }
 
-    get validation(): Record<string, string | boolean | Input> {
+    get validation(): Record<string, string | boolean | Input> | undefined {
         return this.props.validation;
     }
 
@@ -37,7 +37,7 @@ class Input extends Block {
 
     toggleError(errorMessage: string = ''): void {
         this.errorMessage = errorMessage;
-        this.element?.querySelector('.input-wrapper')?.classList.toggle('has-error', errorMessage.length > 0);
+        this.element?./* querySelector('.input-wrapper')?. */classList.toggle('has-error', errorMessage.length > 0);
     }
 
     set errorMessage(value: string) {

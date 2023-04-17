@@ -1,6 +1,6 @@
 import template from './drop-down-menu.hbs';
 import './drop-down-menu.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 import DropDownItem from './drop-down-item';
 import Icon from '../icon';
 
@@ -11,9 +11,9 @@ interface DropDownMenuProps {
     position?: Record<string, number>,
     hidden?: boolean
 }
-class DropDownMenu extends Block {
+class DropDownMenu extends Block<DropDownMenuProps> {
     constructor(props: DropDownMenuProps) {
-        super('div', props, 'DropDownMenu');
+        super(props, 'DropDownMenu');
     }
 
     created() {
@@ -33,6 +33,10 @@ class DropDownMenu extends Block {
             dropDownMenuButton,
             dropDownMenuList,
         };
+    }
+
+    public hide() {
+        this.element?.querySelector('.drop-down-menu__list')?.classList.toggle('hidden', true);
     }
 
     render() {

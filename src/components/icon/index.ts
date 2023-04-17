@@ -1,6 +1,6 @@
 import template from './icon.hbs';
 import './icon.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 
 /* eslint max-len: "off" */
 const icons: Record<string, string> = {
@@ -19,17 +19,19 @@ const icons: Record<string, string> = {
     removeUser: 'M21,10.5H17a1,1,0,0,0,0,2h4a1,1,0,0,0,0-2Zm-7.7,1.72A4.92,4.92,0,0,0,15,8.5a5,5,0,0,0-10,0,4.92,4.92,0,0,0,1.7,3.72A8,8,0,0,0,2,19.5a1,1,0,0,0,2,0,6,6,0,0,1,12,0,1,1,0,0,0,2,0A8,8,0,0,0,13.3,12.22ZM10,11.5a3,3,0,1,1,3-3A3,3,0,0,1,10,11.5Z',
     remove: 'M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z',
     search: 'M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z',
+    back: 'M17,11H9.41l3.3-3.29a1,1,0,1,0-1.42-1.42l-5,5a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l5,5a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L9.41,13H17a1,1,0,0,0,0-2Z',
 };
 
 interface IconProps {
     icon?: string,
     fill?: string,
+    path?: string,
     events?: Record<string, Function>
 }
 
-class Icon extends Block {
+class Icon extends Block<IconProps> {
     constructor(props: IconProps = {}) {
-        super('div', props, 'Icon');
+        super(props, 'Icon');
     }
 
     render() {

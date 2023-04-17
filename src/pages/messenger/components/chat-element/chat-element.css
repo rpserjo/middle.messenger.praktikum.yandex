@@ -1,0 +1,80 @@
+a.chatlist{
+    text-decoration: none;
+    color: inherit;
+}
+
+.chat-element{
+    height: 75px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    cursor: pointer;
+
+    &.active{
+        background-color: var(--color-gray);
+    }
+
+    &__element{
+        margin: 6px 10px;
+        display: flex;
+        flex-grow: 1;
+        padding: 4px;
+        border-radius: 5px;
+
+        .user-avatar{
+            width: 55px;
+            height: 55px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-info{
+            display: flex;
+            flex-grow: 1;
+            flex-direction: column;
+
+            .chat-info__row{
+                display: flex;
+                margin-left: 7px;
+                height: 27px;
+                align-items: center;
+
+                .user-name{
+                    font-size: 20px;
+                    font-weight: 700;
+                    flex-grow: 1;
+                }
+
+                .last-message{
+                    flex-grow: 1;
+                    white-space: nowrap;
+                    color: var(--color-gray3);
+                }
+
+                .chat-new-messages{
+                    background-color: var(--color-primary);
+                    height: 24px;
+                    width: 24px;
+                    border-radius: 12px;
+                    text-align: center;
+                    justify-content: center;
+                    display: flex;
+                    align-items: center;
+                    color: var(--color-white);
+                    line-height: 24px;
+                }
+
+                .last-message-time{
+                    font-size: 14px;
+                    align-content: end;
+                    display: flex;
+                    font-style: italic;
+                    color: var(--color-gray3);
+                }
+            }
+        }
+    }
+
+    &:hover{
+         background-color: var(--bg-light-gray);
+    }
+}

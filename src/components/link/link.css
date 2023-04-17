@@ -16,8 +16,13 @@ a.button{
     font-size: 24px;
     text-decoration: none;
 
-&:hover{
-     cursor: pointer;
-     box-shadow: 0 0 14px var(--color-primary-shadow);
- }
+    &:hover{
+         cursor: pointer;
+         box-shadow: 0 0 14px var(--color-primary-shadow);
+    }
+}
+
+a.inherit{
+    text-decoration: inherit;
+    color: inherit;
 }

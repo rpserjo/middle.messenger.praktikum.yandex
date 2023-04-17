@@ -1,6 +1,6 @@
 import template from './button.hbs';
 import './button.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 import Icon from '../icon';
 
 interface ButtonProps {
@@ -8,20 +8,25 @@ interface ButtonProps {
     icon?: string,
     buttonLabel?: string
     type?: string
-    events?: Record<string, Function>
+    events?: Record<string, Function>,
+    classList?: string[]
 }
 class Button extends Block {
     constructor(props: ButtonProps = {}) {
-        super('div', props, 'Button');
+        super(props, 'Button');
     }
 
     created() {
+        let classes = ['button'];
+        if (this.props.classList) classes = [...classes, ...this.props.classList];
         if (this.props.icon) {
+            classes.push('button-icon');
             const buttonIcon: Block = new Icon({
-                icon: 'message',
+                icon: this.props.icon,
             });
             this.children = { buttonIcon };
         }
+        this.props.classes = classes.join(' ');
     }
 
     render() {

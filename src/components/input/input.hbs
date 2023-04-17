@@ -1,4 +1,4 @@
-<div class="my-10 input-wrapper{{#if icon}} with-icon{{/if}}">
+<div class="my-10 input-wrapper">
     {{#if label}}
         <label
             {{#if id}}
@@ -30,7 +30,7 @@
             value="{{{value}}}"
         {{/if}}
     />
+    {{#unless withoutErrorMessage}}
+        <p class="error-message">{{{validationError}}}</p>
+    {{/unless}}
 </div>
-{{#unless withoutErrorMessage}}
-	<p class="error-message">{{{validationError}}}</p>
-{{/unless}}

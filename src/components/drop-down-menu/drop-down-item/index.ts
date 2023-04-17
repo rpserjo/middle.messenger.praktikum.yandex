@@ -1,7 +1,7 @@
 import template from './drop-down-item.hbs';
 import './drop-down-item.css';
 import Icon from '../../icon';
-import Block from '../../../utils/Block';
+import Block from '../../../application/Block';
 
 interface DropDownProps {
     itemIcon?: Icon,
@@ -11,7 +11,7 @@ interface DropDownProps {
 
 class DropDownItem extends Block {
     constructor(props: DropDownProps = {}) {
-        super('div', props, 'DropDownItem');
+        super(props, 'DropDownItem');
     }
 
     render() {

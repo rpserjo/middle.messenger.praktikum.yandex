@@ -1,0 +1,11 @@
+<div
+    class="avatar-uploader__button"
+    {{#if currentAvatar}}
+        style="background-image: url('{{{ currentAvatar }}}');"
+    {{/if}}
+    title="Upload avatar"
+>
+    <div class="avatar-uploader__icon">
+        {{{ uploadIcon }}}
+    </div>
+</div>

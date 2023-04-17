@@ -1,0 +1,17 @@
+<div class="modal__wrapper">
+    <div class="modal__container">
+        <div class="modal__header">
+            <div class="modal__header-label">
+                {{{ modalLabel }}}
+            </div>
+            <div class="modal__header-close">
+                {{{ hideButton }}}
+            </div>
+        </div>
+        <div class="modal__content {{{modalClass}}}">
+            {{#each modalChildren}}
+                {{{ this }}}
+            {{/each}}
+        </div>
+    </div>
+</div>

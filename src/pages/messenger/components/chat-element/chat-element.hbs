@@ -1,0 +1,23 @@
+<div class="chat-element">
+    <div class="chat-element__element">
+        <div class="user-avatar">
+            {{{ chatAvatar }}}
+        </div>
+        <div class="chat-info">
+            <div class="chat-info__row">
+                <div class="user-name">{{ chatElement.title }}</div>
+                {{#if chatNewMessages}}
+                    <div class="chat-new-messages">{{{ chatNewMessages }}}</div>
+                {{/if}}
+            </div>
+            <div class="chat-info__row">
+                {{#if chatLastMessage}}
+                    <div class="last-message">{{#if chatOwnLastMessage}}<b>You:</b> {{/if}}{{ chatLastMessage }}</div>
+                    <div class="last-message-time">{{{ chatLastMessageTime }}}</div>
+                {{else}}
+                    <i>No messages yet</i>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>

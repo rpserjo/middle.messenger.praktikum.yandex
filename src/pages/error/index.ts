@@ -1,7 +1,8 @@
 import template from './error.hbs';
 import './error.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 import Link from '../../components/link';
+import router from '../../router/router';
 
 interface ErrorPageProps{
     errorCode?: number,
@@ -9,15 +10,16 @@ interface ErrorPageProps{
     backUrl?: string
 }
 
-class ErrorPage extends Block {
+class ErrorPage extends Block<ErrorPageProps> {
     constructor(props: ErrorPageProps = { errorCode: 404, errorMessage: 'Not found' }) {
-        super('div', props, 'ErrorPage');
+        super(props, 'ErrorPage');
     }
 
     created() {
         const backLink = new Link({
             to: (this.props.backUrl) ? this.props.backUrl : '/',
             label: 'Back',
+            routerLink: true,
         });
 
         this.children = { backLink };
@@ -25,6 +27,12 @@ class ErrorPage extends Block {
 
     render() {
         return this.compile(template, this.props);
+    }
+
+    mounted() {
+        console.log('Mounted');
+        console.log(router);
+        console.log(router.getParams());
     }
 }
 

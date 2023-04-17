@@ -1,0 +1,13 @@
+<div class="messages">
+    <div>
+        {{#if canLoadMore}}
+            {{{ loadMore }}}
+        {{/if}}
+    </div>
+    <div class="messages__list">
+        {{#each messages}}
+            {{{ this }}}
+        {{/each}}
+    </div>
+
+</div>

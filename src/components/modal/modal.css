@@ -1,0 +1,46 @@
+.modal{
+    &__wrapper{
+        position: absolute;
+        inset: 0;
+        z-index: 50;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: flex;
+    }
+
+    &__container {
+         width: 320px;
+         margin: auto;
+         background-color: var(--main-bg-color);
+         display: flex;
+         flex-direction: column;
+         border: 1px solid var(--border-color);
+         border-radius: 10px;
+    }
+
+    &__header{
+        border-bottom: 1px solid var(--color-gray);
+        padding: 10px;
+        display: flex;
+
+        &-label{
+            flex-grow: 1;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /*
+        &-close{
+        }
+        */
+    }
+
+    &__content{
+        padding: 5px;
+
+        &.flex-row{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+    }
+}

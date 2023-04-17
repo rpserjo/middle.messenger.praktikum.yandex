@@ -1,18 +1,20 @@
 import template from './signup.hbs';
 import './signup.css';
-import Block from '../../utils/Block';
+import Block from '../../application/Block';
 import Input from '../../components/input';
-import { validate, validateForm } from '../../utils/validate';
+import { validate, validateForm } from '../../application/utils/validate';
 import Button from '../../components/button';
 import Link from '../../components/link';
+import authController from '../../controllers/AuthController';
+import { SignUpData } from '../../api/AuthApi';
 
 interface SignUpProps {
 
 }
 
 class SignUp extends Block {
-    constructor(props: SignUpProps = {}) {
-        super('div', props, 'SignUp');
+    constructor(props: SignUpProps) {
+        super(props, 'SignUp');
     }
 
     created() {
@@ -20,7 +22,7 @@ class SignUp extends Block {
             e.preventDefault();
             const formData = validateForm(inputs);
             if (formData) {
-                console.log(formData);
+                authController.signup(formData as SignUpData);
             }
         };
 

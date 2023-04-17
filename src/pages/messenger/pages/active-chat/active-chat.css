@@ -1,0 +1,132 @@
+.chat-header__title{
+    padding-left: 20px;
+    font-size: 24px;
+    font-weight: 500;
+    flex-grow: 1;
+}
+
+.chat-header__back{
+    width: 48px;
+
+    .icon {
+        cursor: pointer;
+
+        path {
+            fill: var(--color-gray3);
+        }
+    }
+}
+
+.chat-header__avatar{
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+}
+
+.chat-header__options{
+    width: 24px;
+    height: 24px;
+    position: relative;
+
+.chat-options__menu{
+    border-radius: 5px;
+    border-color: 1px solid var(--border-color);
+    background-color: var(--color-white);
+    position: absolute;
+    top: 55px;
+    right: 0;
+    box-shadow: 0 0 14px var(--color-white-shadow);
+    display: flex;
+    flex-direction: column;
+}
+}
+
+.chat{
+    background-color: var(--color-white);
+    overflow-y: scroll;
+    flex-grow: 1;
+    padding: 15px; /* was 15 15px */
+}
+
+.chat-footer{
+    height: 75px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    width: 100%;
+    align-items: center;
+
+.chat-attach, .chat-send{
+    width: 44px;
+    margin: 16px;
+    cursor: pointer;
+}
+
+.chat-send {
+    path{
+        fill: var(--color-primary);
+    }
+
+    button{
+        background: transparent;
+        box-shadow: none;
+    }
+}
+
+.chat-attach{
+    position: relative;
+
+&__menu{
+     border-radius: 5px;
+     border-color: 1px solid var(--border-color);
+     background-color: var(--color-white);
+     position: absolute;
+     top: -155px;
+     box-shadow: 0 0 14px var(--color-white-shadow);
+     display: flex;
+     flex-direction: column;
+ }
+}
+
+.chat-message{
+    flex-grow: 1;
+}
+
+form{
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+}
+}
+
+.no-chat-wrapper{
+    display: flex;
+    flex: 1 1 auto;
+    position: relative;
+
+    .no-chat{
+        flex: 1 1 auto;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        font-size: 32px;
+        color: var(--color-gray2);
+        text-align: center;
+    }
+
+    .new-chat-button{
+        position: absolute;
+        bottom: 25px;
+        right: 25px;
+        height: 60px;
+        width: 60px;
+        cursor: pointer;
+
+        .icon{
+            svg{
+               path{
+                    fill: var(--color-primary);
+                }
+            }
+        }
+    }
+}
