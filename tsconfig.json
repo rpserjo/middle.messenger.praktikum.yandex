@@ -10,6 +10,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
+  "ts-node": {
+    "files": true
+  },
+  "files": [
+    "src/types/index.d.ts"
+  ],
   "include": [
     "src/**/*"
   ],

@@ -5,14 +5,6 @@ const errorHandler = (error: Record<string, any>): void => {
     const { reason, status = 0, response } = error;
     if (status > 0) {
         const message = response.reason ?? reason;
-        /* let message;
-        try{
-            const json = JSON.parse(response);
-            message = json.reason;
-        }catch(e){
-            console.log('Error handler error', e);
-            message = response;
-        } */
         toastController.setDanger(`Error ${status}: ${message}`);
     } else {
         toastController.setDanger(reason);
