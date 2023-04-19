@@ -36,7 +36,7 @@ class Route {
     }
 
     public match(pathname: string): boolean {
-        return this.pathname === pathname;// isEqual(pathname, this._pathname);
+        return this.pathname === pathname;
     }
 
     public render(): void {

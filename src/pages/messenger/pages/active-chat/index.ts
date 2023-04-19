@@ -313,6 +313,19 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
     render() {
         return this.compile(template, this.props);
     }
+    
+    mounted() {
+        this.loadDialog();
+    }
+    
+    loadDialog(): void {
+        if (this.props.currentChat.id > 0 && this.props.currentChat.title !== null) {
+            messengerController.connect({
+                userId: store.getState().user.id,
+                chatId: Number(this.props.currentChat.id),
+            });
+        }
+    }
 
     async updated(oldProps: TProps, newProps: TProps) {
         if (!isEqual(oldProps, newProps)) {
@@ -329,14 +342,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                 return;
             }
 
-            if (newProps.currentChat.id > 0 && newProps.currentChat.title !== null) {
-                const token = await chatsController.getToken(Number(this.props.currentChat.id));
-                await messengerController.connect({
-                    userId: store.getState().user.id,
-                    chatId: Number(this.props.currentChat.id),
-                    token,
-                });
-            }
+            this.loadDialog();
         }
     }
 }

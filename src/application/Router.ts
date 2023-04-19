@@ -33,7 +33,7 @@ class Router {
     private currentRoute: Nullable<Route>;
 
     private rootQuery: string;
-
+    
     constructor(rootQuery: string) {
         if (Router.__instance) {
             return Router.__instance;
@@ -95,13 +95,17 @@ class Router {
         if (this.currentRoute?.routepathname !== route.route.routepathname) {
             this.currentRoute?.leave();
             this.currentRoute = route.route;
+            if (route.onBeforeRoute) {
+                await route.onBeforeRoute();
+            }
             this.currentRoute.render();
         }
+        
         if (route.onBeforeRoute) {
             await route.onBeforeRoute();
         }
+        
         if (route.onRoute) {
-            console.log('onRoute', document.location.pathname);
             route.onRoute();
         }
     }

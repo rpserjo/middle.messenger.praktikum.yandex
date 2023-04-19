@@ -1,4 +1,5 @@
-import store from '../application/Store';
+import store from '../application/Store'
+import chatsController from './ChatsController';
 
 export interface SocketOptions {
     userId: number,
@@ -16,23 +17,28 @@ class MessengerController {
     private token: string;
 
     private ping: number;
+    
+    private isConnecting: boolean;
 
-    public async connect(options: SocketOptions): Promise<void> {
+    async connect(options: SocketOptions): void /*Promise<void>*/ {
+        if (this.isConnecting) {
+            return;
+        }
         if (this.webSocket !== null) {
-            console.log('WS exists');
-            await this.close();
-        } else {
-            console.log('WS is null');
+            this.close();
         }
 
         this.userId = options.userId;
         this.chatId = options.chatId;
         this.token = options.token;
-
-        this.webSocket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${this.userId}/${this.chatId}/${this.token}`);
+        
+        this.isConnecting = true;
+        const token = await chatsController.getToken(Number(this.chatId));
+        this.webSocket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${this.userId}/${this.chatId}/${token}`);
 
         this.webSocket.addEventListener('open', () => {
             console.log('WS connected');
+            this.isConnecting = false;
             this.fetchMessages();
         });
 
@@ -60,6 +66,7 @@ class MessengerController {
             } else {
                 console.log(`WS #${this.chatId} network error`);
             }
+            this.isConnecting = false;
             console.log(`WS #${this.chatId} | Code: ${event.code} | Reason: ${event.reason}`);
         });
 
@@ -81,7 +88,7 @@ class MessengerController {
         this.send(content, 'message');
     }
 
-    public async close(): Promise<boolean> {
+    public async _close(): Promise<boolean> {
         return new Promise((resolve) => {
             if (!this.webSocket) {
                 resolve(true);
@@ -94,6 +101,15 @@ class MessengerController {
                 this.webSocket.close();
             }
         });
+    }
+    
+    public close() {
+        if(!this.webSocket){
+            return;
+        }
+        clearInterval(this.ping);
+        this.webSocket.close();
+        this.ping = 0;
     }
 
     public fetchMessages(offset: number = 0): void {

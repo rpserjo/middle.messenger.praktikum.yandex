@@ -25,7 +25,6 @@ class Link extends Block<LinkProps> {
                 ...this.props.events,
                 click: (e: Event) => {
                     e.preventDefault();
-                    console.log('LINK CLICK');
                     router.go(this.props.to || '/');
                 },
             };
