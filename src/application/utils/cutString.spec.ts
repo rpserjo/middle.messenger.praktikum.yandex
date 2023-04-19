@@ -1,5 +1,5 @@
+import { assert } from 'chai';
 import cutString from './cutString';
-import {assert} from 'chai';
 
 describe('cutString test', () => {
     it('should cut string correctly', () => {

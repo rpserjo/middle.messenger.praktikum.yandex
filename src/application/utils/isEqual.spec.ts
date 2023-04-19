@@ -1,4 +1,4 @@
-import {assert} from 'chai';
+import { assert } from 'chai';
 import isEqual from './isEqual';
 
 describe('isEqual test', () => {
