@@ -129,7 +129,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
         const deleteUsersList = new (withStore(DeleteUsersList, (state: State) => {
             return {
                 currentChatId: state.currentChat.id,
-                usersList: state.currentChat.chatUsers,
+                usersList: [...state.currentChat.chatUsers],
             };
         }))({});
 

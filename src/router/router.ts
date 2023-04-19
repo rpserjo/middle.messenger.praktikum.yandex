@@ -29,7 +29,8 @@ const onBeforeChatRoute = async () => {
     if (store.getState().chatsList.length === 0) {
         await chatsController.getChats();
     }
-    if(store.getState().currentChat.id === parseInt(router.getParams().id, 10)){
+
+    if (store.getState().currentChat.id === parseInt(router.getParams().id, 10)){
         return;
     }
     store.set('currentChat', {
