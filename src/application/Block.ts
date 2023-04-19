@@ -97,7 +97,7 @@ abstract class Block<TProps extends Record<string, any> = any> {
             this.element.replaceWith(element);
         }
         this.element = element;
-        this.addEvents();        
+        this.addEvents();
     }
 
     private addEvents(): void {

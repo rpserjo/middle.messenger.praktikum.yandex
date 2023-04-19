@@ -30,7 +30,7 @@ const onBeforeChatRoute = async () => {
         await chatsController.getChats();
     }
 
-    if (store.getState().currentChat.id === parseInt(router.getParams().id, 10)){
+    if (store.getState().currentChat.id === parseInt(router.getParams().id, 10)) {
         return;
     }
     store.set('currentChat', {
@@ -38,7 +38,7 @@ const onBeforeChatRoute = async () => {
         title: store.getState().chatsList.find((chat: IChatElement) => chat.id === parseInt(router.getParams().id, 10))?.title || undefined,
         messages: [],
         avatar: store.getState().chatsList.find((chat: IChatElement) => chat.id === parseInt(router.getParams().id, 10))?.avatar || undefined,
-        offsetLoaded: 0
+        offsetLoaded: 0,
     });
     await chatsController.getUsers({ id: parseInt(router.getParams().id, 10) });
 };

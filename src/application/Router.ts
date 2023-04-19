@@ -33,7 +33,7 @@ class Router {
     private currentRoute: Nullable<Route>;
 
     private rootQuery: string;
-    
+
     constructor(rootQuery: string) {
         if (Router.__instance) {
             return Router.__instance;
@@ -100,11 +100,11 @@ class Router {
             }
             this.currentRoute.render();
         }
-        
+
         if (route.onBeforeRoute) {
             await route.onBeforeRoute();
         }
-        
+
         if (route.onRoute) {
             route.onRoute();
         }

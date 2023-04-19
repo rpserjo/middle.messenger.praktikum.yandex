@@ -10,7 +10,7 @@ class Route {
 
     private blockClass: CBlock;
 
-    private block: Block | null;
+    protected block: Block | null;
 
     private props: TProps;
 

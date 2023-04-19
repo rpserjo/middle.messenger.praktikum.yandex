@@ -33,13 +33,13 @@ class Message extends Block<MessageProps> {
             return '';
         }
         const user = store.getState().currentChat.chatUsers.find((user: IUser) => user.id === this.props.user_id);
-        if(user){
+        if (user) {
             if (user?.display_name) {
                 return user.display_name;
             }
             return `${user.first_name} ${user.second_name}`;
         }
-        return `Deleted user [${this.props.user_id}]`;        
+        return `Deleted user [${this.props.user_id}]`;
     }
 
     private getMessageContent() {

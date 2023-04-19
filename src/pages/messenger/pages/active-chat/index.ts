@@ -313,13 +313,13 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
     render() {
         return this.compile(template, this.props);
     }
-    
+
     mounted() {
         this.loadDialog();
     }
-    
+
     loadDialog(): void {
-        if (this.props.currentChat.id > 0 && this.props.currentChat.title !== null) {
+        if ((this.props.currentChat.id || 0) > 0 && this.props.currentChat?.title !== null) {
             messengerController.connect({
                 userId: store.getState().user.id,
                 chatId: Number(this.props.currentChat.id),

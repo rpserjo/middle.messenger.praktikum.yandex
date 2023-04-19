@@ -38,11 +38,11 @@ class AddUsersList extends UsersList {
     }
 }
 
-class DeleteUsersList extends UsersList {  
+class DeleteUsersList extends UsersList {
     created() {
         this.propsToChildren();
     }
-    
+
     propsToChildren() {
         this.children.users = (this.props.usersList || []).map((user: IUser) => {
             return new User({
@@ -60,7 +60,7 @@ class DeleteUsersList extends UsersList {
             });
         });
     }
-    
+
     updated() {
         this.propsToChildren();
     }

@@ -1,10 +1,10 @@
-import store from '../application/Store'
+import store from '../application/Store';
 import chatsController from './ChatsController';
 
 export interface SocketOptions {
     userId: number,
     chatId: number,
-    token: string
+    token?: string
 }
 
 class MessengerController {
@@ -14,13 +14,13 @@ class MessengerController {
 
     private chatId: number;
 
-    private token: string;
+    // private token: string;
 
     private ping: number;
-    
+
     private isConnecting: boolean;
 
-    async connect(options: SocketOptions): void /*Promise<void>*/ {
+    async connect(options: SocketOptions): Promise<void> {
         if (this.isConnecting) {
             return;
         }
@@ -30,8 +30,8 @@ class MessengerController {
 
         this.userId = options.userId;
         this.chatId = options.chatId;
-        this.token = options.token;
-        
+        // this.token = options.token;
+
         this.isConnecting = true;
         const token = await chatsController.getToken(Number(this.chatId));
         this.webSocket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${this.userId}/${this.chatId}/${token}`);
@@ -102,9 +102,9 @@ class MessengerController {
             }
         });
     }
-    
+
     public close() {
-        if(!this.webSocket){
+        if (!this.webSocket) {
             return;
         }
         clearInterval(this.ping);

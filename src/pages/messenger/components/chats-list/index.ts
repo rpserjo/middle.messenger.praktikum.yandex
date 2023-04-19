@@ -16,11 +16,11 @@ class ChatsListBlock extends Block<ChatListProps> {
     }
 
     private propsToChildren(): void {
-        this.children.list = this.props.chatsList.sort((a: chatElement, b: chatElement) => {
-            const a_date = new Date(a.last_message?.time || -1);
-            const b_date = new Date(b.last_message?.time || -1);
+        this.children.list = this.props.chatsList.sort((a: IChatElement, b: IChatElement) => {
+            const aDate: number = new Date(a.last_message?.time || -1).getTime();
+            const bDate: number = new Date(b.last_message?.time || -1).getTime();
 
-            return b_date - a_date;
+            return bDate - aDate;
         }).map((chatElement: IChatElement) => {
             return new Link({
                 label: new ChatListElement({
