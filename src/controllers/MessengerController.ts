@@ -70,7 +70,7 @@ class MessengerController {
             console.log(`WS #${this.chatId} | Code: ${event.code} | Reason: ${event.reason}`);
         });
 
-        this.ping = setInterval(() => {
+        this.ping = window.setInterval(() => {
             this.webSocket?.send(JSON.stringify({
                 type: 'ping',
             }));

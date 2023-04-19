@@ -27,7 +27,7 @@ class ToastBlock extends Block<ToastProps> {
             if (this.timer) {
                 clearTimeout(this.timer);
             }
-            this.timer = setTimeout(() => {
+            this.timer = window.setTimeout(() => {
                 this.slideOut();
             }, 5000);
         }
