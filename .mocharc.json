@@ -1,5 +1,5 @@
 {
   "extension": ["ts"],
-  "spec": "src/application/**/*.spec.ts",
-  "require": ["ts-node/register", "jsdom-global/register"]
+  "spec": "src/**/*.spec.ts",
+  "require": ["ts-node/register", "jsdom-global/register", "./mochaSetup.js"]
 }
