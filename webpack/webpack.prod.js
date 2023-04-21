@@ -3,10 +3,13 @@ const common = require('./webpack.common.js');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const path = require("path");
-console.log(path.resolve(__dirname, 'static/static'))
+
 module.exports = merge(common, {
     mode: 'production',
     plugins: [
+        new CopyPlugin({
+            patterns: [{from: path.resolve(__dirname, '../static/static'), to: path.resolve(__dirname, '../dist/static')}],
+        }),
         new HtmlWebpackPlugin({
             title: 'Ya-Messenger',
             template: './index.html',
@@ -14,8 +17,5 @@ module.exports = merge(common, {
                 collapseWhitespace: true,
             },
         }),
-        new CopyPlugin({
-            patterns: [{from: path.resolve(__dirname, '../static/static'), to: path.resolve(__dirname, '../dist/static')}]
-        })
     ],
 });

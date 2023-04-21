@@ -76,21 +76,30 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                     icon: 'addUser',
                     label: 'Add user',
                     events: {
-                        click: () => addUserModal.show(true),
+                        click: () => {
+                            addUserModal.show(true);
+                            attachDropDown.hide();
+                        },
                     },
                 },
                 {
                     icon: 'removeUser',
                     label: 'Remove user',
                     events: {
-                        click: () => deleteUserModal.show(true),
+                        click: () => {
+                            deleteUserModal.show(true);
+                            attachDropDown.hide();
+                        },
                     },
                 },
                 {
                     icon: 'remove',
                     label: 'Delete chat',
                     events: {
-                        click: () => deleteChatModal.show(true),
+                        click: () => {
+                            deleteChatModal.show(true);
+                            attachDropDown.hide();
+                        }
                     },
                 },
             ],
