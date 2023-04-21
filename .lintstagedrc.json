@@ -1,0 +1,5 @@
+{
+  "*.ts": "tsc & eslint --fix",
+  "*.js": "eslint --fix",
+  "*.css": "stylelint"
+}
