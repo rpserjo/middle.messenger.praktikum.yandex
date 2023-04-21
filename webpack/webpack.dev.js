@@ -1,7 +1,7 @@
 const { merge } = require('webpack-merge');
-const common = require('./webpack.common.js');
 const path = require('path');
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
     mode: 'development',
@@ -10,15 +10,12 @@ module.exports = merge(common, {
         static: path.join(__dirname, '../static'),
         compress: true,
         port: 4000,
-        historyApiFallback: true
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Ya-Messenger',
+            title: 'Ya-Messenger - Dev',
             template: './index.html',
-            minify: {
-                collapseWhitespace: true,
-            },
         }),
-    ]
+    ],
 });

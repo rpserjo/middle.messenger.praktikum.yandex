@@ -1,16 +1,15 @@
 const path = require('path');
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     entry: './src/index.ts',
     output: {
         path: path.resolve(__dirname, '../dist/'),
         publicPath: '/',
-        filename: '[name].bundle.[fullhash].js',
-        clean: true
+        filename: '[name].[fullhash].js',
+        clean: true,
     },
     resolve: {
-        extensions: ['.ts', '.js', '.json']
+        extensions: ['.ts', '.js', '.json'],
     },
     module: {
         rules: [{
@@ -21,19 +20,19 @@ module.exports = {
                     configFile: path.resolve(__dirname, '../tsconfig.json'),
                 },
             }],
-            exclude: /(node_modules)/
+            exclude: /(node_modules)/,
         }, {
             test: /\.css$/,
             use: [
-                "style-loader",
-                "css-loader",
-                "postcss-loader"
+                'style-loader',
+                'css-loader',
+                'postcss-loader',
             ],
         }, {
             test: /\.hbs$/,
             use: [{
-                loader: 'handlebars-loader'
-            }]
-        }]
+                loader: 'handlebars-loader',
+            }],
+        }],
     },
-}
+};
