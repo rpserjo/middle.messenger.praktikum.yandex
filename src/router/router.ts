@@ -50,6 +50,7 @@ const registerRouter = () => {
         await authController.user();
         router
             .use({ pathname: '/', block: SignIn, routeGuard: { guard: checkNotAuth, redirect: '/messenger' } })
+            .use({ pathname: '/sign-in', block: SignIn, routeGuard: { guard: checkNotAuth, redirect: '/messenger' } })
             .use({ pathname: '/sign-up', block: SignUp, routeGuard: { guard: checkNotAuth, redirect: '/messenger' } })
             .use({ pathname: '/messenger', block: Messenger, props: { window: 'chat' }, onRoute: onMessengerRoute, routeGuard: { guard: checkIsAuth, redirect: '/' } })
             .use({ pathname: '/messenger/:id', block: Messenger, props: { window: 'chat' }, onBeforeRoute: onBeforeChatRoute, routeGuard: { guard: checkIsAuth, redirect: '/' } })

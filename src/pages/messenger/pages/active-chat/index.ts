@@ -78,7 +78,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                     events: {
                         click: () => {
                             addUserModal.show(true);
-                            attachDropDown.hide();
+                            optionsDropDown.hide();
                         },
                     },
                 },
@@ -88,7 +88,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                     events: {
                         click: () => {
                             deleteUserModal.show(true);
-                            attachDropDown.hide();
+                            optionsDropDown.hide();
                         },
                     },
                 },
@@ -98,8 +98,8 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                     events: {
                         click: () => {
                             deleteChatModal.show(true);
-                            attachDropDown.hide();
-                        }
+                            optionsDropDown.hide();
+                        },
                     },
                 },
             ],

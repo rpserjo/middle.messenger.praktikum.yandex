@@ -166,9 +166,10 @@ class SignUp extends Block {
         });
 
         const signInLink: Link = new Link({
-            to: '/signin',
+            to: '/sign-in',
             label: 'Sign in',
             classList: ['my-10'],
+            routerLink: true,
         });
 
         this.children = {

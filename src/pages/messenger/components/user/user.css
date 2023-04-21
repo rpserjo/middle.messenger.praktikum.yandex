@@ -1,11 +1,11 @@
 .user{
     height: 36px;
-    margin: 0;
     display: flex;
     width: 100%;
     cursor: pointer;
     padding: 3px;
     align-items: center;
+    margin: 5px 0;
 
     &:hover {
         background-color: var(--color-gray);
