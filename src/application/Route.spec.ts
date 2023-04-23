@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import Block from './Block';
 import Route, { CBlock } from './Route';
 
-describe('Route', () => {
+describe('Route class', () => {
     interface TestComponentProps {
         id: number,
         value: string
@@ -32,17 +32,17 @@ describe('Route', () => {
     const pathname = '/some_path';
     const route = new TestRoute(pathname, TestComponent, { id: 123, value: 'some value', rootQuery: '#root' });
 
-    it('Check route don`t renders on wrong pathname', () => {
+    it('Route should not render on wrong pathname', () => {
         route.navigate('/another_path');
         expect(route._block).to.eq(null);
     });
 
-    it('Check route renders on pathname', () => {
+    it('Route should render on correct pathname', () => {
         route.navigate(pathname);
         expect(route._block?.getContent().innerHTML).to.eq('Route, id: 123, value: some value');
     });
 
-    it('Check route leave()', () => {
+    it('Route should be null after leave()', () => {
         route.leave();
         expect(route._block).to.eq(null);
     });

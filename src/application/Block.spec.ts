@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import * as Handlebars from 'handlebars';
 import Block from './Block';
 
-describe('Block', () => {
+describe('Block class', () => {
     let componentWasCreated: boolean = false;
     let componentWasMounted: boolean = false;
     let componentWasRendered: boolean = false;
@@ -45,19 +45,19 @@ describe('Block', () => {
         someProp: 'Test value',
     });
 
-    it('Check lifecycle hooks', () => {
+    it('Lifecycle hooks should be emitted', () => {
         expect(componentWasCreated).to.eq(true);
         testComponent.dispatchComponentDidMount();
         expect(componentWasMounted).to.eq(true);
         expect(componentWasRendered).to.eq(true);
     });
 
-    it('Get TestComponent props', () => {
+    it('Component props should be set', () => {
         expect(testComponent._props.someProp).to.eq('Test value');
         expect(testComponent._props.id).to.eq(123);
     });
 
-    it('Set new props', () => {
+    it('New component props should be set', () => {
         testComponent.setProps({
             id: 456,
             someProp: 'Another value',
@@ -66,7 +66,7 @@ describe('Block', () => {
         expect(testComponent._props.id).to.eq(456);
     });
 
-    it('Check CDM event was triggered', () => {
+    it('ComponentDidUpdate-event should be emitted', () => {
         expect(componentWasUpdated).to.eq(true);
     });
 });
