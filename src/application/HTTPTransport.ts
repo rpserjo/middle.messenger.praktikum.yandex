@@ -57,7 +57,10 @@ class HTTPTransport {
 
     private request = (url: string, options: Options, timeout = 5000): Promise<Record<string, any>> => {
         const {
-            method = Methods.GET, data, headers = {}, multipartForm = false,
+            method = Methods.GET,
+            data,
+            headers = {},
+            multipartForm = false,
         } = options;
         url = this.apiUrl + url;
         return new Promise((resolve, reject) => {

@@ -24,7 +24,7 @@ interface RouteRecord {
 }
 
 class Router {
-    private static __instance: Router;
+    public static __instance: Router | null;
 
     private routes: RouteRecord[];
 

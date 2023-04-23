@@ -1,5 +1,5 @@
 {
-  "*.ts": "tsc & eslint --fix",
+  "*.ts": ["tsc", "eslint --fix"],
   "*.js": "eslint --fix",
   "*.css": "stylelint"
 }
