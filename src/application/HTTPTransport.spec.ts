@@ -1,6 +1,6 @@
+import { expect } from 'chai';
+import { useFakeXMLHttpRequest, SinonFakeXMLHttpRequest } from 'sinon';
 import HTTPTransport from './HTTPTransport';
-import {expect} from 'chai';
-import {useFakeXMLHttpRequest, SinonFakeXMLHttpRequest} from 'sinon';
 
 describe('HTTPTransport class', () => {
     const requests: SinonFakeXMLHttpRequest[] = [];
@@ -8,9 +8,9 @@ describe('HTTPTransport class', () => {
     const instance = new HTTPTransport('/auth');
     // @ts-ignore
     global.XMLHttpRequest = xhr;
-    xhr.onCreate = (request: SinonFakeXMLHttpRequest) => requests.push(request);
+    xhr.onCreate = (request: SinonFakeXMLHttpRequest) => { requests.push(request); };
 
-    afterEach(() => requests.length = 0);
+    afterEach(() => { requests.length = 0; });
 
     it('.get() should send GET request', () => {
         instance.get('/user');

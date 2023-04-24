@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import Router from './Router';
-import {expect} from 'chai';
 import Block from './Block';
-import {CBlock} from './Route';
+import { CBlock } from './Route';
 
 describe('Router class', () => {
-    class TestPage extends Block {};
+    class TestPage extends Block {}
     let router: Router;
 
     beforeEach(() => {
@@ -13,15 +13,15 @@ describe('Router class', () => {
     });
 
     it('use() should return Router instance', () => {
-        const result = router.use({pathname: '/', block: TestPage as CBlock});
+        const result = router.use({ pathname: '/', block: TestPage as CBlock });
         expect(result).to.eq(router);
     });
 
     it('should count history correctly', () => {
         router
-            .use({pathname: '/path1', block: TestPage as CBlock})
-            .use({pathname: '/path2', block: TestPage as CBlock})
-            .use({pathname: '/path3', block: TestPage as CBlock})
+            .use({ pathname: '/path1', block: TestPage as CBlock })
+            .use({ pathname: '/path2', block: TestPage as CBlock })
+            .use({ pathname: '/path3', block: TestPage as CBlock })
             .start();
         router.go('/path1');
         router.go('/path2');
@@ -32,7 +32,7 @@ describe('Router class', () => {
     it('pathname should be the same as in route', () => {
         const path = '/path-to-the-route';
         router
-            .use({pathname: path, block: TestPage as CBlock})
+            .use({ pathname: path, block: TestPage as CBlock })
             .start();
         router.go('/path-to-the-route');
         expect(global.window.location.pathname).to.eq(path);
@@ -40,9 +40,10 @@ describe('Router class', () => {
 
     it('should read params from path', () => {
         router
-            .use({pathname: '/path-with-params/:id/:name', block: TestPage as CBlock})
+            .use({ pathname: '/path-with-params/:id/:name', block: TestPage as CBlock })
             .start();
         router.go('/path-with-params/123/MyName');
-        expect(router.getParams()).to.eql({id: '123', name: 'MyName'});
+        const obj = { id: '123', name: 'MyName' };
+        expect(router.getParams()).to.eql(obj);
     });
 });
