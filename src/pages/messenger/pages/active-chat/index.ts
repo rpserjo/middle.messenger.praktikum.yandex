@@ -249,11 +249,18 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
 
         const submitHandler = (e: Event, inputs: Input[]) => {
             e.preventDefault();
-            const formData = validateForm(inputs);
-            if (store.getState().filesToSend.length > 0) {
-                const files = store.getState().filesToSend;
-                console.log(files);
+            const files = Array.from(store.getState().filesToSend || []);
+            if (files.length > 0) {
+                files.forEach(async (file: File) => {
+                    const response = await chatsController.uploadImage(file);
+                    messengerController.sendFile(response.id);
+                });
+                store.set('filesToSend', null);
+                if (chatSendMessage.value.length === 0) {
+                    return;
+                }
             }
+            const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
                 if (formData.message.length > 0) {

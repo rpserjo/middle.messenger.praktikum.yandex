@@ -1,4 +1,5 @@
 import chatsApi from '../api/ChatsApi';
+import resourceApi from '../api/ResourceApi';
 import spinnerController from './SpinnerController';
 import errorHandler from '../application/handlers/errorHandler';
 import toastController from './ToastController';
@@ -117,6 +118,20 @@ class ChatsController {
                     return chat;
                 }));
                 toastController.setInfo('Chat avatar updated');
+            }
+        } catch (e) {
+            errorHandler(e);
+        } finally {
+            spinnerController.toggle(false);
+        }
+    }
+
+    async uploadImage(data: File): Promise<void | any> {
+        spinnerController.toggle(true);
+        try {
+            const { response } = await resourceApi.uploadImage(data);
+            if (response) {
+                return response;
             }
         } catch (e) {
             errorHandler(e);

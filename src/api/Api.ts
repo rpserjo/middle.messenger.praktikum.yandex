@@ -2,6 +2,7 @@ const HOST = 'https://ya-praktikum.tech/api/v2';
 const API = {
     HOST,
     RESOURCES: `${HOST}/resources`,
+    RESOURCES_UPLOAD: '/resources',
     ENDPOINTS: {
         AUTH: {
             ENDPOINT: '/auth',

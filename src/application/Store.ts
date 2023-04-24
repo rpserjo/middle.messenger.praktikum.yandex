@@ -18,7 +18,7 @@ export interface State extends Record<string, unknown> {
         title: string | null,
         avatar: string | null,
         chatUsers: IUser[],
-        messages: any[],
+        messages: IMessage[],
         offsetLoaded: number,
         canLoadMore: boolean,
         scroll: boolean

@@ -20,6 +20,7 @@ class MessagesListBlock extends Block<MessagesListProps> {
     created() {
         const loadMore = new Button({
             buttonLabel: 'Load more messages',
+            id: 'loadMore',
             events: {
                 click: () => messengerController.fetchMoreMessages(),
             },
@@ -29,6 +30,18 @@ class MessagesListBlock extends Block<MessagesListProps> {
 
     render() {
         return this.compile(template, this.props);
+    }
+
+    mounted() {
+        const observer = new IntersectionObserver(() => {
+            console.log('intersect');
+        }, {
+            root: document.querySelector('.messages'),
+            rootMargin: '50px',
+            threshold: 1.0,
+        });
+        const target = document.querySelector('#intersector')!;
+        observer.observe(target);
     }
 
     updated() {

@@ -51,7 +51,7 @@ class MessengerController {
                 store.set('currentChat.messages', [...messages, ...data]);
                 store.set('currentChat.canLoadMore', (data.length === 20));
                 store.set('currentChat.offsetLoaded', offset + 20);
-            } else if (data.type === 'message') {
+            } else if (data.type === 'message' || data.type === 'file') {
                 store.set('currentChat.scroll', true);
                 store.set('currentChat.messages', [
                     data,
@@ -86,6 +86,10 @@ class MessengerController {
 
     public sendMessage(content: string): void {
         this.send(content, 'message');
+    }
+
+    public sendFile(fileId: number): void {
+        this.send(fileId.toString(), 'file');
     }
 
     public async _close(): Promise<boolean> {

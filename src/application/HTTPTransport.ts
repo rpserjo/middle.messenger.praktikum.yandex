@@ -55,6 +55,27 @@ class HTTPTransport {
         return this.request(url, { ...options, method: Methods.DELETE }, options.timeout);
     };
 
+    public getBlob = (url: string): Promise<Blob> => {
+        url = this.apiUrl + url;
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.responseType = 'blob';
+            xhr.onabort = () => reject({ reason: 'Request aborted' });
+            xhr.onerror = () => reject({ reason: 'Request failed' });
+            xhr.timeout = 5000;
+            xhr.withCredentials = true;
+            xhr.onload = () => {
+                if (xhr.status < 400) {
+                    resolve(xhr.response);
+                } else {
+                    reject();
+                }
+            };
+            xhr.send();
+        });
+    };
+
     private request = (url: string, options: Options, timeout = 5000): Promise<Record<string, any>> => {
         const {
             method = Methods.GET,
