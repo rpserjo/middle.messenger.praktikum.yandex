@@ -2,11 +2,11 @@
 import Input from './index';
 
 describe('Input component', () => {
-    const input = new Input({
-        type: 'text',
-        name: 'myInput',
-        value: 'initial value'
-    });
-    
-    console.log(input);
+    it('should render', () => {
+        new Input({
+            type: 'text',
+            name: 'myInput',
+            value: 'initial value'
+        });
+    })
 });
