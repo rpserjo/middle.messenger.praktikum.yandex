@@ -43,7 +43,7 @@ describe('Router class', () => {
             .use({ pathname: '/path-with-params/:id/:name', block: TestPage as CBlock })
             .start();
         router.go('/path-with-params/123/MyName');
-        const obj1 = { id: '123', name: 'MyName' };
-        expect(router.getParams()).to.eql(obj1);
+        const obj = { id: '123', name: 'MyName' };
+        expect(router.getParams()).to.eql(obj);
     });
 });

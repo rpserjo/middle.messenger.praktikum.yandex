@@ -1,5 +1,4 @@
 {
-  "*.ts": ["tsc --noEmit", "eslint --fix"],
-  "*.js": "eslint --fix",
+  "*.{ts, js}": "eslint --fix",
   "*.css": "stylelint"
 }
