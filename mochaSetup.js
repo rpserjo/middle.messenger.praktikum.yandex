@@ -9,7 +9,7 @@ global.DocumentFragment = window.DocumentFragment;
 
 require.extensions['.hbs'] = function (module, filename) {
     const contents = fs.readFileSync(filename, 'utf-8');
-    module.exports = ({});//Handlebars.compile(contents);
+    module.exports = Handlebars.compile(contents);
 }
 
 require.extensions['.css'] = function () {

@@ -47,7 +47,6 @@ class Input extends Block<InputProps> {
     }
 
     render() {
-        console.log('TPL', template)
         return this.compile(template, this.props);
     }
 }

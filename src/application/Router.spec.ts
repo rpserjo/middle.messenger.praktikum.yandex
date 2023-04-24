@@ -33,20 +33,19 @@ describe('Router class', () => {
         const path = '/path-to-the-route';
         router
             .use({ pathname: path, block: TestPage as CBlock })
+            .use({ pathname: '/path1', block: TestPage as CBlock })
             .start();
         router.go('/path-to-the-route');
         expect(global.window.location.pathname).to.eq(path);
     });
-    
+
     it('test back/forward', () => {
         router
             .use({ pathname: '/path1', block: TestPage as CBlock })
             .use({ pathname: '/path2', block: TestPage as CBlock })
             .use({ pathname: '/path3', block: TestPage as CBlock })
             .start();
-        console.log('LOC', global.window.location.pathname);
         router.back();
-        console.log('LOC', global.window.location.pathname);
     });
 
     it('should read params from path', () => {
