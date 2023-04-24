@@ -12,6 +12,7 @@ import AvatarUploader from './components/avatar-uploader';
 import API from '../../../../api/Api';
 import userController from '../../../../controllers/UserController';
 import { UpdateProfileData } from '../../../../api/UserApi';
+import router from '../../../../router/router';
 
 interface ProfileProps {
     user: IUser
@@ -23,6 +24,13 @@ class ProfileBlock extends Block<ProfileProps> {
     }
 
     created() {
+        const chatIconBack = new Icon({
+            icon: 'back',
+            events: {
+                click: () => router.go('/messenger'),
+            },
+        });
+
         const iconLogout: Icon = new Icon({
             icon: 'signout',
             events: {
@@ -185,6 +193,7 @@ class ProfileBlock extends Block<ProfileProps> {
         });
 
         this.children = {
+            chatIconBack,
             avatarUploader,
             iconLogout,
             emailInput,

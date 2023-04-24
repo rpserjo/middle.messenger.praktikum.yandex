@@ -250,6 +250,10 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
         const submitHandler = (e: Event, inputs: Input[]) => {
             e.preventDefault();
             const formData = validateForm(inputs);
+            if (store.getState().filesToSend.length > 0) {
+                const files = store.getState().filesToSend;
+                console.log(files);
+            }
             if (formData) {
                 console.log(formData);
                 if (formData.message.length > 0) {
