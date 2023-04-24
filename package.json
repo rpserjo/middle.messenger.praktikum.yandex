@@ -6,7 +6,8 @@
     "lint": "npm run lint:es && npm run lint:style",
     "lint:es": "eslint --ext .js,.ts .",
     "lint:style": "stylelint \"**/*.css\"",
-    "test": "mocha",
+    "test": "mocha --require ts-node/register --require ./mochaSetup.js './src/**/*.spec.ts'",
+    "test1": "mocha",
     "prepare": "husky install"
   },
   "devDependencies": {

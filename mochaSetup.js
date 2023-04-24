@@ -1,5 +1,18 @@
 const { JSDOM } = require('jsdom');
+const Handlebars = require('handlebars');
+const fs = require('fs');
 
-const dom = new JSDOM('<html><body><div id="root"></div></body></html>', { url: 'http://localhost' });
-global.window = dom.window;
-global.document = dom.window.document;
+const { window } = new JSDOM('<html><body><div id="root"></div></body></html>', { url: 'http://localhost' });
+global.window = window;
+global.document = window.document;
+global.DocumentFragment = window.DocumentFragment;
+
+require.extensions['.hbs'] = function (module, filename) {
+    const contents = fs.readFileSync(filename, 'utf-8');
+    console.log(Handlebars.compile(contents));
+    module.exports = Handlebars.compile(contents);
+}
+
+require.extensions['.css'] = function () {
+    module.exports = () => ({});
+}
