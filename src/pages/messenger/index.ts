@@ -63,7 +63,7 @@ class MessengerBlock extends Block<MessengerProps> {
         const chatsList = new ChatsList({});
 
         const sideToggle = new Icon({
-            icon: 'options',
+            icon: 'bars',
             events: {
                 click: (e: Event) => {
                     e.preventDefault();
