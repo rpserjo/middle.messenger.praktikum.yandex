@@ -38,7 +38,7 @@ https://www.figma.com/file/3PnFucflVcDh8aoMMUDBsL/Chat?node-id=0-1
 - Приложение переехало с Parcel на Webpack
 - Настроена сборка Docker-контейнера
 - Добавлена возможность отправки изображений
-- Добавлены тесты
+- Добавлены тесты с помощью инструментов Mocha и Chai
 - Настроены ```pre-commit``` и ```pre-push```
 ## Установка и запуск
 Для сборки приложения необходимо выполнить команду
@@ -52,4 +52,7 @@ https://www.figma.com/file/3PnFucflVcDh8aoMMUDBsL/Chat?node-id=0-1
 
 Для запуска линтеров
 - ```npm run lint```
+
+Для запуска тестов
+- ```npm run test```
 
