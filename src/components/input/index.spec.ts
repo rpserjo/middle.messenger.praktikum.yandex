@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import Input from './index';
 
 describe('Input component', () => {
-    it('should render', () => {
+    it('Should render', () => {
         const input = new Input({
             type: 'text',
             name: 'myInput',
@@ -11,7 +11,7 @@ describe('Input component', () => {
         input.value = 'test';
     });
 
-    it('should get value', () => {
+    it('Should get value', () => {
         const value = 'some value';
         const input = new Input({
             value,
@@ -19,7 +19,7 @@ describe('Input component', () => {
         expect(input.value).to.eq(value);
     });
 
-    it('should set new value', () => {
+    it('Should set new value', () => {
         const oldValue = 'some value';
         const newValue = 'some new value';
         const input = new Input({
@@ -29,7 +29,7 @@ describe('Input component', () => {
         expect(input.value).to.eq(newValue);
     });
 
-    it('should toggle error message', () => {
+    it('Should toggle error message', () => {
         const input = new Input({
             value: 'test',
         });

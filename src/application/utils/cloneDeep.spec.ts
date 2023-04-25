@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import cloneDeep from './cloneDeep';
 
-describe('cloneDeep test', () => {
+describe('cloneDeep() test', () => {
     const obj = { a: 1, b: 2, c: { d: 3 } };
     const arr = [1, 2, 3];
 

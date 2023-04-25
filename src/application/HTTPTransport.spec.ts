@@ -12,13 +12,13 @@ describe('HTTPTransport class', () => {
 
     afterEach(() => { requests.length = 0; });
 
-    it('.get() should send GET request', () => {
+    it('Method.get() should send GET request', () => {
         instance.get('/user');
         const [request] = requests;
         expect(request.method).to.eq('GET');
     });
 
-    it('.post() should send POST request', () => {
+    it('Method.post() should send POST request', () => {
         instance.post('/user');
         const [request] = requests;
         expect(request.method).to.eq('POST');
