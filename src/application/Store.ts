@@ -13,6 +13,7 @@ export interface State extends Record<string, unknown> {
     toast: ToastProps,
     user: IUser | null,
     chatsList: IChatElement[],
+    filteredChatsList: IChatElement[],
     currentChat: {
         id: number | null,
         title: string | null,
@@ -36,6 +37,7 @@ class Store extends EventBus {
         },
         user: null,
         chatsList: [],
+        filteredChatsList: [],
         currentChat: {
             id: null,
             title: null,

@@ -92,18 +92,15 @@ class Router {
     }
 
     private async executeRoute(route: RouteRecord): Promise<void> {
-        if (this.currentRoute?.routepathname !== route.route.routepathname) {
+        if (this.currentRoute && this.currentRoute?.routepathname !== route.route.routepathname) {
             this.currentRoute?.leave();
-            this.currentRoute = route.route;
-            if (route.onBeforeRoute) {
-                await route.onBeforeRoute();
-            }
-            this.currentRoute.render();
         }
 
+        this.currentRoute = route.route;
         if (route.onBeforeRoute) {
             await route.onBeforeRoute();
         }
+        this.currentRoute.render();
 
         if (route.onRoute) {
             route.onRoute();

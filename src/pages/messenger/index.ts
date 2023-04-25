@@ -4,7 +4,7 @@ import Block from '../../application/Block';
 import Input from '../../components/input';
 import Icon from '../../components/icon';
 import { CBlock } from '../../application/Route';
-import { State, withStore } from '../../application/Store';
+import store, { State, withStore } from '../../application/Store';
 import API from '../../api/Api';
 import Avatar from '../messenger/components/avatar';
 import Profile from './pages/profile';
@@ -36,8 +36,18 @@ class MessengerBlock extends Block<MessengerProps> {
         const searchInput = new Input({
             id: 'search',
             name: 'search',
-            placeholder: 'Search',
+            placeholder: 'Filter',
             withoutErrorMessage: true,
+            events: {
+                keydown: () => {
+                    setTimeout(() => {
+                        const filteredChats = (store.getState().chatsList as IChatElement[]).filter((chat:IChatElement) => {
+                            return chat.title.toLowerCase().includes(searchInput.value.toLowerCase());
+                        });
+                        store.set('filteredChatsList', filteredChats);
+                    });
+                },
+            },
         });
 
         const profileIcon = new Icon({
@@ -52,6 +62,17 @@ class MessengerBlock extends Block<MessengerProps> {
 
         const chatsList = new ChatsList({});
 
+        const sideToggle = new Icon({
+            icon: 'options',
+            events: {
+                click: (e: Event) => {
+                    e.preventDefault();
+                    const target = document.querySelector('.chats-side');
+                    target?.classList.toggle('expand');
+                },
+            },
+        });
+
         const windows: Record<string, CBlock> = {
             profile: Profile,
             password: Password,
@@ -63,6 +84,7 @@ class MessengerBlock extends Block<MessengerProps> {
             searchInput,
             profileLink,
             chatsList,
+            sideToggle,
         };
 
         if (windows[this.props.window]) {

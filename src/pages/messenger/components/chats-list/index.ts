@@ -54,7 +54,7 @@ class ChatsListBlock extends Block<ChatListProps> {
 const ChatList = withStore(ChatsListBlock, (state: State) => {
     return {
         currentChatId: state.currentChat.id,
-        chatsList: [...state.chatsList as any[]],
+        chatsList: [...state.filteredChatsList as any[]],
     };
 });
 

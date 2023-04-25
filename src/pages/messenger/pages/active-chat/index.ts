@@ -22,6 +22,7 @@ import Avatar from '../../components/avatar';
 import API from '../../../../api/Api';
 import CONFIG from '../../../../application/config';
 import MediaPreview from '../../components/media-preview';
+import escapeString from '../../../../application/utils/escapeString';
 
 interface ActiveChatProps {
     currentChat: {
@@ -247,25 +248,19 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             },
         });
 
-        const submitHandler = (e: Event, inputs: Input[]) => {
+        const submitHandler = async (e: Event, inputs: Input[]) => {
             e.preventDefault();
-            const files = Array.from(store.getState().filesToSend || []);
-            if (files.length > 0) {
-                files.forEach(async (file: File) => {
-                    const response = await chatsController.uploadImage(file);
-                    messengerController.sendFile(response.id);
-                });
-                store.set('filesToSend', null);
-                if (chatSendMessage.value.length === 0) {
-                    return;
-                }
+            const files = Array.from(store.getState().filesToSend || []) as File[];
+            await chatsController.uploadImages(files);
+            if (chatSendMessage.value.length === 0) {
+                return;
             }
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
                 if (formData.message.length > 0) {
                     chatSendMessage.value = '';
-                    messengerController.sendMessage(formData.message);
+                    messengerController.sendMessage(escapeString(formData.message));
                 }
             }
         };

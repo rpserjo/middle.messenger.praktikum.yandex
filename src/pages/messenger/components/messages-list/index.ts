@@ -32,18 +32,6 @@ class MessagesListBlock extends Block<MessagesListProps> {
         return this.compile(template, this.props);
     }
 
-    mounted() {
-        const observer = new IntersectionObserver(() => {
-            console.log('intersect');
-        }, {
-            root: document.querySelector('.messages'),
-            rootMargin: '50px',
-            threshold: 1.0,
-        });
-        const target = document.querySelector('#intersector')!;
-        observer.observe(target);
-    }
-
     updated() {
         this.children.messages = this.props.messagesList?.map((message: IMessage) => {
             return new Message(message);
