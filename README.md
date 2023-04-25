@@ -38,7 +38,7 @@ https://www.figma.com/file/3PnFucflVcDh8aoMMUDBsL/Chat?node-id=0-1
 - Приложение переехало с Parcel на Webpack
 - Настроены лоадеры для работы с Typesript, PostCss, Handlebars
 - Настроены отдельные сборки - developer и production
-- Production-сборка дополнительно минифицируется с помощью terser-плагина
+- Production-сборка дополнительно минифицируется с помощью terser и css-minimizer
 - Настроена сборка Docker-контейнера
 - Добавлена возможность отправки изображений
 - Добавлены тесты с помощью инструментов Mocha и Chai
