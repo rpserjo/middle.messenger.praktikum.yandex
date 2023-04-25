@@ -4,7 +4,7 @@
     "build": "npm run lint && tsc && webpack --config webpack/webpack.prod.js",
     "start": "npm run build && node server.js",
     "lint": "npm run lint:es && npm run lint:style",
-    "lint:es": "eslint --ext .js,.ts .",
+    "lint:es": "eslint --ext .js,.ts",
     "lint:style": "stylelint \"**/*.css\"",
     "test": "mocha",
     "prepare": "husky install"
