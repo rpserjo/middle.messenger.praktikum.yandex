@@ -1,14 +1,20 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "target": "es2017",
+    "target": "es2018",
     "declaration": false,
     "moduleResolution": "node",
     "strictNullChecks": true,
     "sourceMap": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "ts-node": {
+    "files": true
   },
   "include": [
     "src/**/*"

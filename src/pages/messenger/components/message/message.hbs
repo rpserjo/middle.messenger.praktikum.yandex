@@ -4,7 +4,14 @@
             {{ messageSender }}
         </div>
         <div class="message__content">
-            {{ messageContent }}
+            {{#if isFile}}
+                <div
+                    class="image-preview"
+                    style="background-image: url('{{ messageContent }}');"
+                ><span class="download">[Download]</span></div>
+            {{else}}
+                {{ messageContent }}
+            {{/if}}
         </div>
         <div class="message__time">
             {{{ messageTime }}}

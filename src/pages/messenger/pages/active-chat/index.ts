@@ -22,6 +22,7 @@ import Avatar from '../../components/avatar';
 import API from '../../../../api/Api';
 import CONFIG from '../../../../application/config';
 import MediaPreview from '../../components/media-preview';
+import escapeString from '../../../../application/utils/escapeString';
 
 interface ActiveChatProps {
     currentChat: {
@@ -76,21 +77,30 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                     icon: 'addUser',
                     label: 'Add user',
                     events: {
-                        click: () => addUserModal.show(true),
+                        click: () => {
+                            addUserModal.show(true);
+                            optionsDropDown.hide();
+                        },
                     },
                 },
                 {
                     icon: 'removeUser',
                     label: 'Remove user',
                     events: {
-                        click: () => deleteUserModal.show(true),
+                        click: () => {
+                            deleteUserModal.show(true);
+                            optionsDropDown.hide();
+                        },
                     },
                 },
                 {
                     icon: 'remove',
                     label: 'Delete chat',
                     events: {
-                        click: () => deleteChatModal.show(true),
+                        click: () => {
+                            deleteChatModal.show(true);
+                            optionsDropDown.hide();
+                        },
                     },
                 },
             ],
@@ -129,7 +139,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
         const deleteUsersList = new (withStore(DeleteUsersList, (state: State) => {
             return {
                 currentChatId: state.currentChat.id,
-                usersList: state.currentChat.chatUsers,
+                usersList: [...state.currentChat.chatUsers],
             };
         }))({});
 
@@ -238,14 +248,19 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
             },
         });
 
-        const submitHandler = (e: Event, inputs: Input[]) => {
+        const submitHandler = async (e: Event, inputs: Input[]) => {
             e.preventDefault();
+            const files = Array.from(store.getState().filesToSend || []) as File[];
+            await chatsController.uploadImages(files);
+            if (chatSendMessage.value.length === 0) {
+                return;
+            }
             const formData = validateForm(inputs);
             if (formData) {
                 console.log(formData);
                 if (formData.message.length > 0) {
                     chatSendMessage.value = '';
-                    messengerController.sendMessage(formData.message);
+                    messengerController.sendMessage(escapeString(formData.message));
                 }
             }
         };
@@ -314,6 +329,19 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
         return this.compile(template, this.props);
     }
 
+    mounted() {
+        this.loadDialog();
+    }
+
+    loadDialog(): void {
+        if ((this.props.currentChat.id || 0) > 0 && this.props.currentChat?.title !== null) {
+            messengerController.connect({
+                userId: store.getState().user.id,
+                chatId: Number(this.props.currentChat.id),
+            });
+        }
+    }
+
     async updated(oldProps: TProps, newProps: TProps) {
         if (!isEqual(oldProps, newProps)) {
             if (newProps.currentChat.id > 0 && store.getState().chatsList.length > 0 && newProps.currentChat.title === undefined) {
@@ -329,14 +357,7 @@ class ActiveChatBlock extends Block<ActiveChatProps> {
                 return;
             }
 
-            if (newProps.currentChat.id > 0 && newProps.currentChat.title !== null) {
-                const token = await chatsController.getToken(Number(this.props.currentChat.id));
-                await messengerController.connect({
-                    userId: store.getState().user.id,
-                    chatId: Number(this.props.currentChat.id),
-                    token,
-                });
-            }
+            this.loadDialog();
         }
     }
 }

@@ -1,38 +1,10 @@
 <html>
     <head>
-        <title>Messenger</title>
+        <title><%= htmlWebpackPlugin.options.title %></title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-        <script src="src/index.ts" type="module"></script>
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no,viewport-fit=cover">
     </head>
     <body>
-        <nav>
-            <ul>
-                <li>
-                    <a href="/" class="router-link">Sign In</a>
-                </li>
-                <li>
-                    <a href="/sign-up" class="router-link">Sign Up</a>
-                </li>
-                <li>
-                    <a href="/messenger" class="router-link">Chat</a>
-                </li>
-                <li>
-                    <a href="/messenger/123" class="router-link">Active chat</a>
-                </li>
-                <li>
-                    <a href="/settings" class="router-link">Profile</a>
-                </li>
-                <li>
-                    <a href="/error_404" class="router-link">Error 404</a>
-                </li>
-                <li>
-                    <a href="/error_500" class="router-link">Error 500</a>
-                </li>
-            </ul>
-        </nav>
-        <main id="root">
-
-        </main>
+        <main id="root"></main>
     </body>
 </html>

@@ -12,7 +12,7 @@ interface UsersListProps {
 
 class UsersList extends Block<UsersListProps> {
     constructor(props: UsersListProps) {
-        super(props);
+        super(props, 'Users list');
     }
 
     render() {
@@ -39,7 +39,11 @@ class AddUsersList extends UsersList {
 }
 
 class DeleteUsersList extends UsersList {
-    async updated() {
+    created() {
+        this.propsToChildren();
+    }
+
+    propsToChildren() {
         this.children.users = (this.props.usersList || []).map((user: IUser) => {
             return new User({
                 profileName: (user.display_name) ? user.display_name : `${user.first_name} ${user.second_name}`,
@@ -55,6 +59,10 @@ class DeleteUsersList extends UsersList {
                 },
             });
         });
+    }
+
+    updated() {
+        this.propsToChildren();
     }
 }
 

@@ -20,6 +20,7 @@ class MessagesListBlock extends Block<MessagesListProps> {
     created() {
         const loadMore = new Button({
             buttonLabel: 'Load more messages',
+            id: 'loadMore',
             events: {
                 click: () => messengerController.fetchMoreMessages(),
             },

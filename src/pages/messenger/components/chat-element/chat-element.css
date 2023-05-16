@@ -65,7 +65,7 @@ a.chatlist{
 
                 .last-message-time{
                     font-size: 14px;
-                    align-content: end;
+                    align-content: flex-end;
                     display: flex;
                     font-style: italic;
                     color: var(--color-gray3);

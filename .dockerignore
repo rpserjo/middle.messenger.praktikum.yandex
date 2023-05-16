@@ -1,0 +1,6 @@
+.git
+.github
+.husky
+.idea
+dist
+node_modules

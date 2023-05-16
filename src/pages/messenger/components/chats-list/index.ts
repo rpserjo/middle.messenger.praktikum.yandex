@@ -16,7 +16,12 @@ class ChatsListBlock extends Block<ChatListProps> {
     }
 
     private propsToChildren(): void {
-        this.children.list = this.props.chatsList.map((chatElement: IChatElement) => {
+        this.children.list = this.props.chatsList.sort((a: IChatElement, b: IChatElement) => {
+            const aDate: number = new Date(a.last_message?.time || -1).getTime();
+            const bDate: number = new Date(b.last_message?.time || -1).getTime();
+
+            return bDate - aDate;
+        }).map((chatElement: IChatElement) => {
             return new Link({
                 label: new ChatListElement({
                     chatElement,
@@ -49,7 +54,7 @@ class ChatsListBlock extends Block<ChatListProps> {
 const ChatList = withStore(ChatsListBlock, (state: State) => {
     return {
         currentChatId: state.currentChat.id,
-        chatsList: [...state.chatsList as any[]],
+        chatsList: [...state.filteredChatsList as any[]],
     };
 });
 

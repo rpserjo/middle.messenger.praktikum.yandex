@@ -16,7 +16,7 @@ const dateFormatter = (dateString: string, short: boolean = true): string => {
     if (short) {
         if (delta === 0) {
             return `${h}:${i}`;
-        } if (delta < 8) {
+        } if (delta < 7) {
             return `${days[day]}`;
         }
         return `${d}.${m}`;

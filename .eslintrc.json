@@ -3,12 +3,11 @@
     "browser": true,
     "es2021": true
   },
-  //"files": ["src/**/*.ts"],
+  //"files": ["src/**/*.ts", "src/**/*.js"],
   "extends": "airbnb-base",
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "rules": {
-    //"max-params": [1, 1],
     "linebreak-style": "off",
     "no-console": "off",
     "no-undef" : "off",

@@ -7,11 +7,13 @@
 * Авторизация
 * Регистрация
 * Создание личных и групповых чатов
-* Отправка сообщений
+* Отправка текстовых сообщений и изображений
 * Изменение профиля
 * Загрузка изображений профиля (автарок)
 ## Актуальная демонстрационная версия
 https://lucky-bonbon-e47a84.netlify.app/
+## Развернутое приложение на render.com
+https://ya-messenger-wbxf.onrender.com/
 ## Макет приложения в Figma
 https://www.figma.com/file/3PnFucflVcDh8aoMMUDBsL/Chat?node-id=0-1
 ## Этапы разработки
@@ -31,6 +33,16 @@ https://www.figma.com/file/3PnFucflVcDh8aoMMUDBsL/Chat?node-id=0-1
 - Добавлен роутинг
 - Внедрено API чатов
 - Подключены WebSockets для отправки и получения сообщений
+
+### Спринт 4
+- Приложение переехало с Parcel на Webpack
+- Настроены лоадеры для работы с Typesript, PostCss, Handlebars
+- Настроены отдельные сборки - developer и production
+- Production-сборка дополнительно минифицируется с помощью terser и css-minimizer
+- Настроена сборка Docker-контейнера
+- Добавлена возможность отправки изображений
+- Добавлены тесты с помощью инструментов Mocha и Chai
+- Настроены ```pre-commit``` и ```pre-push```
 ## Установка и запуск
 Для сборки приложения необходимо выполнить команду
 - ```npm run build```
@@ -43,4 +55,7 @@ https://www.figma.com/file/3PnFucflVcDh8aoMMUDBsL/Chat?node-id=0-1
 
 Для запуска линтеров
 - ```npm run lint```
+
+Для запуска тестов
+- ```npm run test```
 

@@ -1,9 +1,11 @@
 import chatsApi from '../api/ChatsApi';
+import resourceApi from '../api/ResourceApi';
 import spinnerController from './SpinnerController';
 import errorHandler from '../application/handlers/errorHandler';
 import toastController from './ToastController';
 import router from '../router/router';
 import store from '../application/Store';
+import messengerController from './MessengerController';
 
 class ChatsController {
     async createChat(data: ICreateChatData): Promise<void | boolean | undefined> {
@@ -29,6 +31,7 @@ class ChatsController {
             const response = await chatsApi.getChats(data);
             if (Array.isArray(response.response)) {
                 store.set('chatsList', response.response);
+                store.set('filteredChatsList', response.response);
             }
         } catch (e) {
             errorHandler(e);
@@ -123,6 +126,33 @@ class ChatsController {
         } finally {
             spinnerController.toggle(false);
         }
+    }
+
+    async uploadImage(data: File): Promise<void | any> {
+        spinnerController.toggle(true);
+        try {
+            const { response } = await resourceApi.uploadImage(data);
+            if (response) {
+                return response;
+            }
+        } catch (e) {
+            errorHandler(e);
+        } finally {
+            spinnerController.toggle(false);
+        }
+    }
+
+    async uploadImages(files: File[]): Promise<void> {
+        const images: number[] = [];
+        for (const file of files) {                         // eslint-disable-line
+            const response = await this.uploadImage(file);  // eslint-disable-line
+            images.push(response.id);
+        }
+        store.set('filesToSend', null);
+        images.forEach((id: number) => {
+            messengerController.sendFile(id);
+        });
+        images.length = 0;
     }
 }
 
